@@ -1,0 +1,95 @@
+/* Style général de la section pour centrer */
+#homepage-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre les boîtes */
+    padding: 40px 20px;
+}
+
+/* Style de base de toutes les boîtes */
+.action-box {
+    width: 100%; /* Largeur max, ajustez si nécessaire */
+    max-width: 600px; /* Taille maximale pour les écrans larges */
+    margin-bottom: 20px;
+    border-radius: 8px; /* Bords légèrement arrondis */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s; /* Effet au survol */
+}
+
+/* Effet au survol */
+.action-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Style des liens internes aux boîtes */
+.action-box a {
+    display: block; /* Rendre toute la boîte cliquable */
+    padding: 30px;
+    color: white; /* Couleur du texte dans les boîtes */
+    text-decoration: none; /* Enlever le soulignement du lien */
+    text-align: center;
+}
+
+.action-box h2 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.8em;
+}
+
+/* COULEURS PERSONNALISÉES (comme dans votre essai WordPress) */
+
+.box-tableau {
+    background-color: #A0529A; /* Couleur violette/rose (similaire à votre capture) */
+}
+
+.box-manga {
+    background-color: #FF5722; /* Couleur orange/rouge vif */
+}
+
+.box-perso {
+    background-color: #008CBA; /* Couleur bleu-cyan */
+}
+
+.gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Crée une grille responsive */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.tableau-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.tableau-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #A0529A; /* Couleur de votre boîte Tableau */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #8A4685;
+}

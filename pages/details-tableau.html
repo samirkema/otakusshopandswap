@@ -1,0 +1,56 @@
+---
+layout: default
+title: Détails Exclusifs du Tableau
+permalink: /details-tableau.html
+---
+
+<div class="protected-content">
+    <button onclick="window.history.back()">← Retour à la Galerie</button>
+    
+    <div id="tableau-loading">Chargement des détails de l'œuvre...</div>
+
+    <div id="tableau-content" style="display:none;">
+        
+        <h1 id="detail-title"></h1>
+        
+        <section class="visualisation-zone">
+            <img id="detail-image" src="" alt="Image haute résolution du tableau" class="large-image">
+            
+            <div class="viewer-tools">
+                <h2>Outils de Visualisation</h2>
+                <p>Cliquez pour changer la vue :</p>
+                <button onclick="changeView('vue-mur')" class="btn-secondary">Afficher sur un Mur</button>
+                <button onclick="changeView('vue-taille')" class="btn-secondary">Comparer les Tailles</button>
+            </div>
+        </section>
+
+        <section class="reclamation-zone">
+            <h2>Spécifications Techniques</h2>
+            <p id="detail-specs"></p>
+            <p id="detail-price-public"></p>
+            
+            <hr>
+
+            <h3>Formulaire de Réclamation (Gratuit)</h3>
+            <form action=https://formspree.io/f/xblewkpe method="POST">
+    
+                <input type="hidden" name="Tableau ID Réclamé" id="form-tableau-id">
+                
+                <label for="tokenid">ID du NFT (Token ID) Utilisé:</label><br>
+                <input type="text" id="tokenid" name="Token ID" required placeholder="Ex: #1234"><br>
+                <small>Nous vérifierons cet ID. Un NFT ne peut être réclamé qu'une seule fois.</small><br><br>
+
+                <label for="name">Nom Complet:</label><br>
+                <input type="text" id="name" name="Nom" required><br><br>
+                
+                <label for="address">Adresse de Livraison Complète:</label><br>
+                <textarea id="address" name="Adresse" required></textarea><br><br>
+
+                <label for="email">Email de Contact (en cas de problème de livraison):</label><br>
+                <input type="email" id="email" name="Email" required><br><br>
+                
+                <input type="hidden" name="_gotcha" style="display:none"> <button type="submit" class="btn-primary">Soumettre ma Réclamation</button>
+            </form>
+        </section>
+    </div>
+</div>

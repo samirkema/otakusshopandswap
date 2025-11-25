@@ -93,3 +93,115 @@
 .btn-primary:hover {
     background-color: #8A4685;
 }
+
+.custom-claim-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    color: #e0e0e0;
+}
+
+.page-header {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    color: #A0529A; /* Couleur principale */
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(160, 82, 154, 0.4);
+}
+
+.intro-claim {
+    font-size: 1.3em;
+    color: #ccc;
+    text-align: center;
+    margin-bottom: 50px;
+    font-style: italic;
+}
+
+.process-section {
+    padding: 30px 0;
+}
+
+.section-title {
+    font-size: 2em;
+    color: #E0E0E0;
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+}
+
+/* Grille pour les étapes */
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    text-align: center;
+}
+
+.step-card {
+    background-color: #222;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    background-color: #2b2b2b;
+    border-color: #A0529A;
+    transform: translateY(-5px);
+}
+
+.step-card h3 {
+    color: #A0529A;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.step-card p {
+    color: #ccc;
+    font-size: 0.95em;
+}
+
+.contact-section {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.btn-contact-custom {
+    display: inline-block;
+    background-color: #A0529A;
+    color: white;
+    padding: 15px 35px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-contact-custom:hover {
+    background-color: #C06EB9;
+    transform: scale(1.05);
+}
+
+.note-info {
+    color: #888;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+/* Media Query pour Mobile */
+@media (max-width: 768px) {
+    .page-header {
+        font-size: 2em;
+    }
+    .process-steps {
+        grid-template-columns: 1fr;
+    }
+}

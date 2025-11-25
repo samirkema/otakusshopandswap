@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
     
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
     <header>
@@ -20,9 +20,9 @@
 
     <script src="https://cdn.ethers.io/lib/ethers-5.2.min.js"></script>
     
-    <script src="{{ '/assets/js/nft-gate.js' | relative_url }}"></script>
+    <script src="{{ site.baseurl }}/assets/js/nft-gate.js"></script>
     
-    <script src="{{ '/assets/js/tableau-details.js' | relative_url }}"></script>
+    <script src="{{ site.baseurl }}/assets/js/tableau-details.js"></script>
     
 </body>
 </html>

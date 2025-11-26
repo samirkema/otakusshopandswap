@@ -5,7 +5,7 @@ title: Accueil Collection NFT & Art
 
 <div class="homepage-container">
     <header class="main-header">
-        <h1>Bienvenue dans la collection SWAP-SWAP Art</h1>
+        <h1>Bienvenue sur le site otakusshopandswap</h1>
         <p class="intro-claim">L'art physique débloqué par la blockchain. Utilisez vos NFTs comme clés d'accès.</p>
     </header>
 

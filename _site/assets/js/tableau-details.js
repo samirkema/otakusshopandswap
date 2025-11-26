@@ -142,4 +142,9 @@ function changeView(viewType) {
 }
 
 // Lancement de la fonction displayDetails() lorsque la page est chargée
-window.onload = displayDetails;
+document.addEventListener('DOMContentLoaded', () => {
+    // Exécute displayDetails UNIQUEMENT si l'élément cible existe
+    if (document.getElementById('tableau-loading')) {
+        displayDetails();
+    }
+});

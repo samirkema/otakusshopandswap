@@ -66,6 +66,58 @@ const tableauData = {
         specs: "Dimensions: 75x75cm. Photomontage.",
         description: "Photomontage de l'artiste."
     }
+    // TABLEAU #010
+    '010': {
+        title: "Pièce #010",
+        image: "/assets/images/tableau-010-HR.jpg", 
+        imageMur: "/assets/images/tableau-010-transparent.png",
+        specs: "Dimensions: 90x120cm. Photomontage abstrait. Cadre noir inclus.",
+        description: "Une exploration des couches numériques inspirée par les données de la blockchain."
+    },
+    
+    // TABLEAU #011
+    '011': {
+        title: "Pièce #011",
+        image: "/assets/images/tableau-011-HR.jpg",
+        imageMur: "/assets/images/tableau-011-transparent.png",
+        specs: "Dimensions: 70x70cm. Photomontage. Poids: 3kg.",
+        description: "Une composition dynamique mettant en lumière les identités décentralisées."
+    },
+    // TABLEAU #013
+    '013': {
+        title: "Pièce #013",
+        image: "/assets/images/tableau-013-HR.jpg",
+        imageMur: "/assets/images/tableau-013-transparent.png",
+        specs: "Dimensions: 40x50cm. Encre sur papier. Cadre minimaliste.",
+        description: "Une œuvre en noir et blanc représentant le contrat intelligent dans le code."
+    },
+    
+    // TABLEAU #014
+    '014': {
+        title: "Pièce #014",
+        image: "/assets/images/tableau-014-HR.jpg",
+        imageMur: "/assets/images/tableau-014-transparent.png",
+        specs: "Dimensions: 80x80cm. Acrylique sur toile. Couleurs primaires.",
+        description: "Une composition abstraite utilisant des couleurs audacieuses pour représenter la liquidité."
+    },
+    
+    // TABLEAU #012
+    '012': {
+        title: "Pièce #012",
+        image: "/assets/images/tableau-012-HR.jpg",
+        imageMur: "/assets/images/tableau-012-transparent.png",
+        specs: "Dimensions: 60x60cm. Peinture numérique sur bois. Finition mate.",
+        description: "Une œuvre vibrante capturant l'énergie d'un contrat intelligent."
+    },
+    
+    // TABLEAU #015
+    '015': {
+        title: "Pièce #015",
+        image: "/assets/images/tableau-015-HR.jpg",
+        imageMur: "/assets/images/tableau-015-transparent.png",
+        specs: "Dimensions: 100x150cm. Technique mixte (Impression + Acrylique). Grande toile.",
+        description: "Une pièce monumentale combinant l'art classique et les motifs contemporains."
+    },
 };
 
 // ====================================================================

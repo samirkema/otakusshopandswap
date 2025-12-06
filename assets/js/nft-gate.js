@@ -49,14 +49,16 @@ async function checkNFT(targetId) {
 
         // 4. Logique de Gating : Si le compte possède au moins 1 NFT de la collection
         if (nftCount > 0) {
-            console.log(`Accès accordé. ${nftCount} NFT(s) trouvé(s) pour la collection.`);
-            
-            // Redirection vers la destination (manga ou détails)
+            console.log(`Accès accordé. ${nftCount} NFT(s) trouvé(s) pour la collection.`);            
+            // Redirection vers la destination
             if (targetId === 'manga') {
-                window.location.href = '/manga.html';
+                // CORRECTION : Nous devons forcer l'inclusion du chemin du dépôt
+                // Puisque nous ne pouvons pas utiliser Liquid dans un .js,
+                // nous utilisons le chemin absolu /nom_depot/page.html
+                window.location.href = '/otakusshopandswap/manga.html';
             } else if (targetId.startsWith('details-')) {
                 const tableauId = targetId.split('-')[1]; 
-                window.location.href = `/details-tableau.html?id=${tableauId}`;
+                window.location.href = `/otakusshopandswap/details-tableau.html?id=${tableauId}`;
             }
         } else {
             alert(`Accès refusé. Vous devez posséder au moins 1 NFT de la collection SWAP-SWAP pour accéder à ce contenu.`);

@@ -20,7 +20,7 @@ title: Accueil Collection NFT & Art
 
         <div class="action-box box-manga">
             <a href="#" onclick="checkNFT('manga'); return false;">
-                <h2>LIRE MANGA</h2>
+                <h2>LIRE </h2>
                 <p>Accès exclusif aux chapitres numériques</p>
             </a>
         </div>

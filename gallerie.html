@@ -14,7 +14,7 @@ permalink: /galerie.html
     </header>
 
     <div class="preview-scene" id="room-container">
-        <img src="{{ 'assets/images/decor-grand.jpg' | relative_url }}" id="room-bg" class="room-bg" alt="Décor">
+        <img src="{{ 'assets/images/decor-grand.jpeg' | relative_url }}" id="room-bg" class="room-bg" alt="Décor">
 
         <div class="main-frame" id="tableau-container">
             <img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" id="current-artwork" alt="Aperçu">
@@ -78,26 +78,17 @@ permalink: /galerie.html
 </div>
 
 <style>
-/* STYLE GLOBAL */
 .otaku-shop-interface { background: #000; color: white; font-family: sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
-
-/* HEADER */
 .shop-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; border-bottom: 2px solid #00f2ff; background: #111; }
 .site-logo { width: 45px; border-radius: 50%; }
 .site-name { font-weight: bold; letter-spacing: 2px; margin-left: 10px; }
-
-/* SCÈNE */
-.preview-scene { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; min-height: 500px; overflow: hidden; }
+.preview-scene { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; min-height: 500px; overflow: hidden; background: #1a1a1a; }
 .room-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s ease; }
-.main-frame { position: relative; z-index: 5; width: 22%; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: transform 0.4s ease, top 0.4s ease; }
+.main-frame { position: relative; z-index: 5; width: 22%; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: all 0.4s ease; }
 .main-frame img { width: 100%; border: 4px solid #111; display: block; }
-
-/* CADRE BLEU NEON */
 .format-container-neon { position: absolute; top: 30px; right: 30px; z-index: 10; border: 3px solid #00f2ff; padding: 20px; border-radius: 15px; background: rgba(0,0,0,0.6); box-shadow: 0 0 20px #00f2ff; display: flex; flex-direction: column; gap: 10px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
 .format-btn:hover { background: #00f2ff; color: #000; }
-
-/* CARROUSEL */
 .gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
 .gallery-title { text-align: center; margin-bottom: 15px; color: #00f2ff; }
 .carousel-wrapper { display: flex; align-items: center; gap: 10px; max-width: 1000px; margin: 0 auto; }
@@ -105,8 +96,6 @@ permalink: /galerie.html
 .vignette-item { min-width: 110px; text-align: center; background: #222; padding: 10px; border-radius: 10px; }
 .vignette-item img { width: 90px; height: 110px; object-fit: cover; border-radius: 5px; cursor: pointer; }
 .details-btn { background: none; border: 1px solid #00f2ff; color: #00f2ff; font-size: 0.7rem; margin-top: 10px; padding: 5px; cursor: pointer; width: 100%; border-radius: 5px; }
-
-/* MODALE */
 .gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; display: flex; justify-content: center; align-items: center; }
 .gate-content { background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px; text-align: center; position: relative; max-width: 400px; }
 .close-modal { position: absolute; top: 10px; right: 20px; font-size: 2rem; cursor: pointer; }
@@ -115,13 +104,12 @@ permalink: /galerie.html
 </style>
 
 <script>
-// Chemins des décors
+// Chemins des décors : Vérifie bien que l'extension est .jpeg sur ton GitHub
 const decors = {
-    grand: "{{ 'assets/images/decor-grand.jpg' | relative_url }}",
-    petit: "{{ 'assets/images/decor-petit.jpg' | relative_url }}"
+    grand: "{{ 'assets/images/decor-grand.jpeg' | relative_url }}",
+    petit: "{{ 'assets/images/decor-petit.jpeg' | relative_url }}"
 };
 
-// Fonction pour mettre à jour la scène (DÉCOR + TAILLE)
 function updateScene(format) {
     const roomBg = document.getElementById('room-bg');
     const tableau = document.getElementById('tableau-container');
@@ -133,7 +121,7 @@ function updateScene(format) {
     } else {
         roomBg.src = decors.petit;
         tableau.style.transform = 'scale(0.8)';
-        tableau.style.top = '40px'; // On descend un peu le tableau pour le décor bureau
+        tableau.style.top = '40px'; 
     }
 }
 
@@ -152,6 +140,8 @@ function openNFTGate(name) {
 
 function closeDetails() {
     document.getElementById('nft-gate-overlay').style.display = 'none';
+    document.getElementById('exclusive-content').style.display = 'none';
+    document.getElementById('gate-message').style.display = 'block';
 }
 
 function verifyNFTSimulation() {

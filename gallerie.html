@@ -10,7 +10,7 @@ permalink: /galerie.html
             <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
             <span class="site-name">OTAKU SHOP</span>
         </div>
-        <a href="/" class="home-icon" title="Accueil">🏠</a>
+        <a href="{{ '/' | relative_url }}" class="home-icon" title="Retour à l'accueil">🏠</a>
     </header>
 
     <div class="preview-scene" id="room-container">
@@ -39,9 +39,49 @@ permalink: /galerie.html
                     <button class="details-btn" onclick="openNFTGate('Pièce #001')">Détails</button>
                 </div>
                 <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-002-vignette.JPG' | relative_url }}" onclick="changeImage(this.src, 'Pièce #002')">
+                    <span>Pièce 2</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #002')">Détails</button>
+                </div>
+                <div class="vignette-item">
                     <img src="{{ 'assets/images/tableau-003-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #003')">
                     <span>Pièce 3</span>
                     <button class="details-btn" onclick="openNFTGate('Pièce #003')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-004-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #004')">
+                    <span>Pièce 4</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #004')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-005-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #005')">
+                    <span>Pièce 5</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #005')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-006-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #006')">
+                    <span>Pièce 6</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #006')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-007-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #007')">
+                    <span>Pièce 7</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #007')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-008-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #008')">
+                    <span>Pièce 8</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #008')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-009-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #009')">
+                    <span>Pièce 9</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #009')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-010-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #010')">
+                    <span>Pièce 10</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #010')">Détails</button>
                 </div>
                 <div class="vignette-item">
                     <img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #011')">
@@ -53,11 +93,25 @@ permalink: /galerie.html
                     <span>Pièce 12</span>
                     <button class="details-btn" onclick="openNFTGate('Pièce #012')">Détails</button>
                 </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-013-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #013')">
+                    <span>Pièce 13</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #013')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-014-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #014')">
+                    <span>Pièce 14</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #014')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-015-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #015')">
+                    <span>Pièce 15</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #015')">Détails</button>
+                </div>
             </div>
 
             <button class="arrow" onclick="scrollCarousel(1)">❯</button>
         </div>
-        <p class="footer-url">otakushopandswap.com</p>
     </div>
 </div>
 
@@ -72,7 +126,7 @@ permalink: /galerie.html
         <div id="exclusive-content" style="display:none;">
             <h3>✅ Accès Autorisé</h3>
             <p>Format Fine Art Premium disponible.</p>
-            <button class="btn-verify">Réclamer le tableau</button>
+            <button class="btn-verify">Réclamer le tableau physique</button>
         </div>
     </div>
 </div>
@@ -82,29 +136,33 @@ permalink: /galerie.html
 .shop-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; border-bottom: 2px solid #00f2ff; background: #111; }
 .site-logo { width: 45px; border-radius: 50%; }
 .site-name { font-weight: bold; letter-spacing: 2px; margin-left: 10px; }
+.home-icon { font-size: 1.5rem; text-decoration: none; cursor: pointer; }
+
 .preview-scene { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; min-height: 500px; overflow: hidden; background: #1a1a1a; }
 .room-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: opacity 0.5s ease; }
 .main-frame { position: relative; z-index: 5; width: 22%; box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: all 0.4s ease; }
 .main-frame img { width: 100%; border: 4px solid #111; display: block; }
+
 .format-container-neon { position: absolute; top: 30px; right: 30px; z-index: 10; border: 3px solid #00f2ff; padding: 20px; border-radius: 15px; background: rgba(0,0,0,0.6); box-shadow: 0 0 20px #00f2ff; display: flex; flex-direction: column; gap: 10px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
 .format-btn:hover { background: #00f2ff; color: #000; }
+
 .gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
 .gallery-title { text-align: center; margin-bottom: 15px; color: #00f2ff; }
 .carousel-wrapper { display: flex; align-items: center; gap: 10px; max-width: 1000px; margin: 0 auto; }
-.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; padding: 10px; }
+.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; padding: 10px; scroll-behavior: smooth; }
 .vignette-item { min-width: 110px; text-align: center; background: #222; padding: 10px; border-radius: 10px; }
 .vignette-item img { width: 90px; height: 110px; object-fit: cover; border-radius: 5px; cursor: pointer; }
-.details-btn { background: none; border: 1px solid #00f2ff; color: #00f2ff; font-size: 0.7rem; margin-top: 10px; padding: 5px; cursor: pointer; width: 100%; border-radius: 5px; }
+.vignette-item span { display: block; font-size: 0.75rem; margin: 5px 0; }
+.details-btn { background: none; border: 1px solid #00f2ff; color: #00f2ff; font-size: 0.7rem; padding: 5px; cursor: pointer; width: 100%; border-radius: 5px; }
+
 .gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; display: flex; justify-content: center; align-items: center; }
 .gate-content { background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px; text-align: center; position: relative; max-width: 400px; }
 .close-modal { position: absolute; top: 10px; right: 20px; font-size: 2rem; cursor: pointer; }
 .btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-.footer-url { text-align: center; font-size: 0.8rem; color: #666; margin-top: 10px; }
 </style>
 
 <script>
-// Chemins des décors : Vérifie bien que l'extension est .jpeg sur ton GitHub
 const decors = {
     grand: "{{ 'assets/images/decor-grand.jpeg' | relative_url }}",
     petit: "{{ 'assets/images/decor-petit.jpeg' | relative_url }}"
@@ -113,7 +171,6 @@ const decors = {
 function updateScene(format) {
     const roomBg = document.getElementById('room-bg');
     const tableau = document.getElementById('tableau-container');
-
     if (format === 'grand') {
         roomBg.src = decors.grand;
         tableau.style.transform = 'scale(1.3)';

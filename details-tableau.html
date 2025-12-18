@@ -1,56 +1,138 @@
 ---
 layout: default
-title: Détails Exclusifs du Tableau
-permalink: /details-tableau.html
+title: Détails et Réclamation - Otaku Shop
 ---
 
-<div class="protected-content">
-    <button onclick="window.history.back()">← Retour à la Galerie</button>
-    
-    <div id="tableau-loading">Chargement des détails de l'œuvre...</div>
-
-    <div id="tableau-content" style="display:none;">
-        
-        <h1 id="detail-title"></h1>
-        
-        <section class="visualisation-zone">
-            <img id="detail-image" src="" alt="Image haute résolution du tableau" class="large-image">
-            
-            <div class="viewer-tools">
-                <h2>Outils de Visualisation</h2>
-                <p>Cliquez pour changer la vue :</p>
-                <button onclick="changeView('vue-mur')" class="btn-secondary">Afficher sur un Mur</button>
-                <button onclick="changeView('vue-taille')" class="btn-secondary">Comparer les Tailles</button>
+<div class="details-container">
+    <div class="details-card">
+        <header class="details-header">
+            <a href="{{ '/galerie.html' | relative_url }}" class="back-link">← Retour à la galerie</a>
+            <div class="verification-badge">
+                <span class="icon">✅</span> Propriétaire NFT Vérifié
             </div>
-        </section>
+        </header>
+        
+        <div class="content-split">
+            <div class="artwork-preview">
+                <div class="image-frame">
+                    <img id="detail-img" src="" alt="Chargement du tableau...">
+                </div>
+                <h2 id="detail-title">Chargement...</h2>
+            </div>
 
-        <section class="reclamation-zone">
-            <h2>Spécifications Techniques</h2>
-            <p id="detail-specs"></p>
-            <p id="detail-price-public"></p>
-            
-            <hr>
+            <div class="specs-box">
+                <div class="info-section">
+                    <h3>Spécifications Techniques</h3>
+                    <ul class="specs-list">
+                        <li><strong>Format :</strong> <span id="display-size">40x50 (Standard)</span></li>
+                        <li><strong>Type :</strong> Impression Fine Art Haute Qualité</li>
+                        <li><strong>Support :</strong> Toile tendue / Châssis bois</li>
+                        <li><strong>Authenticité :</strong> Certifiée par la Blockchain</li>
+                    </ul>
+                </div>
 
-            <h3>Formulaire de Réclamation (Gratuit)</h3>
-            <form action=https://formspree.io/f/xblewkpe method="POST">
-    
-                <input type="hidden" name="Tableau ID Réclamé" id="form-tableau-id">
-                
-                <label for="tokenid">ID du NFT (Token ID) Utilisé:</label><br>
-                <input type="text" id="tokenid" name="Token ID" required placeholder="Ex: #1234"><br>
-                <small>Nous vérifierons cet ID. Un NFT ne peut être réclamé qu'une seule fois.</small><br><br>
-
-                <label for="name">Nom Complet:</label><br>
-                <input type="text" id="name" name="Nom" required><br><br>
-                
-                <label for="address">Adresse de Livraison Complète:</label><br>
-                <textarea id="address" name="Adresse" required></textarea><br><br>
-
-                <label for="email">Email de Contact (en cas de problème de livraison):</label><br>
-                <input type="email" id="email" name="Email" required><br><br>
-                
-                <input type="hidden" name="_gotcha" style="display:none"> <button type="submit" class="btn-primary">Soumettre ma Réclamation</button>
-            </form>
-        </section>
+                <div class="reclamation-zone">
+                    <h3>🎁 Réclamer le tableau physique</h3>
+                    <p>En tant que détenteur de ce NFT, vous pouvez commander votre exemplaire physique.</p>
+                    
+                    <form id="reclamation-form" class="neon-form">
+                        <div class="form-group">
+                            <label>Votre adresse de livraison</label>
+                            <textarea id="address" placeholder="Rue, ville, code postal, pays..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Email de contact</label>
+                            <input type="email" id="email" placeholder="votre@email.com" required>
+                        </div>
+                        <button type="submit" class="btn-claim">ENVOYER LA DEMANDE</button>
+                    </form>
+                    <p class="form-note">* Nous vérifierons la possession du NFT avant l'expédition.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+/* Design général */
+.details-container { padding: 40px 20px; background: #000; min-height: 100vh; color: #fff; font-family: 'Segoe UI', sans-serif; }
+.details-card { max-width: 1000px; margin: 0 auto; background: #0a0a0a; border: 1px solid #00f2ff; padding: 30px; border-radius: 15px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
+
+/* Header de la carte */
+.details-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px; }
+.back-link { color: #00f2ff; text-decoration: none; font-weight: bold; transition: 0.3s; }
+.back-link:hover { text-shadow: 0 0 10px #00f2ff; }
+.verification-badge { background: rgba(0, 242, 255, 0.1); border: 1px solid #00f2ff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; color: #00f2ff; }
+
+/* Mise en page split */
+.content-split { display: flex; gap: 40px; flex-wrap: wrap; }
+.artwork-preview { flex: 1.2; min-width: 320px; text-align: center; }
+.image-frame { background: #111; padding: 15px; border: 1px solid #333; border-radius: 10px; margin-bottom: 15px; }
+.image-frame img { width: 100%; height: auto; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+#detail-title { font-size: 1.8rem; letter-spacing: 2px; color: #fff; }
+
+/* Spécifications */
+.specs-box { flex: 1; min-width: 320px; }
+.info-section h3, .reclamation-zone h3 { color: #00f2ff; margin-bottom: 15px; font-size: 1.2rem; text-transform: uppercase; }
+.specs-list { list-style: none; padding: 0; margin-bottom: 30px; }
+.specs-list li { padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.95rem; }
+.specs-list strong { color: #00f2ff; }
+
+/* Formulaire */
+.neon-form { background: #111; padding: 20px; border-radius: 10px; border-left: 3px solid #00f2ff; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: #888; }
+textarea, input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 5px; font-family: inherit; }
+textarea { height: 80px; resize: none; }
+input:focus, textarea:focus { border-color: #00f2ff; outline: none; }
+.btn-claim { width: 100%; padding: 15px; background: #00f2ff; color: #000; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+.btn-claim:hover { background: #fff; box-shadow: 0 0 20px #00f2ff; transform: translateY(-2px); }
+.form-note { font-size: 0.75rem; color: #666; margin-top: 10px; text-align: center; }
+
+/* Responsive Chrome/Safari */
+@media (max-width: 768px) {
+    .content-split { flex-direction: column; }
+    .details-card { padding: 15px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Récupération des paramètres dans l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tableauId = urlParams.get('id');
+    const sizeParam = urlParams.get('size'); // Peut être 'grand' ou 'petit'
+
+    if (tableauId) {
+        // Mise à jour du titre
+        document.getElementById('detail-title').innerText = "Pièce #" + tableauId;
+
+        // 2. Gestion dynamique de la taille (selon tes instructions)
+        const sizeDisplay = document.getElementById('display-size');
+        if (sizeParam === 'petit') {
+            sizeDisplay.innerText = "Taille A4 (Petit Format)";
+        } else {
+            sizeDisplay.innerText = "40x50 (Grand Format)";
+        }
+
+        // 3. Gestion de l'extension d'image (PNG vs JPG)
+        // D'après tes fichiers : 005, 008, 009, 010 sont en .png
+        const pngIds = ['005', '008', '009', '010'];
+        const isPng = pngIds.includes(tableauId);
+        const extension = isPng ? 'png' : 'jpg';
+        
+        // On construit le chemin de l'image
+        const imagePath = `{{ 'assets/images/tableau-' | relative_url }}${tableauId}-vignette.${extension}`;
+        document.getElementById('detail-img').src = imagePath;
+    } else {
+        document.getElementById('detail-title').innerText = "Erreur : Aucun tableau sélectionné";
+    }
+
+    // 4. Gestion du formulaire
+    document.getElementById('reclamation-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        alert(`Demande envoyée pour la pièce #${tableauId} !\nUn email de confirmation sera envoyé à ${email} après vérification de votre NFT.`);
+    });
+});
+</script>

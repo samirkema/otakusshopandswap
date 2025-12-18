@@ -1,158 +1,186 @@
 ---
 layout: default
-title: Galerie de Tableaux
+title: Galerie de Tableaux - Otaku Shop
 permalink: /galerie.html
 ---
 
-<div class="gallery-container">
-    <h1>Collection d'Art</h1>
-    
-    <p class="intro-text">
-        Etes-vous en possession d'un NFT de la 
-        <a 
-            href="https://opensea.io/collection/swap-swap-54096494" 
-            target="_blank" 
-            title="Voir la collection NFT sur OpenSea"
-        >
-            collection SWAP-SWAP
-        </a>
-        ? Le détail exclusif, les spécifications techniques et le formulaire de réclamation pour un tableau sont réservés aux détenteurs vérifiés.
-    </p>
-    <div class="gallery-grid">
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-001-vignette.JPG' | relative_url }}" alt="Pièce 001">
-            <h3>Pièce #001</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-001" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
+<div class="otaku-shop-interface">
+    <header class="shop-header">
+        <div class="header-left">
+            <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
+            <span class="site-name">OTAKU SHOP</span>
+        </div>
+        <a href="/" class="home-icon" title="Accueil">🏠</a>
+    </header>
+
+    <div class="preview-scene">
+        <img src="{{ 'assets/images/background-bureau.jpg' | relative_url }}" class="room-bg" alt="Décor">
+
+        <div class="main-frame" id="tableau-container">
+            <img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" id="current-artwork" alt="Aperçu">
         </div>
 
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-002-vignette.JPG' | relative_url }}" alt="Pièce 002">
-            <h3>Pièce #002</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-002" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
+        <div class="format-container-neon">
+            <button class="format-btn" onclick="setFormat('grand')">grand format</button>
+            <button class="format-btn" onclick="setFormat('petit')">petit format</button>
         </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-003-vignette.jpg' | relative_url }}" alt="Pièce 003">
-            <h3>Pièce #003</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-003" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-004-vignette.jpg' | relative_url }}" alt="Pièce 004">
-            <h3>Pièce #004</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-004" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-005-vignette.png' | relative_url }}" alt="Pièce 005">
-            <h3>Pièce #005</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-005" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-006-vignette.jpg' | relative_url }}" alt="Pièce 006">
-            <h3>Pièce #006</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-006" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-007-vignette.jpg' | relative_url }}" alt="Pièce 007">
-            <h3>Pièce #007</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-007" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
+    </div>
 
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-008-vignette.png' | relative_url }}" alt="Pièce 008">
-            <h3>Pièce #008</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-008" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
+    <div class="gallery-navigation">
+        <h2 class="gallery-title">Collection SWAP-SWAP</h2>
+        
+        <div class="carousel-wrapper">
+            <button class="arrow prev" onclick="scrollCarousel(-1)">❮</button>
+            
+            <div class="carousel-track" id="carousel">
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-001-vignette.JPG' | relative_url }}" onclick="changeImage(this.src, 'Pièce #001')">
+                    <span>Pièce 1</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #001')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-003-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #003')">
+                    <span>Pièce 3</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #003')">Détails</button>
+                </div>
+                <div class="vignette-item">
+                    <img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" onclick="changeImage(this.src, 'Pièce #011')">
+                    <span>Pièce 11</span>
+                    <button class="details-btn" onclick="openNFTGate('Pièce #011')">Détails</button>
+                </div>
+                </div>
 
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-009-vignette.png' | relative_url }}" alt="Pièce 009">
-            <h3>Pièce #009</h3>
-            <p><strong>Médium :</strong> Photomontage</p>
-            <a href="#" data-target="details-009" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div> 
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-010-vignette.png' | relative_url }}" alt="Pièce 010">
-            <h3>Pièce #010</h3>
-            <p><strong>Médium :</strong> Tableau tissu</p>
-            <a href="#" data-target="details-010" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
+            <button class="arrow next" onclick="scrollCarousel(1)">❯</button>
         </div>
+        <p class="site-url">otakushopandswap.com</p>
+    </div>
+</div>
 
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" alt="Pièce 011">
-            <h3>Pièce #011</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-011" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
+<div id="nft-gate-overlay" class="gate-overlay" style="display:none;">
+    <div class="gate-content">
+        <button onclick="closeDetails()" class="close-modal-btn">×</button>
+        <div id="gate-message">
+            <h3>🔒 Accès Réservé</h3>
+            <p>Le détail exclusif de la <strong><span id="target-piece-name"></span></strong> est réservé aux détenteurs d'un NFT SWAP-SWAP.</p>
+            <button onclick="verifyNFTSimulation()" class="btn-verify">Vérifier mon NFT (Metamask)</button>
         </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-012-vignette.jpg' | relative_url }}" alt="Pièce 012">
-            <h3>Pièce #012</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-012" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-013-vignette.jpg' | relative_url }}" alt="Pièce 013">
-            <h3>Pièce #013</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-013" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-014-vignette.jpg' | relative_url }}" alt="Pièce 014">
-            <h3>Pièce #014</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-014" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
-        </div>
-        
-        <div class="tableau-item">
-            <img src="{{ 'assets/images/tableau-015-vignette.jpg' | relative_url }}" alt="Pièce 015">
-            <h3>Pièce #015</h3>
-            <p><strong>Médium :</strong> Peinture numérique</p>
-            <a href="#" data-target="details-015" class="btn-primary gallery-gate-btn">
-                Voir Détails Exclusifs
-            </a>
+        <div id="exclusive-content" style="display:none;">
+            <h3>✅ Accès Autorisé</h3>
+            <p><strong>Spécifications :</strong> Impression Fine Art, 300g.</p>
+            <a href="#" class="btn-claim">Réclamer le format physique</a>
         </div>
     </div>
 </div>
+
+<style>
+/* --- STYLE GLOBAL --- */
+.otaku-shop-interface {
+    background: #000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh; display: flex; flex-direction: column;
+}
+
+/* --- HEADER --- */
+.shop-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 30px; border-bottom: 2px solid #00f2ff; background: #111;
+}
+.site-logo { width: 45px; border-radius: 50%; margin-right: 15px; }
+.site-name { font-weight: 800; letter-spacing: 3px; font-size: 1.2rem; }
+.home-icon { text-decoration: none; font-size: 1.5rem; }
+
+/* --- SCÈNE BUREAU --- */
+.preview-scene {
+    position: relative; flex-grow: 1; overflow: hidden;
+    display: flex; justify-content: center; align-items: center; min-height: 500px;
+}
+.room-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; }
+
+.main-frame {
+    position: relative; z-index: 1; width: 22%; /* Positionnement sur le mur */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.main-frame img { width: 100%; border: 4px solid #111; display: block; }
+
+/* --- LE CADRE BLEU NEON (FORMATS) --- */
+.format-container-neon {
+    position: absolute; top: 40px; right: 40px; z-index: 5;
+    border: 3px solid #00f2ff; padding: 20px; border-radius: 15px;
+    background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 20px #00f2ff;
+    display: flex; flex-direction: column; gap: 15px;
+}
+.format-btn {
+    background: #000; color: #fff; border: 1px solid #444;
+    padding: 8px 20px; border-radius: 20px; cursor: pointer;
+    font-weight: bold; text-transform: lowercase; transition: 0.3s;
+}
+.format-btn:hover { background: #00f2ff; color: #000; }
+
+/* --- CARROUSEL --- */
+.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
+.gallery-title { text-align: center; margin-bottom: 15px; font-size: 1.1rem; color: #00f2ff; }
+.carousel-wrapper { display: flex; align-items: center; gap: 15px; max-width: 1000px; margin: 0 auto; }
+.carousel-track {
+    display: flex; gap: 20px; overflow-x: auto; padding: 10px;
+    scrollbar-width: none; border-radius: 10px;
+}
+.vignette-item { min-width: 110px; text-align: center; background: #222; padding: 10px; border-radius: 10px; }
+.vignette-item img { width: 90px; height: 110px; object-fit: cover; border-radius: 5px; cursor: pointer; margin-bottom: 8px; }
+.vignette-item span { display: block; font-size: 0.75rem; margin-bottom: 8px; }
+.details-btn { background: transparent; border: 1px solid #00f2ff; color: #00f2ff; font-size: 0.7rem; padding: 3px 8px; cursor: pointer; border-radius: 5px; }
+
+/* --- MODALE --- */
+.gate-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); z-index: 100; display: flex; justify-content: center; align-items: center;
+}
+.gate-content {
+    background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px;
+    text-align: center; max-width: 450px; position: relative;
+}
+.close-modal-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+</style>
+
+<script>
+// Changer l'image sur le mur
+function changeImage(src, title) {
+    document.getElementById('current-artwork').src = src;
+}
+
+// Gérer les formats (Grand/Petit)
+function setFormat(size) {
+    const frame = document.getElementById('tableau-container');
+    if(size === 'grand') {
+        frame.style.transform = 'scale(1.3)';
+    } else {
+        frame.style.transform = 'scale(0.8)';
+    }
+}
+
+// Navigation carrousel
+function scrollCarousel(dir) {
+    const track = document.getElementById('carousel');
+    track.scrollLeft += dir * 250;
+}
+
+// NFT Gating
+function openNFTGate(name) {
+    document.getElementById('target-piece-name').innerText = name;
+    document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
+    document.getElementById('exclusive-content').style.display = 'none';
+    document.getElementById('gate-message').style.display = 'block';
+}
+
+function verifyNFTSimulation() {
+    const btn = document.querySelector('.btn-verify');
+    btn.innerText = "Recherche de NFT...";
+    setTimeout(() => {
+        document.getElementById('gate-message').style.display = 'none';
+        document.getElementById('exclusive-content').style.display = 'block';
+    }, 1500);
+}
+</script>

@@ -15,7 +15,7 @@ title: Accueil Collection NFT & Art
         <div class="action-box box-tableau">
             <a href="{{ '/galerie.html' | relative_url }}">
                 <h2>GALERIE DE TABLEAUX</h2>
-                <p>Découvrez la collection complète et visualisez vos pièces dans votre intérieur.</p>
+                <p>Découvrez la collection complète.</p>
             </a>
         </div>
 

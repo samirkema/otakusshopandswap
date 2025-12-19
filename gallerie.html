@@ -27,6 +27,16 @@ permalink: /galerie.html
         </div>
     </div>
 
+    <div class="gallery-info-block">
+        <p class="intro-text">
+            Êtes-vous en possession d'un NFT de la 
+            <a href="https://opensea.io/collection/swap-swap-54096494" target="_blank" class="neon-link">
+                collection SWAP-SWAP
+            </a>
+            ? Le détail exclusif, les spécifications techniques et le formulaire de réclamation pour un tableau sont réservés aux détenteurs vérifiés.
+        </p>
+    </div>
+
     <div class="gallery-navigation">
         <h2 class="gallery-title">Collection SWAP-SWAP</h2>
         <div class="carousel-wrapper">
@@ -75,7 +85,14 @@ permalink: /galerie.html
 .main-frame img { width: 100%; border: 3px solid #111; display: block; }
 .format-container-neon { position: absolute; top: 20px; right: 20px; z-index: 10; border: 2px solid #00f2ff; padding: 15px; border-radius: 10px; background: rgba(0,0,0,0.7); display: flex; flex-direction: column; gap: 8px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 15px; cursor: pointer; }
-.gallery-navigation { background: #111; padding: 20px; }
+
+/* STYLE DU BLOC INFO AJOUTÉ */
+.gallery-info-block { padding: 30px 20px; background: #0a0a0a; text-align: center; border-top: 1px solid #222; }
+.intro-text { color: #aaa; max-width: 800px; margin: 0 auto; line-height: 1.6; font-size: 1rem; }
+.neon-link { color: #00f2ff; text-decoration: none; font-weight: bold; text-shadow: 0 0 5px #00f2ff; }
+.neon-link:hover { text-decoration: underline; }
+
+.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
 .carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
 .vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333; }
 .vignette-item img { width: 80px; height: 100px; object-fit: cover; cursor: pointer; }
@@ -87,7 +104,6 @@ permalink: /galerie.html
 </style>
 
 <script>
-// --- CONNEXION AVEC TON FICHIER NFT-GATE.JS ---
 function openNFTGate(id) {
     document.getElementById('target-id-display').innerText = id;
     document.getElementById('current-target-id').value = 'details-' + id;
@@ -96,7 +112,6 @@ function openNFTGate(id) {
 
 function startVerification() {
     const targetId = document.getElementById('current-target-id').value;
-    // Appelle la fonction de ton fichier nft-gate.js
     checkNFT(targetId);
 }
 
@@ -104,7 +119,6 @@ function closeDetails() {
     document.getElementById('nft-gate-overlay').style.display = 'none';
 }
 
-// --- LOGIQUE DÉCORS ---
 const decors = {
     grand: "{{ 'assets/images/decor-grand.jpeg' | relative_url }}",
     petit: "{{ 'assets/images/decor-petit.jpeg' | relative_url }}"

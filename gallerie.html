@@ -49,48 +49,47 @@ permalink: /galerie.html
     </div>
 </div>
 
+<div id="nft-gate-overlay" class="gate-overlay" style="display:none;">
+    <div class="gate-content">
+        <span class="close-modal" onclick="closeDetails()">×</span>
+        <div id="gate-message">
+            <h3>🔒 Accès Réservé</h3>
+            <p>Vérifiez la possession du NFT pour la pièce #<span id="target-id-display"></span>.</p>
+            <input type="hidden" id="current-target-id">
+            <button onclick="startVerification()" class="btn-verify">Vérifier avec mon Wallet</button>
+        </div>
+    </div>
+</div>
+
 <style>
 .otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-
-/* HEADER SANS BORDURE BASSE (elle est remplacée par le séparateur néon) */
 .shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; }
-
-/* LIGNE NÉON BLEUE SUPÉRIEURE */
-.neon-separator-top {
-    height: 2px;
-    width: 100%;
-    background: #00f2ff;
-    box-shadow: 0 0 10px #00f2ff;
-    z-index: 5;
-}
-
+.neon-separator-top { height: 2px; width: 100%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; z-index: 5; }
 .site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
 .site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
-.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
+.home-icon:hover { border-color: #00f2ff; color: #00f2ff; }
 
-.preview-scene { 
-    position: relative; 
-    width: 100%; 
-    height: 60vh; 
-    background: #050505; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-}
-.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 15px; }
+.preview-scene { position: relative; width: 100%; height: 60vh; background: #050505; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
 
 .format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 .format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 
-.gallery-navigation { background: #111; padding: 15px; border-top: 1px solid #333; }
+.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
 .carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
 .vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; }
 .vignette-item.selected { border-color: #00f2ff; }
 .vignette-item img { width: 90px; height: 110px; object-fit: cover; cursor: pointer; border-radius: 5px; }
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; border-radius: 4px; font-size: 0.75rem; }
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+.details-btn:hover { background: #00f2ff; color: #000; }
+
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; position: relative; }
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #fff; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 .arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
 </style>
 
@@ -118,7 +117,6 @@ function updatePreview() {
     mainView.style.opacity = 0;
     const basePath = `assets/images/decor-${currentId}-${currentFormat}`;
     
-    // Test des deux extensions JPG
     const imgJPG = new Image();
     const imgjpg = new Image();
     imgJPG.src = basePath + '.JPG';
@@ -138,8 +136,20 @@ function scrollCarousel(dir) {
     document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
 }
 
+// GESTION DU NFT GATE & DÉTAILS
 function openNFTGate(id) {
     document.getElementById('target-id-display').innerText = id;
+    document.getElementById('current-target-id').value = 'details-' + id;
     document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
+}
+
+function startVerification() {
+    const targetId = document.getElementById('current-target-id').value;
+    // Appelle la fonction de vérification dans nft-gate.js
+    checkNFT(targetId);
 }
 </script>

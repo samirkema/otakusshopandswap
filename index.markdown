@@ -41,19 +41,31 @@ title: Accueil Collection NFT & Art
 </div>
 
 <style>
-/* Style spécifique pour la case aide afin de l'intégrer au design existant */
+/* ... gardez vos styles box-tableau, box-manga, box-perso ... */
+
+/* CASE AIDE : STYLE ROSE NÉON VIF */
 .box-aide {
-    border: 2px solid #ff00ff !important; /* Rose néon pour la différencier du bleu */
-    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3) !important;
-    transition: 0.3s;
+    background: rgba(255, 0, 255, 0.05) !important; /* Fond très légèrement teinté */
+    border: 3px solid #ff00ff !important; /* Bordure rose néon épaisse */
+    box-shadow: 0 0 15px #ff00ff, inset 0 0 10px rgba(255, 0, 255, 0.2) !important;
+    transition: all 0.3s ease;
 }
 
 .box-aide:hover {
-    background: rgba(255, 0, 255, 0.1) !important;
-    box-shadow: 0 0 25px rgba(255, 0, 255, 0.5) !important;
+    background: rgba(255, 0, 255, 0.2) !important;
+    box-shadow: 0 0 30px #ff00ff !important;
+    transform: translateY(-5px);
 }
 
+/* Couleur du texte interne */
 .box-aide h2 {
     color: #ff00ff !important;
+    text-shadow: 0 0 10px #ff00ff;
+    font-weight: bold;
+}
+
+.box-aide p {
+    color: #ffffff !important; /* Texte blanc pur pour la lisibilité sur fond noir */
+    opacity: 0.9;
 }
 </style>

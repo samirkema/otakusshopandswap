@@ -13,7 +13,7 @@ permalink: /galerie.html
             <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
             <span class="site-name">OTAKU SHOP</span>
         </div>
-        <a href="https://samirkerna.github.io/otakushoppandswap/" class="home-icon">🏠</a>
+        <a href="./" class="home-icon">🏠 Accueil</a>
     </header>
 
     <div class="neon-separator-top"></div>
@@ -62,35 +62,61 @@ permalink: /galerie.html
 </div>
 
 <style>
-.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; }
-.neon-separator-top { height: 2px; width: 100%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; z-index: 5; }
+/* --- MISE EN PAGE GÉNÉRALE --- */
+.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+.shop-header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 10px 20px; background: #111; position: relative; z-index: 100; /* Priorité haute */
+}
+
+/* FIX TAILLE LOGO */
 .site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
 .site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
-.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
-.home-icon:hover { border-color: #00f2ff; color: #00f2ff; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; z-index: 101; }
 
-.preview-scene { position: relative; width: 100%; height: 60vh; background: #050505; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; }
-.main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
+.neon-separator-top { height: 2px; width: 100%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; z-index: 99; }
 
-.format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
+/* --- FIX IMAGE QUI DÉPASSE --- */
+.preview-scene { 
+    position: relative; 
+    width: 100%; 
+    flex-grow: 1; /* Prend l'espace restant sans pousser le header */
+    height: 55vh; 
+    background: #050505; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    margin-top: 5px; /* Sécurité pour ne pas toucher le néon */
+}
+
+.main-view-container { 
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; 
+    padding: 10px; box-sizing: border-box; 
+}
+
+.main-display-image { 
+    max-width: 100%; max-height: 100%; 
+    object-fit: contain; /* L'image s'adapte sans jamais déborder */
+    display: block;
+}
+
+/* --- FORMAT ET NAVIGATION --- */
+.format-selection-overlay { padding: 10px; display: flex; gap: 10px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
 .format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 
-.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
+.gallery-navigation { background: #111; padding: 15px; border-top: 1px solid #333; }
 .carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
-.vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; }
-.vignette-item.selected { border-color: #00f2ff; }
-.vignette-item img { width: 90px; height: 110px; object-fit: cover; cursor: pointer; border-radius: 5px; }
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
-.details-btn:hover { background: #00f2ff; color: #000; }
+.vignette-item { min-width: 100px; text-align: center; background: #1a1a1a; padding: 8px; border-radius: 10px; border: 1px solid #333; }
+.vignette-item img { width: 80px; height: 100px; object-fit: cover; cursor: pointer; border-radius: 5px; }
+.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 8px #00f2ff; }
 
-.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; }
-.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; position: relative; }
-.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #fff; }
-.btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-.arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 5px; padding: 3px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; }
+.arrow { color: #00f2ff; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
 </style>
 
 <script>
@@ -117,6 +143,7 @@ function updatePreview() {
     mainView.style.opacity = 0;
     const basePath = `assets/images/decor-${currentId}-${currentFormat}`;
     
+    // Test JPG majuscule et minuscule
     const imgJPG = new Image();
     const imgjpg = new Image();
     imgJPG.src = basePath + '.JPG';
@@ -129,14 +156,13 @@ function updatePreview() {
             mainView.src = basePath + '.jpg';
         }
         mainView.style.opacity = 1;
-    }, 250);
+    }, 200);
 }
 
 function scrollCarousel(dir) {
     document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
 }
 
-// GESTION DU NFT GATE & DÉTAILS
 function openNFTGate(id) {
     document.getElementById('target-id-display').innerText = id;
     document.getElementById('current-target-id').value = 'details-' + id;
@@ -145,11 +171,5 @@ function openNFTGate(id) {
 
 function closeDetails() {
     document.getElementById('nft-gate-overlay').style.display = 'none';
-}
-
-function startVerification() {
-    const targetId = document.getElementById('current-target-id').value;
-    // Appelle la fonction de vérification dans nft-gate.js
-    checkNFT(targetId);
 }
 </script>

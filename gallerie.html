@@ -73,28 +73,36 @@ permalink: /galerie.html
 </div>
 
 <style>
-/* Style conservé à l'identique de votre version préférée */
-.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; }
-.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
-.site-logo { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; }
-.preview-scene { position: relative; width: 100%; max-height: 70vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; background: #050505; }
-.main-display-image { width: 100%; height: auto; max-width: 1200px; object-fit: contain; transition: opacity 0.5s ease; }
-.format-selection-overlay { padding: 20px; display: flex; gap: 15px; }
-.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-.format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 15px #00f2ff; }
-.gallery-info-block { padding: 20px; text-align: center; background: #0a0a0a; border-top: 1px solid #222; }
-.neon-link { color: #00f2ff; text-decoration: none; font-weight: bold; }
-.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
-.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px; }
-.vignette-item { min-width: 120px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; transition: 0.3s; }
-.vignette-item img { width: 100px; height: 120px; object-fit: cover; cursor: pointer; border-radius: 5px; margin-bottom: 8px; }
-.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; padding: 5px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
-.details-btn:hover { background: #00f2ff; color: #000; }
-.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-.gate-content { background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 30px #00f2ff; }
-.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-.arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
+/* --- CORRECTION DU CADRAGE POUR VOIR TOUTE L'IMAGE --- */
+.preview-scene { 
+    position: relative; 
+    width: 100%; 
+    height: 80vh; /* Augmenté pour mieux voir */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    background: #000;
+    overflow: hidden;
+}
+
+.main-display-image { 
+    max-width: 95%; 
+    max-height: 70vh; /* Empêche l'image de déborder en hauteur */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Force l'affichage de TOUTE l'image sans découpe */
+    transition: opacity 0.3s ease;
+    border: 1px solid #111;
+}
+
+/* Style des boutons format */
+.format-selection-overlay { padding: 15px; display: flex; gap: 10px; z-index: 10; }
+.format-btn { 
+    background: #111; color: #fff; border: 1px solid #444; 
+    padding: 8px 16px; border-radius: 5px; cursor: pointer; 
+}
+.format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 </style>
 
 <script>
@@ -105,17 +113,20 @@ let currentExt = 'jpg';
 function selectTableau(id, ext) {
     currentId = id;
     currentExt = ext;
+    // Mise à jour visuelle des vignettes
     document.querySelectorAll('.vignette-item').forEach(v => v.classList.remove('selected'));
-    // Sélectionne l'ID correct de la vignette (ex: v-001)
-    const activeVignette = document.getElementById('v-' + id);
-    if(activeVignette) activeVignette.classList.add('selected');
+    const targetVignette = document.getElementById('v-' + id);
+    if(targetVignette) targetVignette.classList.add('selected');
+    
     updatePreview();
 }
 
 function setFormat(format) {
     currentFormat = format;
+    // Mise à jour visuelle des boutons
     document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
     document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
+    
     updatePreview();
 }
 
@@ -123,31 +134,13 @@ function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;
     
-    // Construction de l'URL Jekyll relative
-    const baseUrl = "{{ 'assets/images/decor-' | relative_url }}";
+    // On construit l'URL exacte selon vos fichiers
+    // Rappel : decor-001-grand.JPG ou decor-008-petit.png
+    const newSrc = `assets/images/decor-${currentId}-${currentFormat}.${currentExt}`;
     
     setTimeout(() => {
-        // Format final : assets/images/decor-001-grand.JPG
-        mainView.src = `${baseUrl}${currentId}-${currentFormat}.${currentExt}`;
+        mainView.src = newSrc;
         mainView.style.opacity = 1;
-    }, 300);
-}
-
-function openNFTGate(id) {
-    document.getElementById('target-id-display').innerText = id;
-    document.getElementById('current-target-id').value = 'details-' + id;
-    document.getElementById('nft-gate-overlay').style.display = 'flex';
-}
-
-function startVerification() {
-    checkNFT(document.getElementById('current-target-id').value);
-}
-
-function closeDetails() {
-    document.getElementById('nft-gate-overlay').style.display = 'none';
-}
-
-function scrollCarousel(dir) {
-    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
+    }, 200);
 }
 </script>

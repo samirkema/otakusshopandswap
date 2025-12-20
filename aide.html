@@ -6,58 +6,81 @@ permalink: /aide.html
 
 <div class="aide-container">
     <header class="aide-header">
-        <a href="{{ '/' | relative_url }}" class="back-home">🏠 Retour à l'accueil</a>
-        <h1>Comment utiliser le site ?</h1>
+        <a href="{{ '/' | relative_url }}" class="btn-back-neon">🏠 Retour à l'accueil</a>
+        <h1>Toutes les informations sur OTAKU SHOP</h1>
+        <p class="subtitle">Découvrez notre concept et apprenez à utiliser la plateforme.</p>
     </header>
 
     <div class="video-wrapper">
         <iframe 
-            src="https://youtu.be/embed/epgxVCeWwaQ" 
-            title="Tutoriel Otaku Shop" 
+            src="https://www.youtube-nocookie.com/embed/epgxVCeWwaQ?rel=0&origin=https://votre-site.github.io" 
+            title="TOUTES LES INFORMATIONS ESSENTIELLES SUR OTAKUSHOP" 
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen>
         </iframe>
     </div>
 
     <div class="aide-footer">
-        <p>Encore des questions ? <a href="mailto:kilimangarocontact@gmail.com" class="neon-link">Contactez-nous ici</a></p>
+        <div class="info-card-neon">
+            <h3>🔗 Liens utiles</h3>
+            <p>Collection NFT : <a href="https://opensea.io/collection/swap-swap-54096494" target="_blank" class="neon-link">SWAP-SWAP sur OpenSea</a></p>
+            <p>Contact pro : <a href="mailto:kilimangarocontact@gmail.com" class="neon-link">kilimangarocontact@gmail.com</a></p>
+        </div>
     </div>
 </div>
 
 <style>
+/* --- DESIGN NÉON BLEU --- */
 .aide-container {
     background: #000;
     color: white;
     min-height: 100vh;
-    padding: 40px 20px;
-    font-family: sans-serif;
+    padding: 60px 20px;
+    font-family: 'Segoe UI', sans-serif;
     text-align: center;
 }
 
 .aide-header h1 {
-    color: #ff00ff; /* Rose néon pour la section aide */
-    text-shadow: 0 0 15px #ff00ff;
-    margin: 20px 0;
+    font-size: 2rem;
+    color: #00f2ff;
+    text-shadow: 0 0 15px #00f2ff;
+    margin: 30px 0 10px;
+    text-transform: uppercase;
 }
 
-.back-home {
+.subtitle { color: #888; margin-bottom: 40px; }
+
+.btn-back-neon {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #00f2ff;
+    border-radius: 30px;
     color: #00f2ff;
     text-decoration: none;
     font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+    transition: 0.3s;
 }
 
-/* Container pour rendre la vidéo responsive et grande */
+.btn-back-neon:hover {
+    background: rgba(0, 242, 255, 0.1);
+    box-shadow: 0 0 20px #00f2ff;
+}
+
+/* LECTEUR VIDÉO RESPONSIVE */
 .video-wrapper {
     position: relative;
-    padding-bottom: 56.25%; /* Ratio 16:9 */
+    padding-bottom: 56.25%;
     height: 0;
     max-width: 1000px;
-    margin: 40px auto;
-    border: 3px solid #ff00ff;
-    box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
-    border-radius: 15px;
+    margin: 0 auto 50px;
+    border: 3px solid #00f2ff;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
+    background: #111; /* Fond de secours si la vidéo met du temps à charger */
 }
 
 .video-wrapper iframe {
@@ -68,9 +91,15 @@ permalink: /aide.html
     height: 100%;
 }
 
-.neon-link {
-    color: #00f2ff;
-    text-decoration: none;
-    text-shadow: 0 0 5px #00f2ff;
+.info-card-neon {
+    display: inline-block;
+    padding: 25px 40px;
+    background: rgba(17, 17, 17, 0.9);
+    border: 1px solid #333;
+    border-radius: 15px;
 }
+
+.info-card-neon h3 { color: #00f2ff; margin-bottom: 15px; }
+.neon-link { color: #00f2ff; text-decoration: none; font-weight: bold; }
+.neon-link:hover { text-shadow: 0 0 10px #00f2ff; text-decoration: underline; }
 </style>

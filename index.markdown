@@ -36,7 +36,7 @@ title: Accueil Collection NFT & Art
         <div class="action-box box-aide">
             <a href="{{ '/aide.html' | relative_url }}">
                 <h2>BESOIN D'AIDE ?</h2>
-                <p>Regardez le tutoriel vidéo pour apprendre à utiliser le site.</p>
+                <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
             </a>
         </div>
         

@@ -32,9 +32,9 @@ title: Accueil Collection NFT & Art
         </div>
 
         <div class="action-box box-aide">
-            <a href="mailto:kilimangarocontact@gmail.com">
+            <a href="{{ '/aide.html' | relative_url }}">
                 <h2>BESOIN D'AIDE ?</h2>
-                <p>Une question sur la réclamation ou votre NFT ? Contactez-nous.</p>
+                <p>Regardez notre vidéo tutoriel pour apprendre à utiliser le site.</p>
             </a>
         </div>
     </section>

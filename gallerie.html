@@ -89,4 +89,65 @@ permalink: /galerie.html
 .vignette-item { min-width: 120px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; transition: 0.3s; }
 .vignette-item img { width: 100px; height: 120px; object-fit: cover; cursor: pointer; border-radius: 5px; margin-bottom: 8px; }
 .vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; padding: 5px; cursor: pointer; border-radius: 4px;
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; padding: 5px; cursor: pointer; border-radius: 4px; font-size: 0.8rem; }
+.details-btn:hover { background: #00f2ff; color: #000; }
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 30px #00f2ff; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+.arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
+</style>
+
+<script>
+let currentId = '011';
+let currentFormat = 'grand';
+let currentExt = 'jpg';
+
+function selectTableau(id, ext) {
+    currentId = id;
+    currentExt = ext;
+    document.querySelectorAll('.vignette-item').forEach(v => v.classList.remove('selected'));
+    // Sélectionne l'ID correct de la vignette (ex: v-001)
+    const activeVignette = document.getElementById('v-' + id);
+    if(activeVignette) activeVignette.classList.add('selected');
+    updatePreview();
+}
+
+function setFormat(format) {
+    currentFormat = format;
+    document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
+    document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
+    updatePreview();
+}
+
+function updatePreview() {
+    const mainView = document.getElementById('main-view');
+    mainView.style.opacity = 0;
+    
+    // Construction de l'URL Jekyll relative
+    const baseUrl = "{{ 'assets/images/decor-' | relative_url }}";
+    
+    setTimeout(() => {
+        // Format final : assets/images/decor-001-grand.JPG
+        mainView.src = `${baseUrl}${currentId}-${currentFormat}.${currentExt}`;
+        mainView.style.opacity = 1;
+    }, 300);
+}
+
+function openNFTGate(id) {
+    document.getElementById('target-id-display').innerText = id;
+    document.getElementById('current-target-id').value = 'details-' + id;
+    document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+
+function startVerification() {
+    checkNFT(document.getElementById('current-target-id').value);
+}
+
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
+}
+
+function scrollCarousel(dir) {
+    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
+</script>

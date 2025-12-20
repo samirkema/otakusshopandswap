@@ -35,12 +35,16 @@ permalink: /galerie.html
                 <div class="vignette-item" id="v-002"><img src="{{ 'assets/images/tableau-002-vignette.JPG' | relative_url }}" onclick="selectTableau('002', 'JPG')"><span>Pièce 2</span><button class="details-btn" onclick="openNFTGate('002')">Détails</button></div>
                 <div class="vignette-item" id="v-003"><img src="{{ 'assets/images/tableau-003-vignette.jpg' | relative_url }}" onclick="selectTableau('003', 'jpg')"><span>Pièce 3</span><button class="details-btn" onclick="openNFTGate('003')">Détails</button></div>
                 <div class="vignette-item" id="v-004"><img src="{{ 'assets/images/tableau-004-vignette.jpg' | relative_url }}" onclick="selectTableau('004', 'jpg')"><span>Pièce 4</span><button class="details-btn" onclick="openNFTGate('004')">Détails</button></div>
-                <div class="vignette-item" id="v-005"><img src="{{ 'assets/images/tableau-005-vignette.png' | relative_url }}" onclick="selectTableau('005', 'jpg')"><span>Pièce 5</span><button class="details-btn" onclick="openNFTGate('005')">Détails</button></div>
+                
+                <div class="vignette-item" id="v-005"><img src="{{ 'assets/images/tableau-005-vignette.jpg' | relative_url }}" onclick="selectTableau('005', 'jpg')"><span>Pièce 5</span><button class="details-btn" onclick="openNFTGate('005')">Détails</button></div>
+                
                 <div class="vignette-item" id="v-006"><img src="{{ 'assets/images/tableau-006-vignette.jpg' | relative_url }}" onclick="selectTableau('006', 'jpg')"><span>Pièce 6</span><button class="details-btn" onclick="openNFTGate('006')">Détails</button></div>
                 <div class="vignette-item" id="v-007"><img src="{{ 'assets/images/tableau-007-vignette.jpg' | relative_url }}" onclick="selectTableau('007', 'jpg')"><span>Pièce 7</span><button class="details-btn" onclick="openNFTGate('007')">Détails</button></div>
+                
                 <div class="vignette-item" id="v-008"><img src="{{ 'assets/images/tableau-008-vignette.png' | relative_url }}" onclick="selectTableau('008', 'png')"><span>Pièce 8</span><button class="details-btn" onclick="openNFTGate('008')">Détails</button></div>
                 <div class="vignette-item" id="v-009"><img src="{{ 'assets/images/tableau-009-vignette.png' | relative_url }}" onclick="selectTableau('009', 'png')"><span>Pièce 9</span><button class="details-btn" onclick="openNFTGate('009')">Détails</button></div>
                 <div class="vignette-item" id="v-010"><img src="{{ 'assets/images/tableau-010-vignette.png' | relative_url }}" onclick="selectTableau('010', 'png')"><span>Pièce 10</span><button class="details-btn" onclick="openNFTGate('010')">Détails</button></div>
+                
                 <div class="vignette-item" id="v-011"><img src="{{ 'assets/images/tableau-011-vignette.jpg' | relative_url }}" onclick="selectTableau('011', 'jpg')"><span>Pièce 11</span><button class="details-btn" onclick="openNFTGate('011')">Détails</button></div>
                 <div class="vignette-item" id="v-012"><img src="{{ 'assets/images/tableau-012-vignette.jpg' | relative_url }}" onclick="selectTableau('012', 'jpg')"><span>Pièce 12</span><button class="details-btn" onclick="openNFTGate('012')">Détails</button></div>
                 <div class="vignette-item" id="v-013"><img src="{{ 'assets/images/tableau-013-vignette.jpg' | relative_url }}" onclick="selectTableau('013', 'jpg')"><span>Pièce 13</span><button class="details-btn" onclick="openNFTGate('013')">Détails</button></div>
@@ -52,73 +56,29 @@ permalink: /galerie.html
     </div>
 </div>
 
-<div id="nft-gate-overlay" class="gate-overlay" style="display:none;">
-    <div class="gate-content">
-        <span class="close-modal" onclick="closeDetails()">×</span>
-        <div id="gate-message">
-            <h3>🔒 Accès Réservé</h3>
-            <p>Vérifiez la possession du NFT pour la pièce #<span id="target-id-display"></span>.</p>
-            <input type="hidden" id="current-target-id">
-            <button onclick="startVerification()" class="btn-verify">Vérifier avec mon Wallet</button>
-        </div>
-    </div>
-</div>
-
 <style>
-.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
+.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; }
+.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
 
 /* FIX TAILLE LOGO */
-.site-logo {
-    height: 40px; 
-    width: 40px; 
-    border-radius: 50%; 
-    object-fit: cover;
-    border: 1px solid #00f2ff;
-}
-
+.site-logo { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
 .site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
 
-/* --- CADRAGE DE L'IMAGE --- */
-.preview-scene { 
-    position: relative; 
-    width: 100%; 
-    height: 60vh; 
-    background: #050505;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.main-view-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-.main-display-image { 
-    max-width: 100%; 
-    max-height: 100%; 
-    object-fit: contain; 
-    transition: opacity 0.3s ease;
-}
+/* CADRAGE IMAGE ENTIÈRE */
+.preview-scene { position: relative; width: 100%; height: 60vh; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
 
 .format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
-.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+.format-btn { background: #111; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
 .format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 
-.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
-.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
-.vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 1px solid #333; transition: 0.3s; }
+.gallery-navigation { background: #111; padding: 15px; border-top: 1px solid #333; }
+.carousel-track { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.vignette-item { min-width: 100px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 1px solid #333; }
 .vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-.vignette-item img { width: 90px; height: 110px; object-fit: cover; cursor: pointer; border-radius: 5px; }
-
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; cursor: pointer; border-radius: 4px; font-size: 0.75rem; }
-.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; }
-.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; }
-.btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+.vignette-item img { width: 80px; height: 100px; object-fit: cover; cursor: pointer; border-radius: 5px; }
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; border-radius: 4px; font-size: 0.75rem; }
 .arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
 </style>
 
@@ -131,8 +91,8 @@ function selectTableau(id, ext) {
     currentId = id;
     currentExt = ext;
     document.querySelectorAll('.vignette-item').forEach(v => v.classList.remove('selected'));
-    const activeVignette = document.getElementById('v-' + id);
-    if(activeVignette) activeVignette.classList.add('selected');
+    const active = document.getElementById('v-' + id);
+    if(active) active.classList.add('selected');
     updatePreview();
 }
 
@@ -147,27 +107,13 @@ function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;
     
-    // Chemin relatif compatible avec GitHub
-    const baseUrl = "{{ 'assets/images/' | relative_url }}";
+    // Chemin vers les images
+    const newSrc = `assets/images/decor-${currentId}-${currentFormat}.${currentExt}`;
     
     setTimeout(() => {
-        mainView.src = `${baseUrl}decor-${currentId}-${currentFormat}.${currentExt}`;
+        mainView.src = newSrc;
         mainView.style.opacity = 1;
     }, 200);
-}
-
-function openNFTGate(id) {
-    document.getElementById('target-id-display').innerText = id;
-    document.getElementById('current-target-id').value = 'details-' + id;
-    document.getElementById('nft-gate-overlay').style.display = 'flex';
-}
-
-function startVerification() {
-    checkNFT(document.getElementById('current-target-id').value);
-}
-
-function closeDetails() {
-    document.getElementById('nft-gate-overlay').style.display = 'none';
 }
 
 function scrollCarousel(dir) {

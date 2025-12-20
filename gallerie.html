@@ -1,43 +1,95 @@
-<style>
-/* --- FIX LOGO --- */
-.site-logo { 
-    height: 40px !important; 
-    width: 40px !important; 
-    border-radius: 50%; 
-    object-fit: cover; 
-}
+---
+layout: default
+title: Galerie de Tableaux - Otaku Shop
+permalink: /galerie.html
+---
 
-/* --- AFFICHAGE DU DÉCOR EN ENTIER --- */
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/index.umd.min.js"></script>
+<script src="{{ 'assets/js/nft-gate.js' | relative_url }}"></script>
+
+<div class="otaku-shop-interface">
+    <header class="shop-header">
+        <div class="header-left">
+            <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
+            <span class="site-name">OTAKU SHOP</span>
+        </div>
+        <a href="{{ '/' | relative_url }}" class="home-icon">🏠 Accueil</a>
+    </header>
+
+    <div class="preview-scene">
+        <div class="main-view-container">
+            <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
+        </div>
+        
+        <div class="format-selection-overlay">
+            <button class="format-btn active" id="btn-grand" onclick="setFormat('grand')">40x50 (GRAND)</button>
+            <button class="format-btn" id="btn-petit" onclick="setFormat('petit')">A4 (PETIT)</button>
+        </div>
+    </div>
+
+    <div class="gallery-navigation">
+        <div class="carousel-wrapper">
+            <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
+            <div class="carousel-track" id="carousel">
+                {% for i in (1..15) %}
+                {% assign id = i | prepend: '00' | slice: -3, 3 %}
+                <div class="vignette-item" id="v-{{ id }}">
+                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
+                         onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;"
+                         onclick="selectTableau('{{ id }}')">
+                    <span>Pièce {{ i }}</span>
+                    <button class="details-btn" onclick="openNFTGate('{{ id }}')">Détails</button>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="arrow" onclick="scrollCarousel(1)">❯</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
+
+/* FIX LOGO */
+.site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
+.site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
+
+/* FIX IMAGE ENTIÈRE */
 .preview-scene { 
     position: relative; 
     width: 100%; 
-    height: 65vh; /* Hauteur stable */
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    height: 60vh; 
+    background: #050505; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
+.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 15px; }
+.main-display-image { 
+    max-width: 100%; 
+    max-height: 100%; 
+    object-fit: contain; /* Empêche l'image d'être coupée */
+    transition: opacity 0.3s ease; 
 }
 
-.main-display-image { 
-    max-width: 95%; 
-    max-height: 90%; 
-    object-fit: contain; /* GARANTIT QUE L'IMAGE N'EST PAS COUPÉE */
-    transition: opacity 0.3s ease-in-out;
-}
+.format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
+.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+.format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
+
+.gallery-navigation { background: #111; padding: 15px; border-top: 1px solid #333; }
+.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
+.vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; }
+.vignette-item.selected { border-color: #00f2ff; }
+.vignette-item img { width: 90px; height: 110px; object-fit: cover; cursor: pointer; border-radius: 5px; }
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; border-radius: 4px; font-size: 0.75rem; }
+.arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
 </style>
 
 <script>
 let currentId = '011';
 let currentFormat = 'grand';
-
-function setFormat(format) {
-    currentFormat = format;
-    document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
-    document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
-    updatePreview();
-}
 
 function selectTableau(id) {
     currentId = id;
@@ -47,16 +99,20 @@ function selectTableau(id) {
     updatePreview();
 }
 
+function setFormat(format) {
+    currentFormat = format;
+    document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
+    document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
+    updatePreview();
+}
+
 function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;
 
-    // SOLUTION POUR LES BUGS DE NOMMAGE :
-    // On définit le nom sans extension d'abord
     const basePath = `assets/images/decor-${currentId}-${currentFormat}`;
     
-    // On crée un test pour les deux types d'extensions possibles (.jpg et .JPG)
-    // car vos fichiers sont mélangés dans le dossier images.
+    // Test des deux extensions possibles en raison du mélange dans vos dossiers
     const imgJPG = new Image();
     const imgjpg = new Image();
     
@@ -64,7 +120,6 @@ function updatePreview() {
     imgjpg.src = basePath + '.jpg';
 
     setTimeout(() => {
-        // On vérifie laquelle a chargé
         if (imgJPG.complete && imgJPG.naturalWidth !== 0) {
             mainView.src = basePath + '.JPG';
         } else {
@@ -72,5 +127,18 @@ function updatePreview() {
         }
         mainView.style.opacity = 1;
     }, 250);
+}
+
+function scrollCarousel(dir) {
+    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
+
+// Fonctions Modal NFT Gate (ouvertes via détails-btn)
+function openNFTGate(id) {
+    document.getElementById('target-id-display').innerText = id;
+    document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
 }
 </script>

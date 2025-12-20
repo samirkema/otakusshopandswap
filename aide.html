@@ -1,0 +1,76 @@
+---
+layout: default
+title: Aide & Tutoriel - Otaku Shop
+permalink: /aide.html
+---
+
+<div class="aide-container">
+    <header class="aide-header">
+        <a href="{{ '/' | relative_url }}" class="back-home">🏠 Retour à l'accueil</a>
+        <h1>Comment utiliser le site ?</h1>
+    </header>
+
+    <div class="video-wrapper">
+        <iframe 
+            src="https://www.youtube.com/embed/ID_DE_LA_VIDEO?rel=0&showinfo=0" 
+            title="Tutoriel Otaku Shop" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div class="aide-footer">
+        <p>Encore des questions ? <a href="mailto:kilimangarocontact@gmail.com" class="neon-link">Contactez-nous ici</a></p>
+    </div>
+</div>
+
+<style>
+.aide-container {
+    background: #000;
+    color: white;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.aide-header h1 {
+    color: #ff00ff; /* Rose néon pour la section aide */
+    text-shadow: 0 0 15px #ff00ff;
+    margin: 20px 0;
+}
+
+.back-home {
+    color: #00f2ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Container pour rendre la vidéo responsive et grande */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Ratio 16:9 */
+    height: 0;
+    max-width: 1000px;
+    margin: 40px auto;
+    border: 3px solid #ff00ff;
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.neon-link {
+    color: #00f2ff;
+    text-decoration: none;
+    text-shadow: 0 0 5px #00f2ff;
+}
+</style>

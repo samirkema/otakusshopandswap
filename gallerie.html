@@ -137,3 +137,28 @@ function updatePreview() {
     
     // On force l'URL correcte : assets/images/decor-XXX-grand.EXTENSION
     const newSrc = `assets/images/decor-${currentId}-${currentFormat}.${currentExt}`;
+    
+    setTimeout(() => {
+        mainView.src = newSrc;
+        mainView.style.opacity = 1;
+    }, 200);
+}
+
+function openNFTGate(id) {
+    document.getElementById('target-id-display').innerText = id;
+    document.getElementById('current-target-id').value = 'details-' + id;
+    document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+
+function startVerification() {
+    checkNFT(document.getElementById('current-target-id').value);
+}
+
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
+}
+
+function scrollCarousel(dir) {
+    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
+</script>

@@ -16,6 +16,8 @@ permalink: /galerie.html
         <a href="{{ '/' | relative_url }}" class="home-icon">🏠 Accueil</a>
     </header>
 
+    <div class="neon-separator-top"></div>
+
     <div class="preview-scene">
         <div class="main-view-container">
             <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
@@ -49,13 +51,23 @@ permalink: /galerie.html
 
 <style>
 .otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
-.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
 
-/* FIX LOGO */
+/* HEADER SANS BORDURE BASSE (elle est remplacée par le séparateur néon) */
+.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; }
+
+/* LIGNE NÉON BLEUE SUPÉRIEURE */
+.neon-separator-top {
+    height: 2px;
+    width: 100%;
+    background: #00f2ff;
+    box-shadow: 0 0 10px #00f2ff;
+    z-index: 5;
+}
+
 .site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
 .site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 10px; border-radius: 5px; font-size: 0.9rem; }
 
-/* FIX IMAGE ENTIÈRE */
 .preview-scene { 
     position: relative; 
     width: 100%; 
@@ -67,12 +79,7 @@ permalink: /galerie.html
     justify-content: center; 
 }
 .main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 15px; }
-.main-display-image { 
-    max-width: 100%; 
-    max-height: 100%; 
-    object-fit: contain; /* Empêche l'image d'être coupée */
-    transition: opacity 0.3s ease; 
-}
+.main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
 
 .format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
 .format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
@@ -109,13 +116,11 @@ function setFormat(format) {
 function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;
-
     const basePath = `assets/images/decor-${currentId}-${currentFormat}`;
     
-    // Test des deux extensions possibles en raison du mélange dans vos dossiers
+    // Test des deux extensions JPG
     const imgJPG = new Image();
     const imgjpg = new Image();
-    
     imgJPG.src = basePath + '.JPG';
     imgjpg.src = basePath + '.jpg';
 
@@ -133,12 +138,8 @@ function scrollCarousel(dir) {
     document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
 }
 
-// Fonctions Modal NFT Gate (ouvertes via détails-btn)
 function openNFTGate(id) {
     document.getElementById('target-id-display').innerText = id;
     document.getElementById('nft-gate-overlay').style.display = 'flex';
-}
-function closeDetails() {
-    document.getElementById('nft-gate-overlay').style.display = 'none';
 }
 </script>

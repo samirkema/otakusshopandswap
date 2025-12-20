@@ -18,21 +18,13 @@ permalink: /galerie.html
 
     <div class="preview-scene">
         <div class="main-view-container">
-            <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image" alt="Aperçu Galerie">
+            <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
         </div>
         
         <div class="format-selection-overlay">
             <button class="format-btn active" id="btn-grand" onclick="setFormat('grand')">40x50 (GRAND)</button>
             <button class="format-btn" id="btn-petit" onclick="setFormat('petit')">A4 (PETIT)</button>
         </div>
-    </div>
-
-    <div class="gallery-info-block">
-        <p class="intro-text">
-            Possédez-vous un NFT de la 
-            <a href="https://opensea.io/collection/swap-swap-54096494" target="_blank" class="neon-link">collection SWAP-SWAP</a> ? 
-            L'accès aux détails et à la réclamation physique est réservé aux détenteurs.
-        </p>
     </div>
 
     <div class="gallery-navigation">
@@ -73,60 +65,48 @@ permalink: /galerie.html
 </div>
 
 <style>
-.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; }
+.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 .shop-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 2px solid #00f2ff; background: #111; }
-.site-logo { height: 40px; width: 40px; border-radius: 50%; object-fit: cover; }
 
-/* --- CORRECTION AFFICHAGE ENTIER --- */
+/* --- CORRECTION CRITIQUE DU CADRAGE --- */
 .preview-scene { 
     position: relative; 
     width: 100%; 
-    height: 70vh; /* Hauteur fixe de la zone de visualisation */
+    height: 60vh; /* Hauteur limitée pour éviter que l'image soit géante */
     background: #050505;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
 }
-
 .main-view-container {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
 }
-
 .main-display-image { 
     max-width: 100%; 
     max-height: 100%; 
-    object-fit: contain; /* ESSENTIEL : Affiche toute l'image sans rogner */
-    transition: opacity 0.4s ease;
+    object-fit: contain; /* GARANTIT QUE TOUTE L'IMAGE EST VISIBLE SANS COUPURE */
+    transition: opacity 0.3s ease;
 }
 
-/* BOUTONS FORMAT */
-.format-selection-overlay { padding: 15px; display: flex; gap: 15px; z-index: 10; }
-.format-btn { 
-    background: #000; color: #fff; border: 1px solid #444; 
-    padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; 
-}
-.format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 15px #00f2ff; }
+.format-selection-overlay { padding: 15px; display: flex; gap: 10px; }
+.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+.format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 
-/* CARROUSEL */
-.gallery-info-block { padding: 20px; text-align: center; background: #0a0a0a; border-top: 1px solid #222; }
-.neon-link { color: #00f2ff; text-decoration: none; font-weight: bold; }
 .gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
-.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; padding-bottom: 10px; }
-.vignette-item { min-width: 120px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 2px solid #333; }
-.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-.vignette-item img { width: 100px; height: 120px; object-fit: cover; cursor: pointer; border-radius: 5px; }
-
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 10px; padding: 5px; cursor: pointer; border-radius: 4px; }
-.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: flex; justify-content: center; align-items: center; }
-.gate-content { background: #111; border: 2px solid #00f2ff; padding: 40px; border-radius: 20px; text-align: center; }
-.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
+.vignette-item { min-width: 110px; text-align: center; background: #1a1a1a; padding: 10px; border-radius: 10px; border: 1px solid #333; }
+.vignette-item.selected { border-color: #00f2ff; }
+.vignette-item img { width: 90px; height: 110px; object-fit: cover; cursor: pointer; border-radius: 5px; }
+.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 8px; padding: 4px; cursor: pointer; border-radius: 4px; font-size: 0.75rem; }
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 .arrow { background: none; border: none; color: #00f2ff; font-size: 2rem; cursor: pointer; }
 </style>
 
@@ -155,31 +135,5 @@ function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;
     
-    // Chemin vers les dossiers images
-    const baseUrl = "{{ 'assets/images/decor-' | relative_url }}";
-    
-    setTimeout(() => {
-        // Charge l'image : decor-XXX-grand.jpg ou decor-XXX-petit.jpg
-        mainView.src = `${baseUrl}${currentId}-${currentFormat}.${currentExt}`;
-        mainView.style.opacity = 1;
-    }, 300);
-}
-
-function openNFTGate(id) {
-    document.getElementById('target-id-display').innerText = id;
-    document.getElementById('current-target-id').value = 'details-' + id;
-    document.getElementById('nft-gate-overlay').style.display = 'flex';
-}
-
-function startVerification() {
-    checkNFT(document.getElementById('current-target-id').value);
-}
-
-function closeDetails() {
-    document.getElementById('nft-gate-overlay').style.display = 'none';
-}
-
-function scrollCarousel(dir) {
-    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
-}
-</script>
+    // On force l'URL correcte : assets/images/decor-XXX-grand.EXTENSION
+    const newSrc = `assets/images/decor-${currentId}-${currentFormat}.${currentExt}`;

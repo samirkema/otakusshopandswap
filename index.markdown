@@ -14,7 +14,7 @@ title: Accueil Collection NFT & Art
         
         <div class="action-box box-tableau">
             <a href="{{ '/galerie.html' | relative_url }}">
-                <h2>GALERIE DE TABLEAUX</h2>
+                <h2>GALLERIE DE TABLEAUX</h2>
                 <p>Découvrez la collection complète et visualisez vos pièces.</p>
             </a>
         </div>
@@ -37,6 +37,15 @@ title: Accueil Collection NFT & Art
             <a href="{{ '/aide.html' | relative_url }}">
                 <h2>BESOIN D'AIDE ?</h2>
                 <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
+            </a>
+        </div>
+
+        <section id="homepage-actions">
+
+        <div class="action-box box-visite">
+            <a href="{{ '/visite_virtuelle.html' | relative_url }}">
+                <h2>VISITE VIRTUELLE</h2>
+                <p>Immergez-vous dans notre galerie 3D pour voir nos tableaux en situation réelle.</p>
             </a>
         </div>
         

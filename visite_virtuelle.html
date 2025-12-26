@@ -1,0 +1,129 @@
+---
+layout: default
+title: Visite Virtuelle - À Venir
+permalink: /visite_virtuelle.html
+---
+
+<div class="coming-soon-container">
+    <header class="shop-header">
+        <div class="header-left">
+            <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
+            <span class="site-name">OTAKU SHOP</span>
+        </div>
+        <a href="{{ '/galerie.html' | relative_url }}" class="home-icon">⬅ Retour Galerie</a>
+    </header>
+
+    <main class="content-v-virtuelle">
+        <div class="status-badge">PRÉPARATION EN COURS</div>
+        <h1>VISITE VIRTUELLE</h1>
+        <div class="neon-line"></div>
+        
+        <p class="description">
+            Nous préparons une expérience 3D immersive pour vous permettre d'admirer nos tableaux en situation réelle.
+        </p>
+
+        <div class="info-formats">
+            <p>Bientôt, vous pourrez visualiser nos deux formats disponibles :</p>
+            <div class="format-chips">
+                <span>40x50 (GRAND)</span>
+                <span>A4 (PETIT)</span>
+            </div>
+        </div>
+
+        <div class="loading-animation">
+            <div class="scanner"></div>
+        </div>
+
+        <a href="https://samirkema.github.io/otakusshopandswap/" class="btn-main">Retour à l'accueil</a>
+    </main>
+</div>
+
+<style>
+/* Style global de la page */
+.coming-soon-container {
+    background: #000;
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #111;
+    border-bottom: 2px solid #00f2ff;
+    box-shadow: 0 0 10px #00f2ff;
+}
+
+.site-logo { height: 40px; border-radius: 50%; border: 1px solid #00f2ff; }
+.site-name { color: #00f2ff; font-weight: bold; margin-left: 10px; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; }
+
+/* Contenu Central */
+.content-v-virtuelle {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.status-badge {
+    background: #ff00ff;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px #ff00ff;
+}
+
+h1 { font-size: 3rem; letter-spacing: 5px; color: #fff; margin: 0; }
+.neon-line { width: 100px; height: 3px; background: #00f2ff; margin: 20px 0; box-shadow: 0 0 10px #00f2ff; }
+
+.description { color: #888; max-width: 500px; font-size: 1.2rem; line-height: 1.5; }
+
+.info-formats { margin: 30px 0; color: #bbb; }
+.format-chips { display: flex; gap: 15px; justify-content: center; margin-top: 10px; }
+.format-chips span { border: 1px solid #333; padding: 5px 15px; border-radius: 5px; font-size: 0.9rem; }
+
+/* Animation de scan */
+.loading-animation {
+    width: 200px;
+    height: 2px;
+    background: #222;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+}
+.scanner {
+    width: 50px;
+    height: 100%;
+    background: #00f2ff;
+    box-shadow: 0 0 15px #00f2ff;
+    position: absolute;
+    animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+    0% { left: -50px; }
+    100% { left: 200px; }
+}
+
+.btn-main {
+    text-decoration: none;
+    color: #00f2ff;
+    border: 1px solid #00f2ff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.btn-main:hover { background: #00f2ff; color: #000; box-shadow: 0 0 20px #00f2ff; }
+</style>

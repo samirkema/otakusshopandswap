@@ -4,27 +4,43 @@ title: Lecture Exclusive (Manga, Webtoon, Livres)
 ---
 
 <div class="page-container">
-    <header>
-        <h1>Zone de Lecture Exclusive</h1>
+    <header class="main-header">
+        <div class="header-top">
+            <h1>Zone de Lecture Exclusive</h1>
+            <div class="language-selector">
+                <a href="#" class="lang-icon active" title="Français" onclick="setLanguage('fr')">🇫🇷</a>
+                <a href="#" class="lang-icon" title="Japonais" onclick="setLanguage('jp')">🇯🇵</a>
+                <a href="#" class="lang-icon" title="English" onclick="setLanguage('en')">🇬🇧</a>
+            </div>
+        </div>
+        
         <p class="intro-claim">Bienvenue dans l'espace réservé aux détenteurs de NFT. Accédez à vos contenus numériques ici.</p>
         <p>
-            <a href="{{ '/index.html' | relative_url }}" class="btn-secondary">← Retour à l'Accueil</a>
+            <a href="{{ '/' | relative_url }}" class="btn-secondary">← Retour à l'Accueil</a>
         </p>
     </header>
 
+    <div class="neon-separator"></div>
+
     <section id="livres-enfants" class="content-section">
-        <h2>Livres pour Enfants </h2>
+        <h2><span class="lang-text fr">Livres pour Enfants</span><span class="lang-text jp" style="display:none;">子供向けの絵本</span><span class="lang-text en" style="display:none;">Children's Books</span></h2>
+        <div class="content-grid" id="grid-enfants">
+            </div>
     </section>
 
-    <hr>
+    <div class="neon-separator"></div>
 
     <section id="manga-section" class="content-section">
-        <h2>Mangas </h2>
+        <h2><span class="lang-text fr">Mangas</span><span class="lang-text jp" style="display:none;">漫画</span><span class="lang-text en" style="display:none;">Mangas</span></h2>
+        <div class="content-grid" id="grid-manga">
+            </div>
     </section>
 
-    <hr>
+    <div class="neon-separator"></div>
 
     <section id="webtoon-section" class="content-section">
-        <h2>Webtoons </h2>
+        <h2><span class="lang-text fr">Webtoons</span><span class="lang-text jp" style="display:none;">ウェブトゥーン</span><span class="lang-text en" style="display:none;">Webtoons</span></h2>
+        <div class="content-grid" id="grid-webtoon">
+            </div>
     </section>
 </div>

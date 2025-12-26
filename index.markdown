@@ -40,8 +40,6 @@ title: Accueil Collection NFT & Art
             </a>
         </div>
 
-        <section id="homepage-actions">
-
         <div class="action-box box-visite">
             <a href="{{ '/visite_virtuelle.html' | relative_url }}">
                 <h2>VISITE VIRTUELLE</h2>

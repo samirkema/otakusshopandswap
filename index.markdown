@@ -42,7 +42,7 @@ title: Accueil Collection NFT & Art
 
         <div class="action-box box-visite">
             <a href="{{ '/visite_virtuelle.html' | relative_url }}">
-                <h2>VISITE VIRTUELLE</h2>
+                <h2>MUSÉE VIRTUELLE</h2>
                 <p>Immergez-vous dans notre galerie 3D pour voir nos tableaux en situation réelle.</p>
             </a>
         </div>

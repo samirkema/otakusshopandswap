@@ -23,13 +23,18 @@ permalink: /galerie.html
             <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
         </div>
         
-        <div class="format-selection-overlay-container">
+        <div class="shop-controls">
             <div class="price-tag">Prix : <span id="current-price">50</span>€</div>
-            <div class="format-selection-overlay">
-                <button class="format-btn active" id="btn-grand" onclick="setFormat('grand', 50)">40x50 (50€)</button>
-                <button class="format-btn" id="btn-petit" onclick="setFormat('petit', 25)">A4 (25€)</button>
+
+            <div class="format-selection">
+                <button class="format-btn active" id="btn-grand" onclick="setFormat('grand', 50)">40x50 (GRAND)</button>
+                <button class="format-btn" id="btn-petit" onclick="setFormat('petit', 25)">A4 (PETIT)</button>
             </div>
-            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
+
+            <div class="action-buttons">
+                <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
+                <button class="claim-btn-nft" onclick="openNFTGate(currentId)">🎁 RÉCLAMER (DÉTENTEUR NFT)</button>
+            </div>
         </div>
     </div>
 
@@ -37,16 +42,16 @@ permalink: /galerie.html
         <div class="carousel-wrapper">
             <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
             <div class="carousel-track" id="carousel">
-                {% for i in (1..15) %}
-                {% assign id = i | prepend: '00' | slice: -3, 3 %}
-                <div class="vignette-item" id="v-{{ id }}">
-                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
-                         onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;"
-                         onclick="selectTableau('{{ id }}')">
-                    <span>Pièce {{ i }}</span>
-                    <button class="details-btn" onclick="openNFTGate('{{ id }}')">Détails</button>
+                <div class="carousel-track" id="carousel">
+                    {% for i in (1..15) %}
+                    {% assign id = i | prepend: '00' | slice: -3, 3 %}
+                    <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
+                        <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
+                            onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
+                        <span>Pièce {{ i }}</span>
+                        </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
             <button class="arrow" onclick="scrollCarousel(1)">❯</button>
         </div>
@@ -66,47 +71,108 @@ permalink: /galerie.html
 </div>
 
 <style>
-.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; z-index: 100; }
+/* --- BASE & LAYOUT --- */
+.otaku-shop-interface { background: #000; color: white; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #111; z-index: 100; border-bottom: 1px solid #333; }
 .neon-separator-top { height: 2px; width: 100%; background: #00f2ff; box-shadow: 0 0 10px #00f2ff; z-index: 99; }
 .site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
-.site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
-.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; }
+.site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; text-transform: uppercase; letter-spacing: 1px; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; transition: 0.3s; }
+.home-icon:hover { background: #fff; color: #000; }
 
-.preview-scene { position: relative; width: 100%; flex-grow: 1; height: 55vh; background: #050505; display: flex; align-items: center; justify-content: center; margin-top: 5px; }
-.main-view-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 10px; }
-.main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s ease; }
+/* --- ZONE DE PREVIEW --- */
+.preview-scene { display: flex; flex-direction: column; align-items: center; background: #050505; padding: 20px 0; }
+.main-view-container { width: 100%; max-height: 50vh; display: flex; align-items: center; justify-content: center; padding: 10px; }
+.main-display-image { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 5px; transition: opacity 0.3s ease; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 
-.format-selection-overlay { padding: 10px; display: flex; gap: 10px; justify-content: center; }
-.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+/* --- ACTIONS DE VENTE (PRIX, TAILLES, BOUTONS) --- */
+.shop-actions-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.price-tag { 
+    font-size: 2rem; 
+    color: #00f2ff; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    text-shadow: 0 0 10px #00f2ff; 
+}
+
+.format-selection-overlay { display: flex; gap: 10px; margin-bottom: 25px; }
+.format-btn { background: #000; color: #fff; border: 1px solid #444; padding: 10px 20px; border-radius: 5px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
 .format-btn.active { border-color: #00f2ff; color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
 
-.gallery-navigation { background: #111; padding: 15px; border-top: 1px solid #333; }
-.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; }
-.vignette-item { min-width: 100px; text-align: center; background: #1a1a1a; padding: 8px; border-radius: 10px; border: 1px solid #333; }
-.vignette-item img { width: 80px; height: 100px; object-fit: cover; cursor: pointer; border-radius: 5px; }
-.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 8px #00f2ff; }
-
-.details-btn { border: 1px solid #00f2ff; color: #00f2ff; background: none; width: 100%; margin-top: 5px; padding: 4px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; }
-.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; }
-.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; position: relative; }
-.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #fff; }
-.btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-.arrow { color: #00f2ff; background: none; border: none; font-size: 2rem; cursor: pointer; }
-.price-tag { font-size: 1.4rem; color: #00f2ff; margin-bottom: 10px; font-weight: bold; text-shadow: 0 0 10px #00f2ff; }
 .buy-btn-btc {
     background: #f7931a; /* Orange Bitcoin */
     color: white;
     border: none;
-    padding: 12px 25px;
+    padding: 15px;
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 15px;
-    box-shadow: 0 0 15px rgba(247, 147, 26, 0.4);
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    box-shadow: 0 0 15px rgba(247, 147, 26, 0.3);
     transition: 0.3s;
 }
-.buy-btn-btc:hover { transform: scale(1.05); box-shadow: 0 0 25px #f7931a; }
+.buy-btn-btc:hover { transform: translateY(-2px); box-shadow: 0 0 25px #f7931a; }
+
+.claim-btn-nft {
+    background: transparent;
+    color: #00f2ff;
+    border: 2px solid #00f2ff;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+.claim-btn-nft:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 15px #00f2ff; }
+
+/* --- NAVIGATION CARROUSEL (Miniatures) --- */
+.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; position: relative; }
+.carousel-wrapper { display: flex; align-items: center; gap: 10px; max-width: 1200px; margin: 0 auto; }
+.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; padding: 10px 0; }
+.carousel-track::-webkit-scrollbar { display: none; }
+
+.vignette-item { 
+    min-width: 110px; 
+    text-align: center; 
+    background: #1a1a1a; 
+    padding: 10px; 
+    border-radius: 10px; 
+    border: 1px solid #333; 
+    cursor: pointer;
+    transition: 0.3s;
+}
+.vignette-item img { width: 90px; height: 115px; object-fit: cover; border-radius: 5px; margin-bottom: 5px; }
+.vignette-item span { display: block; font-size: 0.75rem; color: #888; }
+.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; background: #001a1c; }
+.vignette-item.selected span { color: #00f2ff; }
+
+.arrow { color: #00f2ff; background: none; border: none; font-size: 2rem; cursor: pointer; padding: 0 10px; transition: 0.3s; }
+.arrow:hover { transform: scale(1.2); text-shadow: 0 0 10px #00f2ff; }
+
+/* --- MODAL / NFT GATE --- */
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; position: relative; max-width: 400px; width: 90%; }
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #fff; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+    .price-tag { font-size: 1.5rem; }
+    .buy-btn-btc, .claim-btn-nft { padding: 10px; font-size: 0.85rem; }
+}
 </style>
 
 <script>
@@ -121,8 +187,11 @@ function selectTableau(id) {
     updatePreview();
 }
 
+let currentPrice = 50; // Par défaut Grand Format
+
 function setFormat(format, price) {
     currentFormat = format;
+    currentPrice = price;
     document.getElementById('current-price').innerText = price;
     document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
     document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
@@ -130,10 +199,11 @@ function setFormat(format, price) {
 }
 
 function payWithBitcoin() {
-    const price = document.getElementById('current-price').innerText;
-    alert(`Redirection vers le paiement sécurisé Bitcoin : ${price}€ pour la Pièce #${currentId}`);
-    // Intégrez ici votre lien de paiement (ex: BTCPay Server ou Coinbase Commerce)
+    alert(`Paiement Bitcoin lancé pour la Pièce #${currentId} (${currentFormat}) - Montant : ${currentPrice}€`);
+    // Lien vers votre passerelle ici
 }
+
+// L'ancienne fonction openNFTGate est réutilisée par le bouton "Réclamer"
 
 function subscribeManga() {
     alert("Abonnement Manga : 3€ / mois. Redirection vers le paiement Bitcoin...");

@@ -15,14 +15,14 @@ title: Accueil Collection NFT & Art
         <div class="action-box box-tableau">
             <a href="{{ '/galerie.html' | relative_url }}">
                 <h2>GALERIE DE TABLEAUX</h2>
-                <p>Découvrez la collection complète et visualisez vos pièces.</p>
+                <p>Découvrez la collection complète et visualisez nos pièces.</p>
             </a>
         </div>
 
         <div class="action-box box-manga">
-            <a href="#" onclick="checkNFT('manga'); return false;">
-                <h2>LIRE MANGA</h2>
-                <p>Accès exclusif aux chapitres numériques réservé aux détenteurs.</p>
+            <a href="#" onclick="subscribeManga(); return false;">
+                <h2>LIRE LE MANGA</h2>
+                <p>Abonnement : <strong>3€ / mois</strong> (Payable en Bitcoin). Accès illimité aux chapitres. </p>
             </a>
         </div>
 

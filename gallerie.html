@@ -23,9 +23,13 @@ permalink: /galerie.html
             <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
         </div>
         
-        <div class="format-selection-overlay">
-            <button class="format-btn active" id="btn-grand" onclick="setFormat('grand')">40x50 (GRAND)</button>
-            <button class="format-btn" id="btn-petit" onclick="setFormat('petit')">A4 (PETIT)</button>
+        <div class="format-selection-overlay-container">
+            <div class="price-tag">Prix : <span id="current-price">50</span>€</div>
+            <div class="format-selection-overlay">
+                <button class="format-btn active" id="btn-grand" onclick="setFormat('grand', 50)">40x50 (50€)</button>
+                <button class="format-btn" id="btn-petit" onclick="setFormat('petit', 25)">A4 (25€)</button>
+            </div>
+            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
         </div>
     </div>
 
@@ -89,6 +93,20 @@ permalink: /galerie.html
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #fff; }
 .btn-verify { background: #00f2ff; color: #000; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 .arrow { color: #00f2ff; background: none; border: none; font-size: 2rem; cursor: pointer; }
+.price-tag { font-size: 1.4rem; color: #00f2ff; margin-bottom: 10px; font-weight: bold; text-shadow: 0 0 10px #00f2ff; }
+.buy-btn-btc {
+    background: #f7931a; /* Orange Bitcoin */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    box-shadow: 0 0 15px rgba(247, 147, 26, 0.4);
+    transition: 0.3s;
+}
+.buy-btn-btc:hover { transform: scale(1.05); box-shadow: 0 0 25px #f7931a; }
 </style>
 
 <script>
@@ -103,11 +121,22 @@ function selectTableau(id) {
     updatePreview();
 }
 
-function setFormat(format) {
+function setFormat(format, price) {
     currentFormat = format;
+    document.getElementById('current-price').innerText = price;
     document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
     document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
     updatePreview();
+}
+
+function payWithBitcoin() {
+    const price = document.getElementById('current-price').innerText;
+    alert(`Redirection vers le paiement sécurisé Bitcoin : ${price}€ pour la Pièce #${currentId}`);
+    // Intégrez ici votre lien de paiement (ex: BTCPay Server ou Coinbase Commerce)
+}
+
+function subscribeManga() {
+    alert("Abonnement Manga : 3€ / mois. Redirection vers le paiement Bitcoin...");
 }
 
 function updatePreview() {

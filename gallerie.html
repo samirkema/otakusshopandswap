@@ -38,16 +38,15 @@ permalink: /galerie.html
         <div class="carousel-wrapper">
             <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
             <div class="carousel-track" id="carousel">
-                <div class="carousel-track" id="carousel">
-                    {% for i in (1..15) %}
-                    {% assign id = i | prepend: '00' | slice: -3, 3 %}
-                    <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
-                        <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
-                            onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
-                        <span>Pièce {{ i }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
+                {% for i in (1..15) %}
+                {% assign id = i | prepend: '00' | slice: -3, 3 %}
+                <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
+                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
+                        onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
+                    <span>Pièce {{ i }}</span>
+                    </div>
+                {% endfor %}
+            </div>
             </div>
             <button class="arrow" onclick="scrollCarousel(1)">❯</button>
         </div>

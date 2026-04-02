@@ -16,7 +16,7 @@ async function checkNFT(targetId) {
 
     // 2. Vérification Web3
     if (typeof window.ethereum === 'undefined') {
-        alert(targetId === 'manga' ? "Abonnez-vous (20€/an) ou utilisez un Wallet Web3." : "Votre portefeuille web3 n'est pas connecté.");
+        alert(targetId === 'manga' ? "Vous n'êtes pas abonné." : "Votre portefeuille web3 n'est pas connecté.");
         return;
     }
 

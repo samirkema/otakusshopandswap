@@ -65,17 +65,29 @@ function payWithBitcoin() {
     window.open(links[currentFormat] || links['grand'], '_blank');
 }
 
+// Ouvre simplement la page de paiement
 function subscribeManga() {
-    // Ton ID NowPayments pour l'abonnement à 20€
     const nowPaymentsUrl = "https://nowpayments.io/payment/?iid=5919905608";
     window.open(nowPaymentsUrl, '_blank');
+}
 
-    // On propose d'activer l'accès immédiatement après le paiement
-    setTimeout(() => {
-        if (confirm("Une fois votre paiement de 20€ effectué, cliquez sur OK pour activer votre accès annuel.")) {
-            activateYearlyAccess(); 
-        }
-    }, 3000); 
+// Fonction pour activer manuellement avec le code
+function activateWithCode() {
+    const code = prompt("Entrez le code d'activation reçu après votre paiement :");
+    
+    // Remplace "OTAKU20" par le code secret de ton choix
+    if (code === "OTAKU20") {
+        const oneYear = 365 * 24 * 60 * 60 * 1000;
+        const expiryDate = new Date().getTime() + oneYear;
+        
+        // On sauvegarde l'accès dans le navigateur du client
+        localStorage.setItem('manga_access_expiry', expiryDate);
+        
+        alert("Félicitations ! Votre abonnement annuel est activé.");
+        window.location.href = "manga.html"; // On l'envoie lire le manga
+    } else if (code) {
+        alert("Code incorrect. Vérifiez votre reçu NowPayments ou contactez le support.");
+    }
 }
 
 function activateYearlyAccess() {

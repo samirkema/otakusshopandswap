@@ -19,20 +19,24 @@ title: Accueil Collection NFT & Art
             </a>
         </div>
 
-        <div class="action-box box-manga">
-            <h2>LIRE LE MANGA</h2>
-            <p>Accès illimité aux chapitres. <br><strong>20€ / an</strong> ou gratuit avec NFT.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-                <button onclick="checkNFT('manga')" style="background: #00f2ff; color: #000; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem; text-transform: uppercase; box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);">
-                    📖 Entrer pour lire
-                </button>
+    <div class="action-box box-manga">
+        <h2>LIRE LE MANGA</h2>
+        <p>Accès illimité. <strong>20€ / an</strong> ou gratuit avec NFT.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <button onclick="checkNFT('manga')" style="background: #00f2ff; color: #000; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                📖 Entrer (Abonné / NFT)
+            </button>
 
-                <button onclick="subscribeManga()" style="background: transparent; color: #f7931a; padding: 10px; border: 1px solid #f7931a; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: bold;">
-                    ⚡ S'abonner (20€ / an)
-                </button>
-            </div>
+            <button onclick="subscribeManga()" style="background: transparent; color: #f7931a; padding: 8px; border: 1px solid #f7931a; border-radius: 5px; cursor: pointer;">
+                ⚡ Payer l'abonnement (20€)
+            </button>
+
+            <button onclick="activateWithCode()" style="background: transparent; color: #888; padding: 8px; border: 1px dashed #888; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">
+                🔑 J'ai payé : Activer mon code
+            </button>
         </div>
+    </div>
 
         <div class="action-box box-perso">
             <a href="#" onclick="checkNFT('perso'); return false;">

@@ -27,9 +27,9 @@ title: Accueil Collection NFT & Art
         </div>
 
         <div class="action-box box-perso">
-            <a href="{{ '/commande-perso.html' | relative_url }}">
+            <a href="#" onclick="checkNFT('perso'); return false;">
                 <h2>COMMANDE PERSONNALISÉE</h2>
-                <p>Offre exclusive pour les collectionneurs ou sur devis.</p>
+                <p>Offre exclusive strictement réservée aux détenteurs de NFT.</p>
             </a>
         </div>
 

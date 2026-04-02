@@ -31,13 +31,27 @@ async function checkNFT(targetId) {
         const data = await response.json();
 
         if (data.ownedNfts && data.ownedNfts.length > 0) {
-            // LE SEUL ENDROIT où on autorise l'accès
-            sessionStorage.setItem('nft_verified', 'true'); 
-            window.location.href = 'manga.html';
+            // Le NFT est trouvé !
+            sessionStorage.setItem('nft_verified', 'true');
+            
+            // On choisit la bonne porte de sortie selon le bouton cliqué
+            if (targetId === 'manga') {
+                window.location.href = 'manga.html';
+            } else if (targetId === 'perso') {
+                window.location.href = 'commande-perso.html'; // Redirection vers commande perso
+            } else {
+                // Pour la galerie de tableaux
+                const tableauId = targetId.split('-')[1];
+                const format = typeof currentFormat !== 'undefined' ? currentFormat : 'grand';
+                window.location.href = `details-tableau.html?id=${tableauId}&size=${format}`;
+            }
         } else {
-            // Si l'utilisateur n'a pas le NFT
-            sessionStorage.removeItem('nft_verified'); // On nettoie par sécurité
-            alert("Vous ne possédez pas le NFT requis. Abonnez-vous pour 20€/an.");
+            // Si pas de NFT
+            if (targetId === 'perso') {
+                alert("Accès refusé. La commande personnalisée est réservée aux détenteurs de NFT.");
+            } else {
+                alert("Accès refusé. NFT requis ou abonnement de 20€ pour le manga.");
+            }
         }
     } catch (e) { console.error(e); }
 }

@@ -4,6 +4,18 @@ title: Commander une Œuvre Sur Mesure
 permalink: /commande-perso.html
 ---
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // On vérifie que le visiteur a bien passé la douane Web3
+        const isNFTVerified = sessionStorage.getItem('nft_verified') === 'true';
+        
+        if (!isNFTVerified) {
+            alert("Accès bloqué. Vous devez posséder un NFT pour voir cette page.");
+            window.location.href = "index.html"; // On le renvoie à l'accueil
+        }
+    });
+</script>
+
 <div class="custom-claim-container">
     <h1 class="page-header">Créez Votre Pièce Unique</h1>
     <p class="intro-claim">Chaque œuvre personnalisée est le fruit d'une collaboration directe et passionnée. Lancez votre projet d'art sur mesure.</p>

@@ -29,8 +29,8 @@ permalink: /galerie.html
         
         <div class="shop-actions-container">
             <div class="price-tag">PRIX : <span id="current-price">50</span>€</div>
-            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN (COINBASE)</button>
-            <button class="claim-btn-nft" onclick="openNFTGate()">🎁 RÉCLAMER (DÉTENTEUR NFT)</button>
+            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
+            <button class="claim-btn-nft" onclick="openNFTGate(currentId)">🎁 RÉCLAMER (DÉTENTEUR NFT)</button>
         </div>
     </div>
 
@@ -251,6 +251,19 @@ function setFormat(format, price) {
     document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
     
     updatePreview();
+}
+
+function payWithBitcoin() {
+    const links = {
+        // ID NowPayments pour le tableau Grand Format à 50€
+        'grand': 'https://nowpayments.io/payment/?iid=4989301026', 
+        
+        // ID NowPayments pour le tableau Petit Format à 25€
+        'petit': 'https://nowpayments.io/payment/?iid=4370265558'  
+    };
+    
+    // Le code choisit le bon lien en fonction du format cliqué par le client
+    window.open(links[currentFormat] || links['grand'], '_blank');
 }
 
 function updatePreview() {

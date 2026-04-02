@@ -16,7 +16,7 @@ async function checkNFT(targetId) {
 
     // 2. Vérification Web3
     if (typeof window.ethereum === 'undefined') {
-        alert(targetId === 'manga' ? "Abonnez-vous (20€/an) ou utilisez un Wallet Web3." : "Installez MetaMask.");
+        alert(targetId === 'manga' ? "Abonnez-vous (20€/an) ou utilisez un Wallet Web3." : "Vous n'êtes pas abonné");
         return;
     }
 
@@ -27,13 +27,17 @@ async function checkNFT(targetId) {
 
         const apiUrl = `${ALCHEMY_API_URL}/getNFTsForOwner?owner=${userAddress}&contractAddresses[]=${CONTRACT_ADDRESS}&withMetadata=false`;
         const response = await fetch(apiUrl);
+        // ... après l'appel fetch à Alchemy ...
         const data = await response.json();
 
         if (data.ownedNfts && data.ownedNfts.length > 0) {
-            sessionStorage.setItem('nft_verified', 'true');
-            window.location.href = (targetId === 'manga') ? 'manga.html' : `details-tableau.html?id=${targetId.split('-')[1]}&size=${typeof currentFormat !== 'undefined' ? currentFormat : 'grand'}`;
+            // LE SEUL ENDROIT où on autorise l'accès
+            sessionStorage.setItem('nft_verified', 'true'); 
+            window.location.href = 'manga.html';
         } else {
-            alert("Accès refusé. NFT requis ou abonnement de 20€.");
+            // Si l'utilisateur n'a pas le NFT
+            sessionStorage.removeItem('nft_verified'); // On nettoie par sécurité
+            alert("Vous ne possédez pas le NFT requis. Abonnez-vous pour 20€/an.");
         }
     } catch (e) { console.error(e); }
 }

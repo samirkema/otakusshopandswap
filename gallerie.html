@@ -253,22 +253,6 @@ function setFormat(format, price) {
     updatePreview();
 }
 
-function payWithBitcoin() {
-    // Liens Coinbase Commerce (Remplace par les tiens)
-    const links = {
-        'grand': 'https://commerce.coinbase.com/checkout/ID_50_EUROS',
-        'petit': 'https://commerce.coinbase.com/checkout/ID_25_EUROS'
-    };
-    
-    window.location.href = links[currentFormat] + "?custom=" + currentId;
-}
-
-// L'ancienne fonction openNFTGate est réutilisée par le bouton "Réclamer"
-
-function subscribeManga() {
-    alert("Abonnement Manga : 3€ / mois. Redirection vers le paiement Bitcoin...");
-}
-
 function updatePreview() {
     const mainView = document.getElementById('main-view');
     mainView.style.opacity = 0;

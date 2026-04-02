@@ -3,6 +3,28 @@ layout: default
 title: Lecture Exclusive (Manga, Webtoon, Livres)
 ---
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Si retour de NowPayments avec succès
+        if (urlParams.get('status') === 'success') {
+            const oneYear = 365 * 24 * 60 * 60 * 1000;
+            const expiry = new Date().getTime() + oneYear;
+            localStorage.setItem('manga_access_expiry', expiry);
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Vérification de sécurité (NFT ou Abonnement)
+        const expiry = localStorage.getItem('manga_access_expiry');
+        const hasAccess = (expiry && Date.now() < parseInt(expiry)) || sessionStorage.getItem('nft_verified') === 'true';
+        
+        if (!hasAccess) {
+            window.location.href = "index.html";
+        }
+    });
+</script>
+
 <div class="page-container">
     <header class="main-header">
         <div class="header-top">

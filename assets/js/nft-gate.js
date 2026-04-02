@@ -1,66 +1,68 @@
-// --- CONFIGURATION ---
 const ALCHEMY_API_URL = "https://eth-mainnet.g.alchemy.com/v2/Fg5inTxWbWTyJVk3wqlRz"; 
 const CONTRACT_ADDRESS = "0x08B139e2342A46226f3a67fd43c8B6A41C0C1303"; 
 
-// --- GESTION ABONNEMENT BITCOIN ---
+// --- GESTION ACCÈS ---
 function hasPaidAccess() {
     const expiry = localStorage.getItem('manga_access_expiry');
-    if (!expiry) return false;
-    return new Date().getTime() < parseInt(expiry);
+    return expiry && new Date().getTime() < parseInt(expiry);
 }
 
-// Appelez cette fonction sur votre page de succès après paiement Coinbase
-function activateMangaAccess() {
-    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
-    const expiryDate = new Date().getTime() + thirtyDays;
-    localStorage.setItem('manga_access_expiry', expiryDate);
-    alert("Accès Premium activé pour 30 jours !");
-}
-
-/**
- * Fonction de vérification hybride (NFT ou Bitcoin)
- */
 async function checkNFT(targetId) {
-    // 1. Vérification PRIORITAIRE de l'abonnement Bitcoin pour le Manga
+    // 1. Priorité Abonnement pour le Manga
     if (targetId === 'manga' && hasPaidAccess()) {
-        window.location.href = '/otakusshopandswap/manga.html';
+        window.location.href = 'manga.html';
         return;
     }
 
-    // 2. Vérification Web3 classique
+    // 2. Vérification Web3
     if (typeof window.ethereum === 'undefined') {
-        if (targetId === 'manga') {
-            alert("Veuillez vous abonner en Bitcoin ou installer un portefeuille Web3.");
-        } else {
-            alert("Veuillez installer MetaMask pour réclamer votre tableau.");
-        }
+        alert(targetId === 'manga' ? "Abonnez-vous (20€/an) ou utilisez un Wallet Web3." : "Installez MetaMask.");
         return;
     }
 
     try {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const accounts = await provider.send("eth_requestAccounts", []); 
-        const signer = await provider.getSigner(); 
-        const userAddress = await signer.getAddress();
+        const userAddress = accounts[0];
 
         const apiUrl = `${ALCHEMY_API_URL}/getNFTsForOwner?owner=${userAddress}&contractAddresses[]=${CONTRACT_ADDRESS}&withMetadata=false`;
         const response = await fetch(apiUrl);
         const data = await response.json();
-        const nftCount = data.ownedNfts ? data.ownedNfts.length : 0;
 
-        if (nftCount > 0) {
-            if (targetId === 'manga') {
-                window.location.href = '/otakusshopandswap/manga.html';
-            } else if (targetId.startsWith('details-')) {
-                const tableauId = targetId.split('-')[1]; 
-                // Récupération du format actuel depuis la galerie si disponible
-                const format = typeof currentFormat !== 'undefined' ? currentFormat : 'grand';
-                window.location.href = `/otakusshopandswap/details-tableau.html?id=${tableauId}&size=${format}`;
-            }
+        if (data.ownedNfts && data.ownedNfts.length > 0) {
+            sessionStorage.setItem('nft_verified', 'true');
+            window.location.href = (targetId === 'manga') ? 'manga.html' : `details-tableau.html?id=${targetId.split('-')[1]}&size=${typeof currentFormat !== 'undefined' ? currentFormat : 'grand'}`;
         } else {
-            alert("Accès refusé. Détenteurs de NFT ou abonnés Bitcoin uniquement.");
+            alert("Accès refusé. NFT requis ou abonnement de 20€.");
         }
-    } catch (error) {
-        console.error("Erreur Web3:", error);
-    }
+    } catch (e) { console.error(e); }
+}
+
+// --- PAIEMENTS ---
+function payWithBitcoin() {
+    const links = {
+        'grand': 'https://nowpayments.io/payment/?iid=TON_ID_50', 
+        'petit': 'https://nowpayments.io/payment/?iid=TON_ID_25'
+    };
+    window.open(links[currentFormat] || links['grand'], '_blank');
+}
+
+function subscribeManga() {
+    // Ton ID NowPayments pour l'abonnement à 20€
+    const nowPaymentsUrl = "https://nowpayments.io/payment/?iid=5919905608";
+    window.open(nowPaymentsUrl, '_blank');
+
+    // On propose d'activer l'accès immédiatement après le paiement
+    setTimeout(() => {
+        if (confirm("Une fois votre paiement de 20€ effectué, cliquez sur OK pour activer votre accès annuel.")) {
+            activateYearlyAccess(); 
+        }
+    }, 3000); 
+}
+
+function activateYearlyAccess() {
+    const expiryDate = new Date().getTime() + (365 * 24 * 60 * 60 * 1000);
+    localStorage.setItem('manga_access_expiry', expiryDate);
+    alert("Abonnement annuel activé !");
+    window.location.href = 'manga.html';
 }

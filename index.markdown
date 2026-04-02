@@ -22,7 +22,7 @@ title: Accueil Collection NFT & Art
         <div class="action-box box-manga">
             <a href="#" onclick="subscribeManga(); return false;">
                 <h2>LIRE LE MANGA</h2>
-                <p>Abonnement : <strong>3€ / mois</strong> (Payable en Bitcoin). Accès illimité aux chapitres. </p>
+                <p>Abonnement : <strong>20€ / an</strong> (Payable en Bitcoin). Accès illimité aux chapitres. </p>
             </a>
         </div>
 

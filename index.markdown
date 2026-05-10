@@ -58,7 +58,6 @@ title: Accueil Collection NFT & Art
                 <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
             </a>
         </div>
-        </div>
         
     </section>
 

@@ -52,11 +52,12 @@ title: Accueil Collection NFT & Art
             </a>
         </div>
 
-        <div class="action-box box-visite">
-            <a href="{{ '/visite_virtuelle.html' | relative_url }}">
-                <h2>MUSÉE VIRTUELLE</h2>
-                <p>Immergez-vous dans notre galerie 3D pour voir nos tableaux en situation réelle.</p>
+        <div class="action-box box-jeux">
+            <a href="{{ '/jeux.html' | relative_url }}">
+                <h2>IMMERSION</h2>
+                <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
             </a>
+        </div>
         </div>
         
     </section>

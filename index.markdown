@@ -60,6 +60,7 @@ title: Accueil Collection NFT & Art
         </div>
         
     </section>
+</div>
 
 <style>
 /* --- STYLE GLOBAL THÈME NÉON --- */

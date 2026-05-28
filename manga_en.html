@@ -4,7 +4,7 @@ title: Lecture Exclusive (Manga, Webtoon, Livres)
 ---
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         
         // 1. Activer l'accès si retour de NowPayments (Abonnement)
@@ -19,13 +19,12 @@ title: Lecture Exclusive (Manga, Webtoon, Livres)
         const expiry = localStorage.getItem('manga_access_expiry');
         const hasValidSub = expiry && Date.now() < parseInt(expiry);
         
-        // On vérifie si la session Web3 a été validée par nft-gate.js
-        const isNFTVerified = sessionStorage.getItem('nft_verified') === 'true';
+        // On vérifie si la session Web3 a été validée (l'adresse Eth doit être valide)
+        const isNFTVerified = isValidEthAddress(sessionStorage.getItem('nft_verified'));
 
         if (!hasValidSub && !isNFTVerified) {
-            // Pas d'abonnement ET pas de NFT détecté -> DEHORS
-            alert("Accès réservé aux abonnés ou détenteurs de NFT.");
-            window.location.href = "index.html";
+            await showModal("Accès réservé aux abonnés ou détenteurs de NFT.");
+            window.location.href = "./";
         }
     });
 </script>
@@ -167,5 +166,3 @@ title: Lecture Exclusive (Manga, Webtoon, Livres)
         margin-top: 30px;
     }
 </style>
-
-<script src="{{ 'assets/js/nft-gate.js' | relative_url }}"></script>

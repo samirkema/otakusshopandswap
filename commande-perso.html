@@ -5,13 +5,12 @@ permalink: /commande-perso.html
 ---
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // On vérifie que le visiteur a bien passé la douane Web3
-        const isNFTVerified = sessionStorage.getItem('nft_verified') === 'true';
-        
+    document.addEventListener('DOMContentLoaded', async () => {
+        const isNFTVerified = isValidEthAddress(sessionStorage.getItem('nft_verified'));
+
         if (!isNFTVerified) {
-            alert("Accès bloqué. Vous devez posséder un NFT pour voir cette page.");
-            window.location.href = "index.html"; // On le renvoie à l'accueil
+            await showModal("Accès bloqué. Vous devez posséder un NFT pour voir cette page.");
+            window.location.href = "./";
         }
     });
 </script>

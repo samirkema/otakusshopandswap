@@ -4,8 +4,6 @@ title: Galerie de Tableaux - Otaku Shop
 permalink: /galerie.html
 ---
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/index.umd.min.js"></script>
-<script src="{{ 'assets/js/nft-gate.js' | relative_url }}"></script>
 
 <div class="otaku-shop-interface">
     <header class="shop-header">
@@ -303,11 +301,10 @@ function closeDetails() {
 
 function startVerification() {
     const targetId = document.getElementById('current-target-id').value;
-    // Appelle la fonction checkNFT située dans assets/js/nft-gate.js
     if (typeof checkNFT === "function") {
         checkNFT(targetId);
     } else {
-        alert("Erreur: Le fichier nft-gate.js n'est pas chargé correctement.");
+        showModal("Erreur de chargement. Rafraîchissez la page et réessayez.");
     }
 }
 </script>

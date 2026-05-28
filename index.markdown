@@ -136,5 +136,3 @@ title: Accueil Collection NFT & Art
     #homepage-actions { grid-template-columns: 1fr; }
 }
 </style>
-
-<script src="{{ 'assets/js/nft-gate.js' | relative_url }}"></script>

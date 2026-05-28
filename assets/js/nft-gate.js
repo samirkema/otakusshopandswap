@@ -5,7 +5,7 @@ const CONTRACT_ADDRESS = "0x08B139e2342A46226f3a67fd43c8B6A41C0C1303";
 // Pour générer le hash de votre code secret, ouvrez la console sur n'importe quelle
 // page du site et tapez : sha256('VOTRE_CODE').then(console.log)
 // Puis collez la valeur ici.
-const CODE_HASH = "REMPLACER_PAR_VOTRE_HASH";
+const CODE_HASH = "ea3c67e270fd3691856172d67c8eff61249a467f9374a23d354821adb973270c";
 
 // --- SYSTÈME DE MODALES ---
 (function injectModalStyles() {

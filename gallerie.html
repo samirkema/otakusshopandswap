@@ -39,9 +39,8 @@ permalink: /galerie.html
                 {% for i in (1..15) %}
                 {% assign id = i | prepend: '00' | slice: -3, 3 %}
                 <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
-                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}" 
+                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}"
                         onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
-                    <span>Pièce {{ i }}</span>
                     </div>
                 {% endfor %}
             </div>
@@ -232,35 +231,52 @@ function selectTableau(id) {
     document.querySelectorAll('.vignette-item').forEach(v => v.classList.remove('selected'));
     const active = document.getElementById('v-' + id);
     if(active) active.classList.add('selected');
+
+    const btnPetit = document.getElementById('btn-petit');
+    const btnGrand = document.getElementById('btn-grand');
+
+    if (id === '010') {
+        btnPetit.style.visibility = 'hidden';
+        btnGrand.innerHTML = 'Taille<br>Unique';
+        btnGrand.classList.add('active');
+        currentFormat = 'grand';
+        currentPrice = 125;
+        document.getElementById('current-price').innerText = 125;
+    } else {
+        btnPetit.style.visibility = 'visible';
+        btnGrand.innerHTML = '40x50<br>50€';
+        currentFormat = 'grand';
+        currentPrice = 50;
+        document.getElementById('current-price').innerText = 50;
+        btnGrand.classList.add('active');
+        btnPetit.classList.remove('active');
+    }
+
     updatePreview();
 }
 
-let currentPrice = 50; // Par défaut Grand Format
+let currentPrice = 50;
 
 function setFormat(format, price) {
+    if (currentId === '010') return;
+
     currentFormat = format;
     currentPrice = price;
-    
-    // Mise à jour du texte du prix en bas
     document.getElementById('current-price').innerText = price;
-    
-    // Mise à jour visuelle des boutons sur les côtés
     document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
     document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
-    
     updatePreview();
 }
 
 function payWithBitcoin() {
+    if (currentId === '010') {
+        window.open('https://nowpayments.io/payment/?iid=PIECE_010_125', '_blank');
+        return;
+    }
     const links = {
-        // ID NowPayments pour le tableau Grand Format à 50€
-        'grand': 'https://nowpayments.io/payment/?iid=4989301026', 
-        
-        // ID NowPayments pour le tableau Petit Format à 25€
-        'petit': 'https://nowpayments.io/payment/?iid=4370265558'  
+        'grand': 'https://nowpayments.io/payment/?iid=4989301026',
+        'petit': 'https://nowpayments.io/payment/?iid=4370265558'
     };
-    
-    // Le code choisit le bon lien en fonction du format cliqué par le client
     window.open(links[currentFormat] || links['grand'], '_blank');
 }
 

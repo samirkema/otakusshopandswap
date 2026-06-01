@@ -1,0 +1,326 @@
+---
+layout: default
+title: Galerie de Tableaux - Otaku Shop
+permalink: /galerie.html
+---
+
+
+<div class="otaku-shop-interface">
+    <header class="shop-header">
+        <div class="header-left">
+            <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
+            <span class="site-name">OTAKU SHOP</span>
+        </div>
+        <a href="https://samirkema.github.io/otakusshopandswap/" class="home-icon">🏠 Accueil</a>
+    </header>
+
+    <div class="neon-separator-top"></div>
+
+    <div class="preview-scene">
+        <div class="main-view-container">
+            <button class="side-format-btn left" id="btn-petit" onclick="setFormat('petit', 25)">A4<br>25€</button>
+            
+            <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
+            
+            <button class="side-format-btn right active" id="btn-grand" onclick="setFormat('grand', 50)">40x50<br>50€</button>
+        </div>
+        
+        <div class="shop-actions-container">
+            <div class="price-tag">PRIX : <span id="current-price">50</span>€</div>
+            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
+            <button class="claim-btn-nft" onclick="openNFTGate(currentId)">🎁 RÉCLAMER (DÉTENTEUR NFT)</button>
+        </div>
+    </div>
+
+    <div class="gallery-navigation">
+        <div class="carousel-wrapper">
+            <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
+            <div class="carousel-track" id="carousel">
+                {% for i in (1..15) %}
+                {% assign id = i | prepend: '00' | slice: -3, 3 %}
+                <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
+                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}"
+                        onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+            <button class="arrow" onclick="scrollCarousel(1)">❯</button>
+        </div>
+    </div>
+</div>
+
+<div id="nft-gate-overlay" class="gate-overlay" style="display:none;">
+    <div class="gate-content">
+        <span class="close-modal" onclick="closeDetails()">×</span>
+        <div id="gate-message">
+            <h3>🔒 Accès Réservé</h3>
+            <p>Vérifiez la possession du NFT pour la pièce #<span id="target-id-display"></span>.</p>
+            <input type="hidden" id="current-target-id">
+            <button onclick="startVerification()" class="btn-verify">Vérifier avec mon Wallet</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* --- BASE & LAYOUT --- */
+.otaku-shop-interface { 
+    background: #000; 
+    color: white; 
+    min-height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    overflow-x: hidden; 
+}
+
+.shop-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 20px; 
+    background: #111; 
+    z-index: 100; 
+}
+
+.neon-separator-top { 
+    height: 2px; 
+    width: 100%; 
+    background: #00f2ff; 
+    box-shadow: 0 0 10px #00f2ff; 
+}
+
+.site-logo { height: 40px !important; width: 40px !important; border-radius: 50%; object-fit: cover; border: 1px solid #00f2ff; }
+.site-name { font-weight: bold; color: #00f2ff; margin-left: 10px; }
+.home-icon { text-decoration: none; color: #fff; border: 1px solid #444; padding: 5px 12px; border-radius: 5px; font-size: 0.9rem; }
+
+/* --- ZONE PREVIEW (IMAGE + BOUTONS LATERAUX) --- */
+.preview-scene { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    background: #050505; 
+    padding: 20px 0;
+}
+
+.main-view-container { 
+    position: relative; /* Pour placer les boutons format par-dessus */
+    width: 100%; 
+    max-width: 1000px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px;
+}
+
+.main-display-image { 
+    max-width: 80%; /* Laisse de la place pour les boutons sur les côtés */
+    max-height: 55vh; 
+    object-fit: contain; 
+    transition: opacity 0.3s ease; 
+    border-radius: 5px;
+}
+
+/* BOUTONS SUR LES COTÉS (FORMATS) */
+.side-format-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #444;
+    color: white;
+    padding: 15px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    transition: 0.3s;
+}
+
+.side-format-btn.left { left: 15px; }
+.side-format-btn.right { right: 15px; }
+
+.side-format-btn.active {
+    border-color: #00f2ff;
+    color: #00f2ff;
+    box-shadow: 0 0 15px #00f2ff;
+    background: rgba(0, 242, 255, 0.1);
+}
+
+/* --- BLOC D'ACHAT (SOUS L'IMAGE) --- */
+.shop-actions-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.price-tag { 
+    font-size: 1.8rem; 
+    color: #00f2ff; 
+    font-weight: bold; 
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px #00f2ff; 
+}
+
+.buy-btn-btc {
+    background: #f7931a; /* Orange Bitcoin */
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    box-shadow: 0 0 15px rgba(247, 147, 26, 0.3);
+    transition: 0.3s;
+}
+.buy-btn-btc:hover { transform: scale(1.02); box-shadow: 0 0 25px #f7931a; }
+
+.claim-btn-nft {
+    background: transparent;
+    color: #00f2ff;
+    border: 2px solid #00f2ff;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+.claim-btn-nft:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 15px #00f2ff; }
+
+/* --- CARROUSEL NAVIGATION --- */
+.gallery-navigation { background: #111; padding: 20px; border-top: 1px solid #333; }
+.carousel-track { display: flex; gap: 15px; overflow-x: auto; scrollbar-width: none; scroll-behavior: smooth; }
+.carousel-track::-webkit-scrollbar { display: none; }
+
+.vignette-item { 
+    min-width: 100px; 
+    text-align: center; 
+    background: #1a1a1a; 
+    padding: 8px; 
+    border-radius: 10px; 
+    border: 1px solid #333; 
+    cursor: pointer;
+}
+.vignette-item img { width: 80px; height: 100px; object-fit: cover; border-radius: 5px; }
+.vignette-item span { display: block; font-size: 0.7rem; color: #888; margin-top: 5px; }
+.vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 8px #00f2ff; }
+
+.arrow { color: #00f2ff; background: none; border: none; font-size: 2rem; cursor: pointer; padding: 0 15px; }
+
+/* --- MODAL GATE --- */
+.gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
+.gate-content { background: #111; border: 2px solid #00f2ff; padding: 30px; border-radius: 15px; text-align: center; position: relative; max-width: 400px; width: 90%; }
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+.btn-verify { background: #00f2ff; color: #000; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+</style>
+
+<script>
+let currentId = '011';
+let currentFormat = 'grand';
+
+function selectTableau(id) {
+    currentId = id;
+    document.querySelectorAll('.vignette-item').forEach(v => v.classList.remove('selected'));
+    const active = document.getElementById('v-' + id);
+    if(active) active.classList.add('selected');
+
+    const btnPetit = document.getElementById('btn-petit');
+    const btnGrand = document.getElementById('btn-grand');
+
+    if (id === '010') {
+        btnPetit.style.visibility = 'hidden';
+        btnGrand.innerHTML = 'Taille<br>Unique';
+        btnGrand.classList.add('active');
+        currentFormat = 'grand';
+        currentPrice = 125;
+        document.getElementById('current-price').innerText = 125;
+    } else {
+        btnPetit.style.visibility = 'visible';
+        btnGrand.innerHTML = '40x50<br>50€';
+        currentFormat = 'grand';
+        currentPrice = 50;
+        document.getElementById('current-price').innerText = 50;
+        btnGrand.classList.add('active');
+        btnPetit.classList.remove('active');
+    }
+
+    updatePreview();
+}
+
+let currentPrice = 50;
+
+function setFormat(format, price) {
+    if (currentId === '010') return;
+
+    currentFormat = format;
+    currentPrice = price;
+    document.getElementById('current-price').innerText = price;
+    document.getElementById('btn-grand').classList.toggle('active', format === 'grand');
+    document.getElementById('btn-petit').classList.toggle('active', format === 'petit');
+    updatePreview();
+}
+
+function payWithBitcoin() {
+    if (currentId === '010') {
+        window.open('https://nowpayments.io/payment/?iid=4583858185', '_blank');
+        return;
+    }
+    const links = {
+        'grand': 'https://nowpayments.io/payment/?iid=4989301026',
+        'petit': 'https://nowpayments.io/payment/?iid=4370265558'
+    };
+    window.open(links[currentFormat] || links['grand'], '_blank');
+}
+
+function updatePreview() {
+    const mainView = document.getElementById('main-view');
+    mainView.style.opacity = 0;
+    const basePath = `assets/images/decor-${currentId}-${currentFormat}`;
+    
+    const imgJPG = new Image();
+    const imgjpg = new Image();
+    imgJPG.src = basePath + '.JPG';
+    imgjpg.src = basePath + '.jpg';
+
+    setTimeout(() => {
+        if (imgJPG.complete && imgJPG.naturalWidth !== 0) {
+            mainView.src = basePath + '.JPG';
+        } else {
+            mainView.src = basePath + '.jpg';
+        }
+        mainView.style.opacity = 1;
+    }, 200);
+}
+
+function scrollCarousel(dir) {
+    document.getElementById('carousel').scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
+
+// FONCTIONS DE VÉRIFICATION NFT
+function openNFTGate(id) {
+    document.getElementById('target-id-display').innerText = id;
+    document.getElementById('current-target-id').value = 'details-' + id;
+    document.getElementById('nft-gate-overlay').style.display = 'flex';
+}
+
+function closeDetails() {
+    document.getElementById('nft-gate-overlay').style.display = 'none';
+}
+
+function startVerification() {
+    const targetId = document.getElementById('current-target-id').value;
+    if (typeof checkNFT === "function") {
+        checkNFT(targetId);
+    } else {
+        showModal("Erreur de chargement. Rafraîchissez la page et réessayez.");
+    }
+}
+</script>

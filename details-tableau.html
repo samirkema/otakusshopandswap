@@ -1,0 +1,117 @@
+---
+layout: default
+title: Détails et Réclamation - Otaku Shop
+---
+
+<div class="details-container">
+    <div class="details-card">
+        <header class="details-header">
+            <a href="{{ '/galerie.html' | relative_url }}" class="back-link">← Retour à la galerie</a>
+            <div class="verification-badge">
+                <span class="icon">✅</span> Propriétaire NFT Vérifié
+            </div>
+        </header>
+        
+        <div class="content-split">
+            <div class="artwork-preview">
+                <div class="image-frame">
+                    <img id="detail-img" src="" alt="Chargement du tableau...">
+                </div>
+                <h2 id="detail-title">Chargement...</h2>
+            </div>
+
+            <div class="specs-box">
+                <div class="info-section">
+                    <h3>Spécifications Techniques</h3>
+                    <ul class="specs-list">
+                        <li><strong>Format :</strong> <span id="display-size">Chargement...</span></li>
+                        <li><strong>Type :</strong> Impression Fine Art Haute Qualité</li>
+                        <li><strong>Authenticité :</strong> Réalisé par l'équipe OtakuShop</li>
+                    </ul>
+                </div>
+
+                <div class="reclamation-zone">
+                    <h3>🎁 Réclamer le tableau physique</h3>
+                    <p>Remplissez ce formulaire pour recevoir votre exemplaire.</p>
+                    
+                    <form action="https://formspree.io/f/xblewkpe" method="POST" class="neon-form">
+                        <input type="hidden" name="tableau_id" id="hidden-tableau-id">
+                        <input type="hidden" name="format_selectionne" id="hidden-format">
+
+                        <div class="form-group">
+                            <label>Votre email :</label>
+                            <input type="email" name="email" placeholder="votre@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nft utilisé :</label>
+                            <input type="text" name="nft_name" placeholder="Ex: Sanjee_nola ou What a view" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Adresse de livraison et message :</label>
+                            <textarea name="message" placeholder="Nom complet, Rue, Code Postal, Ville, Pays..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-claim">ENVOYER LA DEMANDE</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.details-container { padding: 40px 20px; background: #000; min-height: 100vh; color: #fff; font-family: 'Segoe UI', sans-serif; }
+.details-card { max-width: 1000px; margin: 0 auto; background: #0a0a0a; border: 1px solid #00f2ff; padding: 30px; border-radius: 15px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
+.details-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px; }
+.back-link { color: #00f2ff; text-decoration: none; font-weight: bold; }
+.verification-badge { background: rgba(0, 242, 255, 0.1); border: 1px solid #00f2ff; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; color: #00f2ff; }
+.content-split { display: flex; gap: 40px; flex-wrap: wrap; }
+.artwork-preview { flex: 1.2; min-width: 320px; text-align: center; }
+.image-frame { background: #111; padding: 15px; border: 1px solid #333; border-radius: 10px; margin-bottom: 15px; }
+.image-frame img { width: 100%; height: auto; border-radius: 5px; }
+#detail-title { font-size: 1.8rem; letter-spacing: 2px; }
+.specs-box { flex: 1; min-width: 320px; }
+.info-section h3, .reclamation-zone h3 { color: #00f2ff; margin-bottom: 15px; font-size: 1.2rem; text-transform: uppercase; }
+.specs-list { list-style: none; padding: 0; margin-bottom: 30px; }
+.specs-list li { padding: 8px 0; border-bottom: 1px solid #222; font-size: 0.95rem; }
+.specs-list strong { color: #00f2ff; }
+.neon-form { background: #111; padding: 20px; border-radius: 10px; border-left: 3px solid #00f2ff; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: #888; }
+textarea, input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 5px; font-family: inherit; }
+textarea { height: 100px; resize: none; }
+.btn-claim { width: 100%; padding: 15px; background: #00f2ff; color: #000; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.btn-claim:hover { background: #fff; box-shadow: 0 0 20px #00f2ff; transform: translateY(-2px); }
+.form-note { font-size: 0.75rem; color: #666; margin-top: 10px; text-align: center; }
+
+@media (max-width: 768px) { .content-split { flex-direction: column; } }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tableauId = urlParams.get('id');
+    const sizeParam = urlParams.get('size'); 
+
+    if (tableauId) {
+        document.getElementById('detail-title').innerText = "Pièce #" + tableauId;
+        document.getElementById('hidden-tableau-id').value = tableauId;
+
+        // Gestion de la taille (Mémoire : Grand = 40x50, Petit = A4)
+        const sizeDisplay = document.getElementById('display-size');
+        if (sizeParam === 'petit') {
+            sizeDisplay.innerText = "Format A4";
+            document.getElementById('hidden-format').value = "A4";
+        } else {
+            sizeDisplay.innerText = "40x50 cm";
+            document.getElementById('hidden-format').value = "40x50";
+        }
+
+        // Gestion de l'extension d'image (PNG pour 5, 8, 9, 10 d'après ta capture)
+        const pngIds = ['005', '008', '009', '010'];
+        const extension = pngIds.includes(tableauId) ? 'png' : 'jpg';
+        const imagePath = `{{ 'assets/images/tableau-' | relative_url }}${tableauId}-vignette.${extension}`;
+        document.getElementById('detail-img').src = imagePath;
+    }
+});
+</script>

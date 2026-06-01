@@ -1,0 +1,12 @@
+title: OTAKU SHOP
+email: kilimangarocontact@gmail.com
+description: "La boutique d'art otaku — NFT & Art Physique"
+github_username: samirkema
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+
+baseurl: "/otakusshopandswap"
+url: "https://samirkema.github.io"

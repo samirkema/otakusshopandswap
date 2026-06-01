@@ -58,7 +58,14 @@ title: Accueil Collection NFT & Art
                 <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
             </a>
         </div>
-        
+
+        <div class="action-box box-compte">
+            <a href="{{ '/compte.html' | relative_url }}">
+                <h2>MON COMPTE</h2>
+                <p>Gérez votre profil, votre abonnement et votre wallet. Activez l'accès via NFT ou paiement.</p>
+            </a>
+        </div>
+
     </section>
 </div>
 
@@ -129,6 +136,10 @@ title: Accueil Collection NFT & Art
     color: #bbb;
     line-height: 1.6;
 }
+
+.box-compte { border-color: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.2); }
+.box-compte:hover { box-shadow: 0 0 25px #a855f7; }
+.box-compte h2 { color: #a855f7; }
 
 /* --- ADAPTATION MOBILE --- */
 @media (max-width: 768px) {

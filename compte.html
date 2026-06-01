@@ -1,0 +1,506 @@
+---
+layout: default
+title: Mon Compte — Otaku Shop
+permalink: /compte.html
+---
+
+<div class="compte-container">
+  <header class="shop-header">
+    <div class="header-left">
+      <img src="{{ 'assets/images/logo.jpg' | relative_url }}" alt="Logo" class="site-logo">
+      <span class="site-name">OTAKU SHOP</span>
+    </div>
+    <a href="{{ '/' | relative_url }}" class="home-icon">⬅ Accueil</a>
+  </header>
+
+  <!-- AUTH GATE -->
+  <div id="view-auth" class="auth-view">
+    <div class="auth-card">
+      <h1 class="auth-title">MON COMPTE</h1>
+      <div class="neon-line"></div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Connexion</button>
+        <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Inscription</button>
+      </div>
+      <div id="form-login">
+        <input type="email" id="login-email" placeholder="Email" autocomplete="email">
+        <input type="password" id="login-password" placeholder="Mot de passe">
+        <button class="btn-primary" id="btn-login" onclick="doLogin()">SE CONNECTER</button>
+      </div>
+      <div id="form-register" style="display:none">
+        <input type="email" id="reg-email" placeholder="Email" autocomplete="email">
+        <input type="text" id="reg-pseudo" placeholder="Pseudo" maxlength="24">
+        <input type="password" id="reg-password" placeholder="Mot de passe (6 min)">
+        <button class="btn-primary" id="btn-register" onclick="doRegister()">CRÉER MON COMPTE</button>
+      </div>
+      <div id="auth-error" class="auth-error"></div>
+    </div>
+  </div>
+
+  <!-- COMPTE CONNECTÉ -->
+  <div id="view-compte" class="compte-view" style="display:none">
+
+    <!-- En-tête profil -->
+    <div class="profile-header">
+      <div class="avatar" id="avatar-initials">S</div>
+      <div class="profile-info">
+        <div class="profile-pseudo" id="profile-pseudo">—</div>
+        <div class="profile-email" id="profile-email">—</div>
+        <div id="sub-badge" class="sub-badge sub-free">Compte gratuit</div>
+      </div>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+
+    <!-- Onglets -->
+    <div class="compte-tabs">
+      <button class="compte-tab active" onclick="switchTab('profil')">👤 Profil</button>
+      <button class="compte-tab" onclick="switchTab('abonnement')">⭐ Abonnement</button>
+      <button class="compte-tab" onclick="switchTab('wallet')">🔗 Wallet</button>
+    </div>
+
+    <!-- TAB : PROFIL -->
+    <div id="tab-profil" class="tab-content active">
+      <div class="section-card">
+        <h2 class="section-title">Informations</h2>
+        <div class="field-row">
+          <label>Pseudo</label>
+          <div class="field-val" id="field-pseudo">—</div>
+        </div>
+        <div class="field-row">
+          <label>Email</label>
+          <div class="field-val" id="field-email">—</div>
+        </div>
+        <div class="field-row">
+          <label>Membre depuis</label>
+          <div class="field-val" id="field-since">—</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h2 class="section-title">Changer de pseudo</h2>
+        <input type="text" id="new-pseudo-input" placeholder="Nouveau pseudo" maxlength="24">
+        <button class="btn-secondary" onclick="changePseudo()">Mettre à jour</button>
+        <div class="field-msg" id="pseudo-msg"></div>
+      </div>
+    </div>
+
+    <!-- TAB : ABONNEMENT -->
+    <div id="tab-abonnement" class="tab-content" style="display:none">
+      <div class="section-card">
+        <h2 class="section-title">Statut abonnement</h2>
+        <div id="sub-status-block">
+          <div class="sub-status-row">
+            <span id="sub-status-label">Compte gratuit</span>
+            <span id="sub-expires" class="sub-expires"></span>
+          </div>
+          <p class="sub-desc" id="sub-status-desc">Abonnez-vous pour accéder à la zone Immersion, au manga et aux commandes personnalisées.</p>
+        </div>
+      </div>
+
+      <div class="section-card" id="card-activate" style="display:none">
+        <h2 class="section-title">Activer / Renouveler</h2>
+
+        <!-- Code d'activation -->
+        <div class="activate-option">
+          <div class="activate-option-title">🔑 Code d'activation</div>
+          <p class="activate-option-desc">Vous avez reçu un code après paiement.</p>
+          <div class="input-row">
+            <input type="text" id="activation-code" placeholder="Entrez votre code…">
+            <button class="btn-cyan" onclick="activateWithCode()">Valider</button>
+          </div>
+          <div class="field-msg" id="code-msg"></div>
+        </div>
+
+        <div class="divider-or">OU</div>
+
+        <!-- NFT -->
+        <div class="activate-option">
+          <div class="activate-option-title">🖼️ Détenteur NFT Otaku Shop</div>
+          <p class="activate-option-desc">Connectez votre wallet pour vérifier votre NFT et activer l'accès gratuitement.</p>
+          <button class="btn-nft" onclick="activateWithNFT()" id="btn-nft-activate">Connecter mon wallet</button>
+          <div class="field-msg" id="nft-msg"></div>
+        </div>
+
+        <div class="divider-or">OU</div>
+
+        <!-- Paiement -->
+        <div class="activate-option">
+          <div class="activate-option-title">⚡ Payer l'abonnement</div>
+          <p class="activate-option-desc">Accès 1 an — 20€ — paiement en Bitcoin.</p>
+          <a href="https://nowpayments.io/payment/?iid=4370265558" target="_blank" class="btn-bitcoin">Payer en Bitcoin →</a>
+        </div>
+      </div>
+
+      <div class="section-card" id="card-subscribed" style="display:none">
+        <div class="sub-active-banner">
+          <span class="sub-active-icon">✅</span>
+          <div>
+            <div class="sub-active-title">Abonnement actif</div>
+            <div class="sub-active-exp" id="sub-active-exp"></div>
+          </div>
+        </div>
+        <p style="color:#555;font-size:0.82rem;margin-top:16px">Vous avez accès à toutes les fonctionnalités : Zone Immersion, Manga, Commandes personnalisées.</p>
+      </div>
+    </div>
+
+    <!-- TAB : WALLET -->
+    <div id="tab-wallet" class="tab-content" style="display:none">
+      <div class="section-card">
+        <h2 class="section-title">Wallet Ethereum</h2>
+        <div id="wallet-connected-block" style="display:none">
+          <div class="wallet-addr" id="wallet-addr-display">—</div>
+          <p style="color:#555;font-size:0.82rem;margin-top:8px">Wallet lié à votre compte. Utilisé pour vérifier vos NFTs.</p>
+        </div>
+        <div id="wallet-empty-block">
+          <p class="sub-desc">Aucun wallet lié. Connectez MetaMask pour lier votre adresse Ethereum.</p>
+          <button class="btn-nft" onclick="connectWallet()" id="btn-connect-wallet">Connecter MetaMask</button>
+          <div class="field-msg" id="wallet-msg"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
+
+.compte-container { min-height: 100vh; display: flex; flex-direction: column; background: #000; }
+
+/* HEADER */
+.shop-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: #111; border-bottom: 2px solid #00f2ff; box-shadow: 0 0 10px rgba(0,242,255,0.2); }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.site-logo { height: 38px; border-radius: 50%; border: 1px solid #00f2ff; }
+.site-name { color: #00f2ff; font-weight: bold; font-size: 1rem; }
+.home-icon { color: #fff; text-decoration: none; border: 1px solid #333; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; transition: 0.2s; }
+.home-icon:hover { border-color: #00f2ff; color: #00f2ff; }
+
+/* AUTH VIEW */
+.auth-view { flex: 1; display: flex; align-items: center; justify-content: center; padding: 30px 20px; }
+.auth-card { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 18px; padding: 36px 28px; width: 100%; max-width: 420px; }
+.auth-title { font-size: 1.6rem; font-weight: 900; letter-spacing: 3px; color: #00f2ff; text-align: center; margin-bottom: 12px; text-shadow: 0 0 15px rgba(0,242,255,0.3); }
+.neon-line { width: 60px; height: 2px; background: #00f2ff; box-shadow: 0 0 8px #00f2ff; margin: 0 auto 28px; }
+
+.auth-tabs { display: flex; border-bottom: 1px solid #222; margin-bottom: 22px; }
+.auth-tab { flex: 1; background: none; border: none; color: #555; padding: 10px; cursor: pointer; font-size: 0.9rem; font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+.auth-tab.active { color: #00f2ff; border-bottom-color: #00f2ff; }
+
+.auth-card input {
+  width: 100%; background: #111; border: 1px solid #222; color: #fff;
+  padding: 12px 14px; border-radius: 8px; font-size: 0.95rem; margin-bottom: 12px;
+  outline: none; transition: border-color 0.2s;
+}
+.auth-card input:focus { border-color: #00f2ff; }
+.auth-error { color: #ff4444; font-size: 0.82rem; margin-top: 10px; text-align: center; min-height: 16px; }
+
+/* COMPTE VIEW */
+.compte-view { flex: 1; padding: 28px 20px 60px; max-width: 700px; margin: 0 auto; width: 100%; }
+
+/* Profil header */
+.profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding: 20px; background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 14px; flex-wrap: wrap; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #00f2ff, #a855f7); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; color: #000; flex-shrink: 0; }
+.profile-info { flex: 1; }
+.profile-pseudo { font-size: 1.1rem; font-weight: 700; }
+.profile-email { font-size: 0.82rem; color: #555; margin-top: 2px; }
+.sub-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
+.sub-free { background: rgba(80,80,80,0.15); color: #555; border: 1px solid #333; }
+.sub-active { background: rgba(0,242,255,0.1); color: #00f2ff; border: 1px solid rgba(0,242,255,0.3); }
+.btn-logout { background: none; border: 1px solid #333; color: #555; padding: 7px 14px; border-radius: 8px; cursor: pointer; font-size: 0.82rem; transition: 0.2s; }
+.btn-logout:hover { border-color: #ff4444; color: #ff4444; }
+
+/* Onglets compte */
+.compte-tabs { display: flex; gap: 6px; margin-bottom: 24px; border-bottom: 1px solid #1e1e1e; }
+.compte-tab { background: none; border: none; color: #555; padding: 10px 16px; cursor: pointer; font-size: 0.9rem; font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.2s; }
+.compte-tab.active { color: #00f2ff; border-bottom-color: #00f2ff; }
+
+/* Sections */
+.section-card { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 14px; padding: 22px; margin-bottom: 16px; }
+.section-title { font-size: 0.95rem; font-weight: 700; color: #00f2ff; letter-spacing: 1px; margin-bottom: 16px; }
+.field-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #111; }
+.field-row:last-child { border-bottom: none; }
+.field-row label { font-size: 0.82rem; color: #555; }
+.field-val { font-size: 0.9rem; color: #ccc; }
+.field-msg { font-size: 0.8rem; margin-top: 8px; min-height: 16px; }
+.field-msg.ok { color: #00f2ff; }
+.field-msg.err { color: #ff4444; }
+
+.section-card input { width: 100%; background: #111; border: 1px solid #222; color: #fff; padding: 11px 13px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
+.section-card input:focus { border-color: #00f2ff; }
+
+/* Subscription */
+.sub-status-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+#sub-status-label { font-size: 1rem; font-weight: 700; }
+.sub-expires { font-size: 0.78rem; color: #555; }
+.sub-desc { font-size: 0.84rem; color: #555; line-height: 1.5; }
+
+.activate-option { margin-bottom: 6px; }
+.activate-option-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
+.activate-option-desc { font-size: 0.8rem; color: #555; margin-bottom: 12px; line-height: 1.4; }
+.input-row { display: flex; gap: 8px; }
+.input-row input { flex: 1; background: #111; border: 1px solid #222; color: #fff; padding: 10px 13px; border-radius: 8px; font-size: 0.9rem; outline: none; }
+.input-row input:focus { border-color: #00f2ff; }
+.divider-or { text-align: center; color: #333; font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; padding: 16px 0; border-top: 1px solid #111; margin-top: 16px; }
+
+.sub-active-banner { display: flex; align-items: center; gap: 16px; }
+.sub-active-icon { font-size: 2rem; }
+.sub-active-title { font-weight: 700; color: #00f2ff; }
+.sub-active-exp { font-size: 0.8rem; color: #555; margin-top: 2px; }
+
+/* Wallet */
+.wallet-addr { font-family: monospace; font-size: 0.85rem; color: #00f2ff; background: #111; padding: 10px 14px; border-radius: 8px; border: 1px solid #1e1e1e; word-break: break-all; }
+
+/* Boutons */
+.btn-primary { width: 100%; background: linear-gradient(135deg, #00f2ff, #a855f7); color: #000; border: none; padding: 13px; border-radius: 8px; font-size: 0.95rem; font-weight: 800; cursor: pointer; letter-spacing: 0.5px; transition: opacity 0.2s; }
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-secondary { background: none; border: 1px solid #00f2ff; color: #00f2ff; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-secondary:hover { background: rgba(0,242,255,0.08); }
+.btn-cyan { background: #00f2ff; color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.88rem; white-space: nowrap; transition: opacity 0.2s; }
+.btn-cyan:hover { opacity: 0.85; }
+.btn-nft { background: none; border: 1px solid #a855f7; color: #a855f7; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
+.btn-nft:hover { background: rgba(168,85,247,0.1); }
+.btn-bitcoin { display: inline-block; background: #f7931a; color: #000; padding: 10px 22px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: opacity 0.2s; }
+.btn-bitcoin:hover { opacity: 0.85; }
+
+@media (max-width: 520px) {
+  .compte-view { padding: 16px 12px 40px; }
+  .profile-header { gap: 12px; }
+  .compte-tab { padding: 10px 10px; font-size: 0.82rem; }
+}
+</style>
+
+<script src="{{ '/assets/js/libs/ethers-6.15.0.min.js' | relative_url }}"></script>
+<script>
+const API = 'https://otakusshop.onrender.com';
+
+let authToken = null;
+let currentUser = null;
+
+// ── API HELPER ──
+async function api(method, path, body) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (authToken) opts.headers['Authorization'] = 'Bearer ' + authToken;
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Erreur serveur');
+  return json;
+}
+
+// ── AUTH ──
+function switchAuthTab(tab) {
+  document.getElementById('form-login').style.display    = tab === 'login'    ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('tab-login').classList.toggle('active',    tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+  document.getElementById('auth-error').textContent = '';
+}
+
+function setLoading(id, loading, defaultText) {
+  const b = document.getElementById(id);
+  b.disabled = loading;
+  b.textContent = loading ? 'Chargement…' : defaultText;
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-password').value;
+  if (!email || !pass) return setAuthErr('Remplis tous les champs');
+  setLoading('btn-login', true, 'SE CONNECTER');
+  try {
+    const { token, user } = await api('POST', '/auth/login', { email, password: pass });
+    onAuth(token, user);
+  } catch(e) { setAuthErr(e.message); }
+  finally    { setLoading('btn-login', false, 'SE CONNECTER'); }
+}
+
+async function doRegister() {
+  const email  = document.getElementById('reg-email').value.trim();
+  const pseudo = document.getElementById('reg-pseudo').value.trim();
+  const pass   = document.getElementById('reg-password').value;
+  if (!email || !pseudo || !pass) return setAuthErr('Remplis tous les champs');
+  if (pass.length < 6) return setAuthErr('Mot de passe trop court');
+  setLoading('btn-register', true, 'CRÉER MON COMPTE');
+  try {
+    const { token, user } = await api('POST', '/auth/register', { email, pseudo, password: pass });
+    onAuth(token, user);
+  } catch(e) { setAuthErr(e.message); }
+  finally    { setLoading('btn-register', false, 'CRÉER MON COMPTE'); }
+}
+
+function setAuthErr(msg) { document.getElementById('auth-error').textContent = msg; }
+
+function onAuth(token, user) {
+  authToken = token;
+  currentUser = user;
+  localStorage.setItem('myremix_token', token);
+  localStorage.setItem('myremix_user', JSON.stringify(user));
+  showCompteView(user);
+}
+
+function logout() {
+  authToken = null; currentUser = null;
+  localStorage.removeItem('myremix_token');
+  localStorage.removeItem('myremix_user');
+  document.getElementById('view-auth').style.display = 'flex';
+  document.getElementById('view-compte').style.display = 'none';
+}
+
+// ── AFFICHAGE COMPTE ──
+function showCompteView(user) {
+  document.getElementById('view-auth').style.display = 'none';
+  document.getElementById('view-compte').style.display = 'block';
+  renderUser(user);
+}
+
+function renderUser(user) {
+  const pseudo = user.pseudo || '—';
+  document.getElementById('avatar-initials').textContent = pseudo[0].toUpperCase();
+  document.getElementById('profile-pseudo').textContent = pseudo;
+  document.getElementById('profile-email').textContent  = user.email || '—';
+  document.getElementById('field-pseudo').textContent   = pseudo;
+  document.getElementById('field-email').textContent    = user.email || '—';
+  document.getElementById('new-pseudo-input').value     = pseudo;
+
+  const since = user.created_at
+    ? new Date(user.created_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' })
+    : '—';
+  document.getElementById('field-since').textContent = since;
+
+  // Abonnement
+  const isSubscribed = user.subscription_tier === 'subscriber'
+    && (!user.subscription_expires_at || new Date(user.subscription_expires_at) > new Date());
+
+  const badge = document.getElementById('sub-badge');
+  if (isSubscribed) {
+    badge.textContent = '⭐ Abonné';
+    badge.className = 'sub-badge sub-active';
+    document.getElementById('sub-status-label').textContent = '⭐ Abonnement actif';
+    document.getElementById('sub-status-label').style.color = '#00f2ff';
+    if (user.subscription_expires_at) {
+      const exp = new Date(user.subscription_expires_at).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+      document.getElementById('sub-expires').textContent = 'Expire le ' + exp;
+      document.getElementById('sub-active-exp').textContent = 'Expire le ' + exp;
+    }
+    document.getElementById('sub-status-desc').textContent = 'Accès complet à toutes les fonctionnalités.';
+    document.getElementById('card-subscribed').style.display = 'block';
+    document.getElementById('card-activate').style.display = 'none';
+  } else {
+    badge.textContent = 'Compte gratuit';
+    badge.className = 'sub-badge sub-free';
+    document.getElementById('card-activate').style.display = 'block';
+    document.getElementById('card-subscribed').style.display = 'none';
+  }
+
+  // Wallet
+  if (user.wallet_address) {
+    document.getElementById('wallet-connected-block').style.display = 'block';
+    document.getElementById('wallet-empty-block').style.display = 'none';
+    document.getElementById('wallet-addr-display').textContent = user.wallet_address;
+  }
+}
+
+// ── ONGLETS ──
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.compte-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).style.display = 'block';
+  event.currentTarget.classList.add('active');
+}
+
+// ── CHANGER PSEUDO ──
+async function changePseudo() {
+  const pseudo = document.getElementById('new-pseudo-input').value.trim();
+  const msg = document.getElementById('pseudo-msg');
+  if (!pseudo || pseudo.length < 2) { msg.textContent = 'Pseudo invalide'; msg.className = 'field-msg err'; return; }
+  try {
+    await api('PATCH', '/users/me/pseudo', { pseudo });
+    currentUser.pseudo = pseudo;
+    localStorage.setItem('myremix_user', JSON.stringify(currentUser));
+    renderUser(currentUser);
+    msg.textContent = 'Pseudo mis à jour !'; msg.className = 'field-msg ok';
+  } catch(e) { msg.textContent = e.message; msg.className = 'field-msg err'; }
+}
+
+// ── ABONNEMENT — CODE ──
+async function activateWithCode() {
+  const code = document.getElementById('activation-code').value.trim();
+  const msg = document.getElementById('code-msg');
+  if (!code) { msg.textContent = 'Entre un code'; msg.className = 'field-msg err'; return; }
+  try {
+    const { expires_at } = await api('PATCH', '/subscription/activate', { method: 'code', code });
+    currentUser.subscription_tier = 'subscriber';
+    currentUser.subscription_expires_at = expires_at;
+    localStorage.setItem('myremix_user', JSON.stringify(currentUser));
+    renderUser(currentUser);
+    msg.textContent = '✅ Abonnement activé !'; msg.className = 'field-msg ok';
+  } catch(e) { msg.textContent = e.message; msg.className = 'field-msg err'; }
+}
+
+// ── ABONNEMENT — NFT ──
+async function activateWithNFT() {
+  const msg = document.getElementById('nft-msg');
+  const btn = document.getElementById('btn-nft-activate');
+  if (!window.ethereum) { msg.textContent = 'MetaMask non détecté'; msg.className = 'field-msg err'; return; }
+  try {
+    btn.textContent = 'Connexion…'; btn.disabled = true;
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer   = await provider.getSigner();
+    const wallet   = await signer.getAddress();
+    const { expires_at } = await api('PATCH', '/subscription/activate', { method: 'nft', wallet_address: wallet });
+    currentUser.subscription_tier = 'subscriber';
+    currentUser.subscription_expires_at = expires_at;
+    currentUser.wallet_address = wallet;
+    localStorage.setItem('myremix_user', JSON.stringify(currentUser));
+    renderUser(currentUser);
+    msg.textContent = '✅ NFT vérifié — abonnement activé !'; msg.className = 'field-msg ok';
+  } catch(e) { msg.textContent = e.message; msg.className = 'field-msg err'; }
+  finally { btn.textContent = 'Connecter mon wallet'; btn.disabled = false; }
+}
+
+// ── WALLET ──
+async function connectWallet() {
+  const msg = document.getElementById('wallet-msg');
+  const btn = document.getElementById('btn-connect-wallet');
+  if (!window.ethereum) { msg.textContent = 'MetaMask non détecté'; msg.className = 'field-msg err'; return; }
+  try {
+    btn.textContent = 'Connexion…'; btn.disabled = true;
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer   = await provider.getSigner();
+    const wallet   = await signer.getAddress();
+    await api('PATCH', '/users/me/wallet', { wallet_address: wallet });
+    currentUser.wallet_address = wallet;
+    localStorage.setItem('myremix_user', JSON.stringify(currentUser));
+    renderUser(currentUser);
+    msg.textContent = '✅ Wallet lié !'; msg.className = 'field-msg ok';
+  } catch(e) { msg.textContent = e.message; msg.className = 'field-msg err'; }
+  finally { btn.textContent = 'Connecter MetaMask'; btn.disabled = false; }
+}
+
+// ── INIT ──
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const isLogin = document.getElementById('form-login').style.display !== 'none';
+  if (document.getElementById('view-auth').style.display !== 'none') {
+    isLogin ? doLogin() : doRegister();
+  }
+});
+
+(function init() {
+  const token = localStorage.getItem('myremix_token');
+  const user  = localStorage.getItem('myremix_user');
+  if (token && user) {
+    try {
+      authToken    = token;
+      currentUser  = JSON.parse(user);
+      // Rafraîchir depuis l'API pour avoir les données à jour
+      api('GET', '/users/me').then(({ user: fresh }) => {
+        currentUser = fresh;
+        localStorage.setItem('myremix_user', JSON.stringify(fresh));
+        showCompteView(fresh);
+      }).catch(() => showCompteView(currentUser));
+    } catch { /* affiche le form auth */ }
+  }
+})();
+</script>

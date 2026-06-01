@@ -13,21 +13,11 @@ async function sha256(str) {
 }
 
 async function checkNFTOwnership(walletAddress) {
-  // balanceOf(address) — sélecteur ERC-721 : 0x70a08231
-  const paddedAddr = '000000000000000000000000' + walletAddress.replace('0x', '').toLowerCase();
-  const res = await fetch(ALCHEMY_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      jsonrpc: '2.0', id: 1,
-      method: 'eth_call',
-      params: [{ to: NFT_CONTRACT, data: '0x70a08231' + paddedAddr }, 'latest']
-    })
-  });
+  // Même méthode que nft-gate.js — API REST Alchemy getNFTsForOwner
+  const url = `${ALCHEMY_URL}/getNFTsForOwner?owner=${walletAddress}&contractAddresses[]=${NFT_CONTRACT}&withMetadata=false`;
+  const res = await fetch(url);
   const data = await res.json();
-  if (data.error) throw new Error('Erreur Alchemy : ' + data.error.message);
-  const balance = parseInt(data.result, 16);
-  return balance > 0;
+  return Array.isArray(data.ownedNfts) && data.ownedNfts.length > 0;
 }
 
 // PATCH /subscription/activate

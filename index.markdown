@@ -14,6 +14,9 @@ title: Accueil Collection NFT & Art
         
         <div class="action-box box-tableau">
             <a href="{{ '/galerie.html' | relative_url }}">
+                <div class="box-img-wrap">
+                    <img src="{{ 'assets/images/icones/icone gallerie de tableaux.png' | relative_url }}" alt="Galerie" class="box-img">
+                </div>
                 <h2>GALERIE DE TABLEAUX</h2>
                 <p>Découvrez la collection complète et visualisez nos pièces.</p>
             </a>
@@ -22,6 +25,9 @@ title: Accueil Collection NFT & Art
     <!-- MANGA -->
     <div class="action-box box-manga" id="box-manga">
         <a href="{{ '/manga.html' | relative_url }}" id="link-manga">
+            <div class="box-img-wrap">
+                <img src="{{ 'assets/images/icones/icone lire manga.jpg' | relative_url }}" alt="Lire le manga" class="box-img">
+            </div>
             <h2>LIRE LE MANGA</h2>
             <p>Accès illimité. <strong>20€ / an</strong> ou gratuit avec NFT.</p>
         </a>
@@ -54,6 +60,9 @@ title: Accueil Collection NFT & Art
     <!-- JEUX -->
     <div class="action-box box-jeux" id="box-jeux">
         <a href="{{ '/jeux.html' | relative_url }}" id="link-jeux">
+            <div class="box-img-wrap">
+                <img src="{{ 'assets/images/icones/icone jeux.png' | relative_url }}" alt="Jeux Immersion" class="box-img">
+            </div>
             <h2>IMMERSION</h2>
             <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
         </a>
@@ -175,6 +184,25 @@ document.addEventListener('DOMContentLoaded', () => {
     color: white;
 }
 
+/* Image en haut des boxes */
+.box-img-wrap {
+    width: calc(100% + 60px);
+    margin: -30px -30px 20px -30px;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 18px 18px 0 0;
+}
+.box-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+.action-box:hover .box-img {
+    transform: scale(1.05);
+}
+
 .action-box h2 {
     color: #00f2ff;
     font-size: 1.5rem;
@@ -238,6 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
         padding: 20px 16px;
         border-radius: 14px;
     }
+    .box-img-wrap {
+        width: calc(100% + 32px);
+        margin: -20px -16px 16px -16px;
+        height: 130px;
+        border-radius: 12px 12px 0 0;
+    }
+    .box-img { height: 130px; }
     .action-box h2 {
         font-size: 1.15rem;
         letter-spacing: 1px;

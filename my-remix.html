@@ -708,8 +708,10 @@ body {
 const API = 'https://otakusshop.onrender.com';
 
 const PHOTOS = [
-  { id: 'mosquee', name: 'Mosquée au Caire',   path: 'assets/images/remix/1000044869.jpg' },
-  { id: 'theatre', name: 'Théâtre à Dunhuang', path: 'assets/images/remix/IMG_2329.jpeg' },
+  { id: 'mosquee',  name: 'Mosquée au Caire',   path: 'assets/images/remix/1000044869.jpg' },
+  { id: 'theatre',  name: 'Théâtre à Dunhuang', path: 'assets/images/remix/IMG_2329.jpeg' },
+  { id: 'eau',      name: "L'Eau c'est la Vie", path: "assets/images/remix/Tableau 3(l'eau c la vie).jpg" },
+  { id: 'img1389',  name: 'Remix #4',           path: 'assets/images/remix/IMG_1389.jpg' },
 ];
 
 // ═══════════════════════════════════════
@@ -869,42 +871,48 @@ document.addEventListener('keydown', e => {
 // ═══════════════════════════════════════
 // PHOTOS GRID
 // ═══════════════════════════════════════
-async function buildPhotosGrid() {
+function buildPhotosGrid() {
   const grid = document.getElementById('photos-grid');
-  grid.innerHTML = '<p style="color:#555;padding:20px">Chargement…</p>';
-
-  // Récupérer les counts depuis l'API pour chaque photo
-  const counts = {};
-  await Promise.all(PHOTOS.map(async photo => {
-    try {
-      const { remixes } = await api('GET', `/remixes?photo_id=${photo.id}`);
-      counts[photo.id] = {
-        remixCount: remixes.length,
-        totalVotes: remixes.reduce((a, r) => a + r.votes_count, 0),
-      };
-    } catch { counts[photo.id] = { remixCount: 0, totalVotes: 0 }; }
-  }));
-
   grid.innerHTML = '';
+
+  // Affichage immédiat des cartes
   PHOTOS.forEach(photo => {
-    const { remixCount, totalVotes } = counts[photo.id] || { remixCount: 0, totalVotes: 0 };
     const div = document.createElement('div');
     div.className = 'photo-card';
+    div.id = 'card-' + photo.id;
     div.innerHTML = `
       <img src="${photo.path}" alt="${photo.name}">
       <div class="photo-card-info">
         <h3>${photo.name}</h3>
-        <div class="photo-card-badges">
-          <span class="badge badge-remix">🎨 ${remixCount} remix${remixCount > 1 ? 's' : ''}</span>
-          ${totalVotes > 0 ? `<span class="badge badge-votes">⚡ ${totalVotes} votes</span>` : ''}
+        <div class="photo-card-badges" id="badges-${photo.id}">
+          <span class="badge badge-remix">🎨 …</span>
         </div>
       </div>
       <div class="photo-card-actions">
         <button onclick="goToEditor('${photo.id}')">🖌️ Remixer</button>
-        <button class="${remixCount > 0 ? 'highlight' : ''}" onclick="goToGallery('${photo.id}')">👁️ Voir (${remixCount})</button>
+        <button id="voir-btn-${photo.id}" onclick="goToGallery('${photo.id}')">👁️ Voir</button>
       </div>
     `;
     grid.appendChild(div);
+  });
+
+  // Chargement des counts en arrière-plan
+  PHOTOS.forEach(async photo => {
+    try {
+      const { remixes } = await api('GET', `/remixes?photo_id=${photo.id}`);
+      const remixCount = remixes.length;
+      const totalVotes = remixes.reduce((a, r) => a + r.votes_count, 0);
+      const badges = document.getElementById('badges-' + photo.id);
+      const voirBtn = document.getElementById('voir-btn-' + photo.id);
+      if (badges) badges.innerHTML = `
+        <span class="badge badge-remix">🎨 ${remixCount} remix${remixCount > 1 ? 's' : ''}</span>
+        ${totalVotes > 0 ? `<span class="badge badge-votes">⚡ ${totalVotes} votes</span>` : ''}
+      `;
+      if (voirBtn) {
+        voirBtn.textContent = `👁️ Voir (${remixCount})`;
+        if (remixCount > 0) voirBtn.classList.add('highlight');
+      }
+    } catch { /* silencieux si API indispo */ }
   });
 }
 

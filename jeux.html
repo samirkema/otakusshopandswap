@@ -4,6 +4,14 @@ title: Immersion — Otaku Shop
 permalink: /jeux.html
 ---
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    AuthGuard.requireAccess('subscriber',
+        'La zone Immersion est réservée aux abonnés.<br>Activez votre abonnement via NFT, code ou paiement Bitcoin.'
+    );
+});
+</script>
+
 <div class="immersion-container">
     <header class="shop-header">
         <div class="header-left">

@@ -19,55 +19,106 @@ title: Accueil Collection NFT & Art
             </a>
         </div>
 
-    <div class="action-box box-manga">
-        <h2>LIRE LE MANGA</h2>
-        <p>Accès illimité. <strong>20€ / an</strong> ou gratuit avec NFT.</p>
-        
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-            <button onclick="checkNFT('manga')" style="background: #00f2ff; color: #000; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                📖 Entrer (Abonné / NFT)
-            </button>
-
-            <button onclick="subscribeManga()" style="background: transparent; color: #f7931a; padding: 8px; border: 1px solid #f7931a; border-radius: 5px; cursor: pointer;">
-                ⚡ Payer l'abonnement (20€)
-            </button>
-
-            <button onclick="activateWithCode()" style="background: transparent; color: #888; padding: 8px; border: 1px dashed #888; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">
-                🔑 J'ai payé : Activer mon code
-            </button>
+    <!-- MANGA -->
+    <div class="action-box box-manga" id="box-manga">
+        <a href="{{ '/manga.html' | relative_url }}" id="link-manga">
+            <h2>LIRE LE MANGA</h2>
+            <p>Accès illimité. <strong>20€ / an</strong> ou gratuit avec NFT.</p>
+        </a>
+        <div class="lock-banner" id="lock-manga" style="display:none">
+            <span>🔒 Réservé aux abonnés</span>
+            <a href="{{ '/compte.html' | relative_url }}">S'abonner →</a>
         </div>
     </div>
 
-        <div class="action-box box-perso">
-            <a href="#" onclick="checkNFT('perso'); return false;">
-                <h2>COMMANDE PERSONNALISÉE</h2>
-                <p>Offre exclusive strictement réservée aux détenteurs de NFT.</p>
-            </a>
+    <!-- COMMANDE PERSO -->
+    <div class="action-box box-perso" id="box-perso">
+        <a href="{{ '/commande-perso.html' | relative_url }}" id="link-perso">
+            <h2>COMMANDE PERSONNALISÉE</h2>
+            <p>Offre exclusive strictement réservée aux détenteurs de NFT.</p>
+        </a>
+        <div class="lock-banner" id="lock-perso" style="display:none">
+            <span>🔒 NFT requis</span>
+            <a href="{{ '/compte.html' | relative_url }}">Lier mon wallet →</a>
         </div>
+    </div>
 
-        <div class="action-box box-aide">
-            <a href="{{ '/aide.html' | relative_url }}">
-                <h2>BESOIN D'AIDE ?</h2>
-                <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
-            </a>
-        </div>
+    <!-- AIDE -->
+    <div class="action-box box-aide">
+        <a href="{{ '/aide.html' | relative_url }}">
+            <h2>BESOIN D'AIDE ?</h2>
+            <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
+        </a>
+    </div>
 
-        <div class="action-box box-jeux">
-            <a href="{{ '/jeux.html' | relative_url }}">
-                <h2>IMMERSION</h2>
-                <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
-            </a>
+    <!-- JEUX -->
+    <div class="action-box box-jeux" id="box-jeux">
+        <a href="{{ '/jeux.html' | relative_url }}" id="link-jeux">
+            <h2>IMMERSION</h2>
+            <p>L'histoire continue manette en main. Explorez l'univers de nos mangas à travers des jeux exclusifs.</p>
+        </a>
+        <div class="lock-banner" id="lock-jeux" style="display:none">
+            <span>🔒 Réservé aux abonnés</span>
+            <a href="{{ '/compte.html' | relative_url }}">S'abonner →</a>
         </div>
+    </div>
 
-        <div class="action-box box-compte">
-            <a href="{{ '/compte.html' | relative_url }}">
-                <h2>MON COMPTE</h2>
-                <p>Gérez votre profil, votre abonnement et votre wallet. Activez l'accès via NFT ou paiement.</p>
-            </a>
-        </div>
+    <!-- COMPTE -->
+    <div class="action-box box-compte">
+        <a href="{{ '/compte.html' | relative_url }}">
+            <h2 id="compte-title">MON COMPTE</h2>
+            <p id="compte-desc">Gérez votre profil, votre abonnement et votre wallet.</p>
+        </a>
+    </div>
 
     </section>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const level = AuthGuard.getAccessLevel();
+    const user  = AuthGuard.getUser();
+
+    // Boxes verrouillées pour utilisateur free
+    if (level === 'free') {
+        ['manga', 'jeux'].forEach(id => {
+            const link = document.getElementById('link-' + id);
+            const lock = document.getElementById('lock-' + id);
+            const box  = document.getElementById('box-' + id);
+            if (link) link.style.pointerEvents = 'none';
+            if (lock) lock.style.display = 'flex';
+            if (box)  box.style.opacity = '0.5';
+        });
+        // Commande perso aussi verrouillée
+        const lp = document.getElementById('link-perso');
+        const lk = document.getElementById('lock-perso');
+        const bp = document.getElementById('box-perso');
+        if (lp) lp.style.pointerEvents = 'none';
+        if (lk) lk.style.display = 'flex';
+        if (bp) bp.style.opacity = '0.5';
+    }
+
+    // Subscriber mais pas NFT → commande perso verrouillée
+    if (level === 'subscriber') {
+        const lp = document.getElementById('link-perso');
+        const lk = document.getElementById('lock-perso');
+        const bp = document.getElementById('box-perso');
+        if (lp) lp.style.pointerEvents = 'none';
+        if (lk) lk.style.display = 'flex';
+        if (bp) bp.style.opacity = '0.55';
+    }
+
+    // Personnaliser le box compte
+    if (user) {
+        const title = document.getElementById('compte-title');
+        const desc  = document.getElementById('compte-desc');
+        if (title) title.textContent = user.pseudo ? '👤 ' + user.pseudo.toUpperCase() : 'MON COMPTE';
+        if (level === 'subscriber' || level === 'nft') {
+            if (desc) desc.textContent = '⭐ Abonnement actif — gérer mon profil';
+        }
+    }
+});
+</script>
 
 <style>
 /* --- STYLE GLOBAL THÈME NÉON --- */
@@ -140,6 +191,26 @@ title: Accueil Collection NFT & Art
 .box-compte { border-color: #a855f7; box-shadow: 0 0 10px rgba(168,85,247,0.2); }
 .box-compte:hover { box-shadow: 0 0 25px #a855f7; }
 .box-compte h2 { color: #a855f7; }
+
+.lock-banner {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    color: #555;
+}
+.lock-banner a {
+    color: #00f2ff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.78rem;
+}
+.lock-banner a:hover { text-decoration: underline; }
 
 /* --- ADAPTATION MOBILE --- */
 @media (max-width: 768px) {

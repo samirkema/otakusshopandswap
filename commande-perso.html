@@ -5,13 +5,10 @@ permalink: /commande-perso.html
 ---
 
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const isNFTVerified = isValidEthAddress(sessionStorage.getItem('nft_verified'));
-
-        if (!isNFTVerified) {
-            await showModal("Accès bloqué. Vous devez posséder un NFT pour voir cette page.");
-            window.location.href = "./";
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        AuthGuard.requireAccess('nft',
+            'Les commandes personnalisées sont exclusivement réservées aux détenteurs de NFT Otaku Shop.<br>Connectez votre wallet depuis votre compte pour vérifier votre NFT.'
+        );
     });
 </script>
 

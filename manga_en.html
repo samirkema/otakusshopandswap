@@ -4,28 +4,14 @@ title: Lecture Exclusive (Manga, Webtoon, Livres)
 ---
 
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // 1. Activer l'accès si retour de NowPayments (Abonnement)
-        if (urlParams.get('status') === 'success') {
-            const oneYear = 365 * 24 * 60 * 60 * 1000;
-            const expiry = new Date().getTime() + oneYear;
-            localStorage.setItem('manga_access_expiry', expiry);
+    document.addEventListener('DOMContentLoaded', () => {
+        if (new URLSearchParams(window.location.search).get('status') === 'success') {
+            localStorage.setItem('manga_access_expiry', new Date().getTime() + 365*24*60*60*1000);
             window.history.replaceState({}, document.title, window.location.pathname);
         }
-
-        // 2. Vérification STRICTE
-        const expiry = localStorage.getItem('manga_access_expiry');
-        const hasValidSub = expiry && Date.now() < parseInt(expiry);
-        
-        // On vérifie si la session Web3 a été validée (l'adresse Eth doit être valide)
-        const isNFTVerified = isValidEthAddress(sessionStorage.getItem('nft_verified'));
-
-        if (!hasValidSub && !isNFTVerified) {
-            await showModal("Accès réservé aux abonnés ou détenteurs de NFT.");
-            window.location.href = "./";
-        }
+        AuthGuard.requireAccess('subscriber',
+            'Manga reading is reserved for subscribers.<br>Activate your subscription via NFT, code or Bitcoin payment.'
+        );
     });
 </script>
 

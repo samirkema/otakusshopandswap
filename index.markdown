@@ -28,7 +28,7 @@ title: Accueil Collection NFT & Art
             <div class="box-img-wrap">
                 <img src="{{ 'assets/images/icones/icone lire manga.jpg' | relative_url }}" alt="Lire le manga" class="box-img">
             </div>
-            <h2>LIRE LE MANGA</h2>
+            <h2>LIRE MANGA</h2>
             <p>Accès illimité. <strong>20€ / an</strong> ou gratuit avec NFT.</p>
         </a>
         <div class="lock-banner" id="lock-manga" style="display:none">

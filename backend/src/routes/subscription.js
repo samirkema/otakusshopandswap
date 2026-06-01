@@ -13,18 +13,21 @@ async function sha256(str) {
 }
 
 async function checkNFTOwnership(walletAddress) {
-  const res = await fetch(`${ALCHEMY_URL}`, {
+  // balanceOf(address) — sélecteur ERC-721 : 0x70a08231
+  const paddedAddr = '000000000000000000000000' + walletAddress.replace('0x', '').toLowerCase();
+  const res = await fetch(ALCHEMY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       jsonrpc: '2.0', id: 1,
-      method: 'alchemy_getOwnersForContract',
-      params: [{ contractAddress: NFT_CONTRACT }]
+      method: 'eth_call',
+      params: [{ to: NFT_CONTRACT, data: '0x70a08231' + paddedAddr }, 'latest']
     })
   });
   const data = await res.json();
-  const owners = data.result?.owners || [];
-  return owners.map(a => a.toLowerCase()).includes(walletAddress.toLowerCase());
+  if (data.error) throw new Error('Erreur Alchemy : ' + data.error.message);
+  const balance = parseInt(data.result, 16);
+  return balance > 0;
 }
 
 // PATCH /subscription/activate

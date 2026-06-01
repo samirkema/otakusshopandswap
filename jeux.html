@@ -156,15 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
 .game-card-img {
     background: #050510;
     border-bottom: 1px solid #1e1e1e;
-    min-height: 160px;
+    height: 180px;
     overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
 }
 .game-card-img svg { width: 120px; height: auto; filter: drop-shadow(0 0 8px rgba(0,242,255,0.3)); }
-.game-icon-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.game-icon-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 
 .game-card-img--soon {
     background: #0a0a0a;

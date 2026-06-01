@@ -45,3 +45,13 @@ create index if not exists votes_voter_photo_idx on public.votes(voter_user_id, 
 alter table public.users    enable row level security;
 alter table public.remixes  enable row level security;
 alter table public.votes    enable row level security;
+
+-- PASSWORD RESETS
+create table if not exists public.password_resets (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid not null references public.users(id) on delete cascade,
+  token_hash  text not null unique,
+  expires_at  timestamptz not null,
+  used        boolean not null default false,
+  created_at  timestamptz not null default now()
+);

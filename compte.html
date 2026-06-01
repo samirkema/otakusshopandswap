@@ -26,7 +26,17 @@ permalink: /compte.html
         <input type="email" id="login-email" placeholder="Email" autocomplete="email">
         <input type="password" id="login-password" placeholder="Mot de passe">
         <button class="btn-primary" id="btn-login" onclick="doLogin()">SE CONNECTER</button>
+        <button class="btn-forgot" onclick="showForgot(true)">Mot de passe oublié ?</button>
       </div>
+
+      <div id="form-forgot" style="display:none">
+        <p style="color:#666;font-size:0.84rem;margin-bottom:16px;line-height:1.5">Entrez votre email — vous recevrez un lien valable 1 heure.</p>
+        <input type="email" id="forgot-email" placeholder="Votre adresse email">
+        <button class="btn-primary" id="btn-forgot" onclick="doForgot()">ENVOYER LE LIEN</button>
+        <div class="auth-error" id="forgot-msg"></div>
+        <button class="btn-forgot" onclick="showForgot(false)" style="margin-top:8px">← Retour à la connexion</button>
+      </div>
+
       <div id="form-register" style="display:none">
         <input type="email" id="reg-email" placeholder="Email" autocomplete="email">
         <input type="text" id="reg-pseudo" placeholder="Pseudo" maxlength="24">
@@ -262,6 +272,8 @@ body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
 .btn-nft:hover { background: rgba(168,85,247,0.1); }
 .btn-bitcoin { display: inline-block; background: #f7931a; color: #000; padding: 10px 22px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; text-decoration: none; transition: opacity 0.2s; }
 .btn-bitcoin:hover { opacity: 0.85; }
+.btn-forgot { background: none; border: none; color: #555; font-size: 0.8rem; cursor: pointer; padding: 8px 0 0; width: 100%; text-align: center; transition: color 0.2s; }
+.btn-forgot:hover { color: #00f2ff; }
 
 @media (max-width: 520px) {
   .compte-view { padding: 16px 12px 40px; }
@@ -330,6 +342,30 @@ async function doRegister() {
 }
 
 function setAuthErr(msg) { document.getElementById('auth-error').textContent = msg; }
+
+function showForgot(show) {
+  document.getElementById('form-login').style.display  = show ? 'none' : 'block';
+  document.getElementById('form-forgot').style.display = show ? 'block' : 'none';
+  document.getElementById('auth-error').textContent = '';
+  document.getElementById('forgot-msg').textContent = '';
+}
+
+async function doForgot() {
+  const email = document.getElementById('forgot-email').value.trim();
+  const msg   = document.getElementById('forgot-msg');
+  if (!email) { msg.textContent = 'Entrez votre email'; msg.style.color = '#ff4444'; return; }
+  const btn = document.getElementById('btn-forgot');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+  try {
+    await api('POST', '/auth/forgot-password', { email });
+    msg.textContent = '📧 Email envoyé ! Vérifiez votre boîte mail.';
+    msg.style.color = '#00f2ff';
+  } catch(e) {
+    msg.textContent = e.message; msg.style.color = '#ff4444';
+  } finally {
+    btn.disabled = false; btn.textContent = 'ENVOYER LE LIEN';
+  }
+}
 
 function onAuth(token, user) {
   authToken = token;

@@ -18,6 +18,7 @@ app.use(express.json({ limit: '10mb' }));
 app.get('/health', (_, res) => res.json({ status: 'ok' }));
 
 app.use('/auth',         require('./routes/auth'));
+app.use('/auth',         require('./routes/forgot-password'));
 app.use('/users',        require('./routes/users'));
 app.use('/remixes',      require('./routes/remixes'));
 app.use('/votes',        require('./routes/votes'));

@@ -14,21 +14,13 @@ const AuthGuard = (() => {
   function getAccessLevel() {
     const user = getUser();
 
-    // ── Nouveau système JWT ──
+    // Un compte connecté avec abonnement valide est requis
     if (user && user.subscription_tier === 'subscriber') {
       const exp = user.subscription_expires_at;
       if (!exp || new Date(exp) > new Date()) {
-        // wallet lié = accès NFT (commandes perso incluses)
         return user.wallet_address ? 'nft' : 'subscriber';
       }
     }
-
-    // ── Ancien système (rétro-compatibilité) ──
-    const oldExpiry = localStorage.getItem('manga_access_expiry');
-    if (oldExpiry && Date.now() < parseInt(oldExpiry)) return 'subscriber';
-
-    const nftVerified = sessionStorage.getItem('nft_verified');
-    if (nftVerified && /^0x[0-9a-fA-F]{40}$/.test(nftVerified)) return 'nft';
 
     return 'free';
   }

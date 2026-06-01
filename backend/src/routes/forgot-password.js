@@ -41,7 +41,7 @@ router.post('/forgot-password', async (req, res) => {
   const resetLink = `${FRONTEND_URL}/reset-password.html?token=${token}`;
 
   await resend.emails.send({
-    from: 'Otaku Shop <noreply@otakushop.fr>',
+    from: 'Otaku Shop <onboarding@resend.dev>',
     to: email,
     subject: '🔑 Réinitialisation de votre mot de passe',
     html: `

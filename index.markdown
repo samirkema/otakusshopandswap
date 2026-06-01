@@ -213,8 +213,42 @@ document.addEventListener('DOMContentLoaded', () => {
 .lock-banner a:hover { text-decoration: underline; }
 
 /* --- ADAPTATION MOBILE --- */
-@media (max-width: 768px) {
-    .main-header h1 { font-size: 1.8rem; }
-    #homepage-actions { grid-template-columns: 1fr; }
+@media (max-width: 600px) {
+    .homepage-container {
+        padding: 20px 14px;
+    }
+    .main-header {
+        margin-bottom: 0;
+    }
+    .main-header h1 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+    .intro-claim {
+        font-size: 0.9rem;
+        margin-bottom: 28px;
+        line-height: 1.5;
+    }
+    #homepage-actions {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+    .action-box {
+        padding: 20px 16px;
+        border-radius: 14px;
+    }
+    .action-box h2 {
+        font-size: 1.15rem;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+    .action-box p {
+        font-size: 0.82rem;
+    }
+    .lock-banner {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+    }
 }
 </style>

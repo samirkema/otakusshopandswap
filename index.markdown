@@ -53,7 +53,7 @@ title: Accueil Collection NFT & Art
     <div class="action-box box-aide">
         <a href="{{ '/aide.html' | relative_url }}">
             <div class="box-img-wrap">
-                <img src="{{ 'assets/images/icones/icone aide.PNG' | relative_url }}" alt="Besoin d'aide" class="box-img">
+                <img src="{{ 'assets/images/icones/icone aide.PNG' | relative_url }}" alt="Besoin d'aide" class="box-img centered">
             </div>
             <h2>BESOIN D'AIDE ?</h2>
             <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
@@ -204,6 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 .action-box:hover .box-img {
     transform: scale(1.05);
+}
+.box-img.centered {
+    object-fit: contain;
+    padding: 16px;
+    background: #0d0d0d;
 }
 
 .action-box h2 {

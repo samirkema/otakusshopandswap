@@ -52,6 +52,9 @@ title: Accueil Collection NFT & Art
     <!-- AIDE -->
     <div class="action-box box-aide">
         <a href="{{ '/aide.html' | relative_url }}">
+            <div class="box-img-wrap">
+                <img src="{{ 'assets/images/icones/icone aide.PNG' | relative_url }}" alt="Besoin d'aide" class="box-img">
+            </div>
             <h2>BESOIN D'AIDE ?</h2>
             <p>Regardez le tutoriel vidéo pour comprendre le fonctionnement du site ou collaborer avec nous.</p>
         </a>

@@ -6,7 +6,7 @@ title: Accueil Collection NFT & Art
 <div class="homepage-container">
     <header class="main-header">
         <h1>Bienvenue sur OTAKU SHOP</h1>
-        <p class="intro-claim">L'art physique débloqué par la blockchain.
+        <p class="intro-claim">L'art physique débloqué par la blockchain.</p>
     </header>
 
     <section id="homepage-actions">

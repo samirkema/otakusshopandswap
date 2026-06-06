@@ -16,37 +16,21 @@ permalink: /galerie.html
 
     <div class="neon-separator-top"></div>
 
-    <div class="preview-scene">
-        <div class="main-view-container">
-            <button class="side-format-btn left" id="btn-petit" onclick="setFormat('petit', 25)">A4<br>25€</button>
-            
-            <img src="{{ 'assets/images/decor-011-grand.jpg' | relative_url }}" id="main-view" class="main-display-image">
-            
-            <button class="side-format-btn right active" id="btn-grand" onclick="setFormat('grand', 50)">40x50<br>50€</button>
+    <div class="renovation-scene">
+        <div class="renovation-icon">🎨</div>
+        <div class="renovation-badge">NOUVELLE COLLECTION</div>
+        <h2 class="renovation-title">EN COURS DE CRÉATION</h2>
+        <div class="neon-line-reno"></div>
+        <p class="renovation-desc">
+            Notre galerie se renouvelle entièrement.<br>
+            De nouvelles œuvres originales arrivent bientôt — des créations 100% propriétaires, pensées pour vous.
+        </p>
+        <div class="renovation-steps">
+            <div class="reno-step done">✅ Ancien catalogue retiré</div>
+            <div class="reno-step active">🖌️ Nouvelles œuvres en création</div>
+            <div class="reno-step">📦 Mise en ligne prochainement</div>
         </div>
-        
-        <div class="shop-actions-container">
-            <div class="price-tag">PRIX : <span id="current-price">50</span>€</div>
-            <button class="buy-btn-btc" onclick="payWithBitcoin()">⚡ ACHETER EN BITCOIN</button>
-            <button class="claim-btn-nft" onclick="openNFTGate(currentId)">🎁 RÉCLAMER (DÉTENTEUR NFT)</button>
-        </div>
-    </div>
-
-    <div class="gallery-navigation">
-        <div class="carousel-wrapper">
-            <button class="arrow" onclick="scrollCarousel(-1)">❮</button>
-            <div class="carousel-track" id="carousel">
-                {% for i in (1..15) %}
-                {% assign id = i | prepend: '00' | slice: -3, 3 %}
-                <div class="vignette-item" id="v-{{ id }}" onclick="selectTableau('{{ id }}')">
-                    <img src="{{ 'assets/images/tableau-' | append: id | append: '-vignette.jpg' | relative_url }}"
-                        onerror="this.src='{{ 'assets/images/tableau-' | append: id | append: '-vignette.JPG' | relative_url }}'; this.onerror=null;">
-                    </div>
-                {% endfor %}
-            </div>
-            </div>
-            <button class="arrow" onclick="scrollCarousel(1)">❯</button>
-        </div>
+        <a href="{{ '/' | relative_url }}" class="btn-home-reno">← Retour à l'accueil</a>
     </div>
 </div>
 
@@ -214,6 +198,78 @@ permalink: /galerie.html
 .vignette-item.selected { border-color: #00f2ff; box-shadow: 0 0 8px #00f2ff; }
 
 .arrow { color: #00f2ff; background: none; border: none; font-size: 2rem; cursor: pointer; padding: 0 15px; }
+
+/* --- RENOVATION --- */
+.renovation-scene {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    background: #050505;
+}
+.renovation-icon { font-size: 3.5rem; margin-bottom: 20px; }
+.renovation-badge {
+    background: rgba(168,85,247,0.15);
+    color: #a855f7;
+    border: 1px solid rgba(168,85,247,0.3);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+}
+.renovation-title {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: #fff;
+    margin: 0 0 16px;
+}
+.neon-line-reno {
+    width: 80px; height: 2px;
+    background: #00f2ff;
+    box-shadow: 0 0 10px #00f2ff;
+    margin: 0 auto 24px;
+}
+.renovation-desc {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 36px;
+}
+.renovation-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+    align-items: flex-start;
+}
+.reno-step {
+    font-size: 0.88rem;
+    color: #444;
+    padding: 8px 18px;
+    border: 1px solid #222;
+    border-radius: 8px;
+    background: #0d0d0d;
+}
+.reno-step.done { color: #00c48c; border-color: rgba(0,196,140,0.3); background: rgba(0,196,140,0.05); }
+.reno-step.active { color: #00f2ff; border-color: rgba(0,242,255,0.3); background: rgba(0,242,255,0.05); }
+.btn-home-reno {
+    color: #00f2ff;
+    text-decoration: none;
+    border: 1px solid rgba(0,242,255,0.3);
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.2s;
+}
+.btn-home-reno:hover { background: rgba(0,242,255,0.08); box-shadow: 0 0 15px rgba(0,242,255,0.2); }
 
 /* --- MODAL GATE --- */
 .gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }

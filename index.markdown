@@ -36,11 +36,11 @@ title: Accueil Collection NFT & Art
         </div>
     </div>
 
-    <!-- COMMANDE PERSO -->
+    <!-- CLUB VIP -->
     <div class="action-box box-perso" id="box-perso">
         <a href="{{ '/commande-perso.html' | relative_url }}" id="link-perso">
-            <h2>COMMANDE PERSONNALISÉE</h2>
-            <p>Offre exclusive strictement réservée aux détenteurs de NFT.</p>
+            <h2>👑 CLUB VIP</h2>
+            <p>Espace exclusif réservé aux détenteurs de NFT Otaku Shop. Commandes sur mesure, événements et avantages uniques.</p>
         </a>
         <div class="lock-banner" id="lock-perso" style="display:none">
             <span>🔒 NFT requis</span>

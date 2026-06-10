@@ -1,59 +1,213 @@
 ---
 layout: default
-title: Commander une Œuvre Sur Mesure
+title: Club VIP — Otaku Shop
 permalink: /commande-perso.html
 ---
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         AuthGuard.requireAccess('nft',
-            'Les commandes personnalisées sont exclusivement réservées aux détenteurs de NFT Otaku Shop.<br>Connectez votre wallet depuis votre compte pour vérifier votre NFT.'
+            'Le Club VIP est exclusivement réservé aux détenteurs de NFT Otaku Shop.<br>Connectez votre wallet depuis votre compte pour vérifier votre NFT.'
         );
     });
 </script>
 
-<div class="custom-claim-container" style="max-width: 800px; margin: 0 auto; padding: 20px; text-align: center;">
-    <h1 class="page-header" style="color: #fff; text-shadow: 0 0 10px #00f2ff; margin-bottom: 10px;">Prestation Personnalisée</h1>
-    <p class="intro-claim" style="color: #888; font-size: 1.1rem; margin-bottom: 40px;">Service exclusif strictement réservé à nos détenteurs de NFT. Donnez vie à votre vision avec une œuvre sur mesure.</p>
+<div class="vip-container">
 
-    <section class="premium-offer-banner" style="border: 2px solid #00f2ff; box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); padding: 30px; border-radius: 15px; margin-bottom: 50px; background: rgba(0, 242, 255, 0.05);">
-        <div class="offer-content">
-            <h2 style="color: #00f2ff; margin-bottom: 15px; font-size: 1.5rem;">VOTRE PROJET SUR MESURE</h2>
-            <p style="color: #ddd; line-height: 1.6;">En tant que détenteur d'un NFT, vous avez débloqué l'accès à nos commandes privées. Racontez-nous votre idée, vos envies et vos dimensions idéales.</p>
-            <p class="free-claim" style="color: #f7931a; font-size: 1.2rem; margin-top: 20px; border-top: 1px dashed #f7931a; padding-top: 20px;">
-                <strong>⚡ Prix et délais à négocier selon la complexité de votre projet.</strong>
-            </p>
-        </div>
-    </section>
+    <!-- HERO VIP -->
+    <div class="vip-hero">
+        <div class="vip-crown">👑</div>
+        <div class="vip-badge">ACCÈS NFT</div>
+        <h1 class="vip-title">CLUB VIP</h1>
+        <div class="vip-neon-line"></div>
+        <p class="vip-intro">Bienvenue dans l'espace exclusif des détenteurs de NFT Otaku Shop.<br>Des avantages uniques, pensés pour les vrais passionnés.</p>
+    </div>
 
-    <section class="process-section" style="margin-top: 40px;">
-        <h2 style="color: #fff; margin-bottom: 30px;">Comment ça marche ?</h2>
-        <div class="process-steps" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-            <div class="step-card" style="background: #111; padding: 25px 15px; border-radius: 10px; border-top: 3px solid #00f2ff;">
-                <h3 style="color: #00f2ff; margin-bottom: 10px;">1. Contact & Vision</h3>
-                <p style="font-size: 0.9rem; color: #aaa;">Envoyez-nous vos idées, références et les dimensions souhaitées.</p>
+    <!-- AVANTAGES GRID -->
+    <div class="vip-grid">
+
+        <!-- COMMANDES SUR MESURE -->
+        <div class="vip-card vip-card--active">
+            <div class="vip-card-tag available">✅ DISPONIBLE</div>
+            <div class="vip-card-icon">🎨</div>
+            <h2>Commandes Sur Mesure</h2>
+            <p>Donnez vie à votre vision avec une œuvre 100% personnalisée : tableau, photomontage ou illustration sur mesure selon vos idées, vos dimensions et votre style.</p>
+            <div class="vip-steps">
+                <div class="vip-step"><span>1</span> Partagez votre idée & références</div>
+                <div class="vip-step"><span>2</span> Devis & accord sur le prix</div>
+                <div class="vip-step"><span>3</span> Création avec suivi en temps réel</div>
             </div>
-            <div class="step-card" style="background: #111; padding: 25px 15px; border-radius: 10px; border-top: 3px solid #f7931a;">
-                <h3 style="color: #f7931a; margin-bottom: 10px;">2. Devis & Accord</h3>
-                <p style="font-size: 0.9rem; color: #aaa;">Nous discutons ensemble du prix et des délais pour valider le projet.</p>
-            </div>
-            <div class="step-card" style="background: #111; padding: 25px 15px; border-radius: 10px; border-top: 3px solid #00f2ff;">
-                <h3 style="color: #00f2ff; margin-bottom: 10px;">3. Création</h3>
-                <p style="font-size: 0.9rem; color: #aaa;">Nous donnons vie à votre œuvre en vous tenant informé de l'avancée.</p>
-            </div>
+            <p class="vip-note">⚡ Prix et délais négociés selon la complexité du projet. Un acompte sera demandé après validation.</p>
+            <a href="mailto:kilimangarocontact@gmail.com?subject=Commande Sur Mesure - Club VIP NFT" class="btn-vip-action">
+                ✉️ Lancer mon projet
+            </a>
         </div>
-    </section>
 
-    <hr class="neon-separator" style="border: 0; height: 1px; background: linear-gradient(90deg, transparent, #00f2ff, transparent); margin: 50px 0;">
-
-    <section class="contact-section" style="margin-bottom: 50px;">
-        <a href="mailto:kilimangarocontact@gmail.com?subject=Demande de Prestation Custom (Détenteur NFT)" class="btn-contact-custom" style="background: #00f2ff; color: #000; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block; font-size: 1.1rem; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); text-transform: uppercase;">
-            ✉️ Discuter de Mon Projet
-        </a>
-        <p class="note-info" style="margin-top: 20px; color: #666; font-size: 0.85rem; font-style: italic;">Un acompte sera demandé après validation du devis pour débuter la création.</p>
-        
-        <div style="margin-top: 40px;">
-            <a href="{{ '/' | relative_url }}" style="color: #888; text-decoration: none; border: 1px solid #444; padding: 8px 15px; border-radius: 5px;">← Retour à l'Accueil</a>
+        <!-- ÉVÉNEMENTS -->
+        <div class="vip-card vip-card--coming">
+            <div class="vip-card-tag coming">🔜 EN PRÉPARATION</div>
+            <div class="vip-card-icon">🎭</div>
+            <h2>Événements Exclusifs</h2>
+            <p>Nous travaillons à vous faire accéder à des expériences uniques en tant que membre VIP :</p>
+            <ul class="vip-events-list">
+                <li>🏛️ Entrées gratuites dans des musées partenaires</li>
+                <li>📚 Événements manga & webtoon (conventions, dédicaces)</li>
+                <li>🎌 Sorties culturelles à thème japonais / asiatique</li>
+                <li>🎨 Ateliers dessin & création artistique</li>
+                <li>⭐ Avant-premières et accès anticipés</li>
+            </ul>
+            <p class="vip-coming-note">Ces avantages arrivent bientôt. Les membres NFT seront notifiés en priorité.</p>
         </div>
-    </section>
+
+    </div>
+
+    <div class="vip-footer">
+        <a href="{{ '/' | relative_url }}" class="btn-back-vip">← Retour à l'accueil</a>
+    </div>
+
 </div>
+
+<style>
+* { box-sizing: border-box; }
+
+.vip-container {
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 40px 20px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* HERO */
+.vip-hero { text-align: center; margin-bottom: 48px; }
+.vip-crown { font-size: 3rem; margin-bottom: 16px; }
+.vip-badge {
+    display: inline-block;
+    background: rgba(247,147,26,0.12);
+    color: #f7931a;
+    border: 1px solid rgba(247,147,26,0.3);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+.vip-title {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: 5px;
+    background: linear-gradient(135deg, #f7931a, #f7c01a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 14px;
+}
+.vip-neon-line { width: 70px; height: 2px; background: #f7931a; box-shadow: 0 0 10px #f7931a; margin: 0 auto 20px; }
+.vip-intro { color: #666; font-size: 0.95rem; line-height: 1.7; max-width: 500px; margin: 0 auto; }
+
+/* GRID */
+.vip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+/* CARDS */
+.vip-card {
+    background: #0d0d0d;
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+}
+.vip-card--active { border: 1px solid rgba(0,242,255,0.3); box-shadow: 0 0 20px rgba(0,242,255,0.06); }
+.vip-card--coming { border: 1px solid #222; }
+
+.vip-card-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+.vip-card-tag.available { background: rgba(0,242,255,0.1); color: #00f2ff; border: 1px solid rgba(0,242,255,0.25); }
+.vip-card-tag.coming { background: rgba(80,80,80,0.15); color: #555; border: 1px solid #333; }
+
+.vip-card-icon { font-size: 2rem; margin-bottom: 12px; }
+.vip-card h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px; color: #fff; }
+.vip-card p { font-size: 0.85rem; color: #666; line-height: 1.6; margin-bottom: 16px; }
+
+/* Steps */
+.vip-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.vip-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: #888;
+}
+.vip-step span {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(0,242,255,0.1);
+    border: 1px solid rgba(0,242,255,0.3);
+    color: #00f2ff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.vip-note { font-size: 0.78rem !important; color: #f7931a !important; border-top: 1px solid #1a1a1a; padding-top: 12px; margin-top: 4px !important; }
+
+/* Events list */
+.vip-events-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.vip-events-list li { font-size: 0.84rem; color: #777; padding: 8px 12px; background: #111; border-radius: 8px; border: 1px solid #1e1e1e; }
+.vip-coming-note { font-size: 0.78rem !important; color: #444 !important; font-style: italic; }
+
+/* Buttons */
+.btn-vip-action {
+    display: block;
+    background: linear-gradient(135deg, #00f2ff, #a855f7);
+    color: #000;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+}
+.btn-vip-action:hover { opacity: 0.88; }
+
+.vip-footer { text-align: center; }
+.btn-back-vip {
+    color: #555;
+    text-decoration: none;
+    border: 1px solid #333;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+.btn-back-vip:hover { color: #fff; border-color: #555; }
+
+@media (max-width: 600px) {
+    .vip-container { padding: 24px 14px 40px; }
+    .vip-grid { grid-template-columns: 1fr; gap: 16px; }
+    .vip-title { letter-spacing: 3px; }
+}
+</style>

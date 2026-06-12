@@ -1011,8 +1011,7 @@ function resetEditorZoom() {
   if (bgImage) fitCanvasToArea(bgImage);
 }
 
-// ── POINTER EVENTS (1 doigt = dessin, 2 doigts = pinch-zoom/pan) ──
-const activePointers = new Map(); // pointerId → {x, y}
+// ── EVENTS ──
 let lastPinch = null;
 
 function clientToCanvas(clientX, clientY) {
@@ -1023,17 +1022,12 @@ function clientToCanvas(clientX, clientY) {
   };
 }
 
-function handlePinch() {
-  const pts = [...activePointers.values()];
-  const dist  = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
-  const midX  = (pts[0].x + pts[1].x) / 2;
-  const midY  = (pts[0].y + pts[1].y) / 2;
-
+function applyPinch(x1, y1, x2, y2) {
+  const dist = Math.hypot(x2 - x1, y2 - y1);
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
   if (lastPinch) {
-    const zoomRatio = dist / lastPinch.dist;
-    const newZoom   = Math.max(1, Math.min(8, viewZoom * zoomRatio));
-
-    // Zoom vers le centre du pinch
+    const newZoom = Math.max(1, Math.min(8, viewZoom * (dist / lastPinch.dist)));
     const area  = document.getElementById('canvas-area');
     const aRect = area.getBoundingClientRect();
     const acx   = aRect.left + aRect.width  / 2;
@@ -1047,68 +1041,95 @@ function handlePinch() {
   lastPinch = { dist, midX, midY };
 }
 
+function applyWheelZoom(deltaY, clientX, clientY) {
+  const newZoom = Math.max(1, Math.min(8, viewZoom * (deltaY > 0 ? 0.92 : 1.08)));
+  const area  = document.getElementById('canvas-area');
+  const aRect = area.getBoundingClientRect();
+  const acx   = aRect.left + aRect.width  / 2;
+  const acy   = aRect.top  + aRect.height / 2;
+  const ratio = newZoom / viewZoom;
+  viewPanX = (clientX - acx) * (1 - ratio) + viewPanX * ratio;
+  viewPanY = (clientY - acy) * (1 - ratio) + viewPanY * ratio;
+  viewZoom = newZoom;
+  applyViewTransform();
+}
+
 function attachCanvasEvents() {
   const c = document.getElementById('drawing-canvas');
 
-  c.addEventListener('pointerdown', e => {
+  // ── TOUCH (mobile / tablette) ──
+  c.addEventListener('touchstart', e => {
     e.preventDefault();
-    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    c.setPointerCapture(e.pointerId);
-
-    if (activePointers.size === 1) {
+    if (e.touches.length === 1) {
       isDrawing = true;
-      const pos = clientToCanvas(e.clientX, e.clientY);
-      const pressure = e.pressure > 0 ? e.pressure : 1;
+      const pos = clientToCanvas(e.touches[0].clientX, e.touches[0].clientY);
       lastX = pos.x; lastY = pos.y;
-      drawDot(pos.x, pos.y, pressure);
+      drawDot(pos.x, pos.y, 1);
     } else {
-      // 2e doigt : annuler le tracé en cours, passer en mode pinch
       isDrawing = false;
+      lastPinch = null;
     }
+  }, { passive: false });
+
+  c.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDrawing) {
+      const pos = clientToCanvas(e.touches[0].clientX, e.touches[0].clientY);
+      drawLine(lastX, lastY, pos.x, pos.y, 1);
+      lastX = pos.x; lastY = pos.y;
+    } else if (e.touches.length === 2) {
+      applyPinch(e.touches[0].clientX, e.touches[0].clientY,
+                 e.touches[1].clientX, e.touches[1].clientY);
+    }
+  }, { passive: false });
+
+  c.addEventListener('touchend', e => {
+    e.preventDefault();
+    if (e.touches.length === 0) {
+      if (isDrawing) { isDrawing = false; saveUndoState(); }
+    }
+    if (e.touches.length < 2) lastPinch = null;
+  }, { passive: false });
+
+  // ── POINTER (souris + stylet — pas touch) ──
+  c.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') return;
+    e.preventDefault();
+    isDrawing = true;
+    const pos = clientToCanvas(e.clientX, e.clientY);
+    lastX = pos.x; lastY = pos.y;
+    drawDot(pos.x, pos.y, e.pressure > 0 ? e.pressure : 1);
   }, { passive: false });
 
   c.addEventListener('pointermove', e => {
-    if (!activePointers.has(e.pointerId)) return;
+    if (e.pointerType === 'touch' || !isDrawing) return;
     e.preventDefault();
-    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-    if (activePointers.size === 1 && isDrawing) {
-      const pos = clientToCanvas(e.clientX, e.clientY);
-      const pressure = e.pressure > 0 ? e.pressure : 1;
-      drawLine(lastX, lastY, pos.x, pos.y, pressure);
-      lastX = pos.x; lastY = pos.y;
-    } else if (activePointers.size === 2) {
-      handlePinch();
-    }
+    const pos = clientToCanvas(e.clientX, e.clientY);
+    drawLine(lastX, lastY, pos.x, pos.y, e.pressure > 0 ? e.pressure : 1);
+    lastX = pos.x; lastY = pos.y;
   }, { passive: false });
 
-  const endPointer = e => {
-    e.preventDefault();
-    if (activePointers.size === 1 && isDrawing) {
-      isDrawing = false;
-      saveUndoState();
-    }
-    activePointers.delete(e.pointerId);
-    if (activePointers.size < 2) lastPinch = null;
-    if (activePointers.size === 0) isDrawing = false;
-  };
-  c.addEventListener('pointerup',     endPointer, { passive: false });
-  c.addEventListener('pointercancel', endPointer, { passive: false });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(evt =>
+    c.addEventListener(evt, e => {
+      if (e.pointerType === 'touch') return;
+      if (isDrawing) { isDrawing = false; saveUndoState(); }
+    }, { passive: false })
+  );
 
-  // Molette souris = zoom sur desktop
+  // ── WHEEL (molette + trackpad Mac) ──
+  // Sur Mac : pinch trackpad → wheel avec ctrlKey=true
+  // Scroll deux doigts → wheel sans ctrlKey → pan
   c.addEventListener('wheel', e => {
     e.preventDefault();
-    const delta    = e.deltaY > 0 ? 0.9 : 1.1;
-    const newZoom  = Math.max(1, Math.min(8, viewZoom * delta));
-    const area     = document.getElementById('canvas-area');
-    const aRect    = area.getBoundingClientRect();
-    const acx      = aRect.left + aRect.width  / 2;
-    const acy      = aRect.top  + aRect.height / 2;
-    const ratio    = newZoom / viewZoom;
-    viewPanX = (e.clientX - acx) * (1 - ratio) + viewPanX * ratio;
-    viewPanY = (e.clientY - acy) * (1 - ratio) + viewPanY * ratio;
-    viewZoom = newZoom;
-    applyViewTransform();
+    if (e.ctrlKey) {
+      // Pinch trackpad ou Ctrl+molette → zoom
+      applyWheelZoom(e.deltaY, e.clientX, e.clientY);
+    } else {
+      // Scroll deux doigts → pan
+      viewPanX -= e.deltaX;
+      viewPanY -= e.deltaY;
+      applyViewTransform();
+    }
   }, { passive: false });
 }
 attachCanvasEvents();

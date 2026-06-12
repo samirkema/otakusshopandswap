@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MY REMIX — Otaku Shop</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -736,6 +736,7 @@ let redoStack = [];
 const MAX_UNDO = 30;
 let bgImage = null;
 let canvasScale = 1;
+let restoreVersion = 0;
 
 // ═══════════════════════════════════════
 // API HELPER
@@ -1116,8 +1117,13 @@ function redo() {
 }
 
 function restoreState(dataUrl) {
+  const version = ++restoreVersion;
   const img = new Image();
-  img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+  img.onload = () => {
+    if (version !== restoreVersion) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+  };
   img.src = dataUrl;
 }
 

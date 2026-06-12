@@ -738,6 +738,11 @@ let bgImage = null;
 let canvasScale = 1;
 let restoreVersion = 0;
 
+// View transform (zoom / pan — CSS transform sur le canvas)
+let viewZoom = 1;
+let viewPanX = 0;
+let viewPanY = 0;
+
 // ═══════════════════════════════════════
 // API HELPER
 // ═══════════════════════════════════════
@@ -960,9 +965,11 @@ function initCanvas(photoId) {
   };
   img.src = photo.path;
 
-  // Reset drawing state
+  // Reset drawing state + view
   undoStack = [];
   redoStack = [];
+  viewZoom = 1; viewPanX = 0; viewPanY = 0;
+  applyViewTransform();
   setTool('brush');
 }
 
@@ -993,55 +1000,118 @@ function redrawBackground() {
   ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 }
 
+function applyViewTransform() {
+  canvas.style.transformOrigin = 'center center';
+  canvas.style.transform = `translate(${viewPanX}px, ${viewPanY}px) scale(${viewZoom})`;
+}
+
 function resetEditorZoom() {
+  viewZoom = 1; viewPanX = 0; viewPanY = 0;
+  applyViewTransform();
   if (bgImage) fitCanvasToArea(bgImage);
 }
 
-// ── POINTER EVENTS (mouse + touch + stylus) ──
-function getPos(e) {
+// ── POINTER EVENTS (1 doigt = dessin, 2 doigts = pinch-zoom/pan) ──
+const activePointers = new Map(); // pointerId → {x, y}
+let lastPinch = null;
+
+function clientToCanvas(clientX, clientY) {
   const rect = canvas.getBoundingClientRect();
-  let clientX, clientY;
-  if (e.touches && e.touches.length > 0) {
-    clientX = e.touches[0].clientX;
-    clientY = e.touches[0].clientY;
-  } else {
-    clientX = e.clientX;
-    clientY = e.clientY;
-  }
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
   return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top) * scaleY,
-    pressure: e.pressure !== undefined && e.pressure > 0 ? e.pressure : 1.0
+    x: (clientX - rect.left) * (canvas.width  / rect.width),
+    y: (clientY - rect.top)  * (canvas.height / rect.height),
   };
 }
 
-function startDraw(e) {
-  e.preventDefault();
-  isDrawing = true;
-  const pos = getPos(e);
-  lastX = pos.x;
-  lastY = pos.y;
-  // Dot for single tap
-  drawDot(pos.x, pos.y, pos.pressure);
+function handlePinch() {
+  const pts = [...activePointers.values()];
+  const dist  = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+  const midX  = (pts[0].x + pts[1].x) / 2;
+  const midY  = (pts[0].y + pts[1].y) / 2;
+
+  if (lastPinch) {
+    const zoomRatio = dist / lastPinch.dist;
+    const newZoom   = Math.max(1, Math.min(8, viewZoom * zoomRatio));
+
+    // Zoom vers le centre du pinch
+    const area  = document.getElementById('canvas-area');
+    const aRect = area.getBoundingClientRect();
+    const acx   = aRect.left + aRect.width  / 2;
+    const acy   = aRect.top  + aRect.height / 2;
+    const ratio = newZoom / viewZoom;
+    viewPanX = (midX - acx) * (1 - ratio) + viewPanX * ratio + (midX - lastPinch.midX);
+    viewPanY = (midY - acy) * (1 - ratio) + viewPanY * ratio + (midY - lastPinch.midY);
+    viewZoom = newZoom;
+    applyViewTransform();
+  }
+  lastPinch = { dist, midX, midY };
 }
 
-function draw(e) {
-  if (!isDrawing) return;
-  e.preventDefault();
-  const pos = getPos(e);
-  drawLine(lastX, lastY, pos.x, pos.y, pos.pressure);
-  lastX = pos.x;
-  lastY = pos.y;
-}
+function attachCanvasEvents() {
+  const c = document.getElementById('drawing-canvas');
 
-function stopDraw(e) {
-  if (!isDrawing) return;
-  e.preventDefault();
-  isDrawing = false;
-  saveUndoState();
+  c.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    c.setPointerCapture(e.pointerId);
+
+    if (activePointers.size === 1) {
+      isDrawing = true;
+      const pos = clientToCanvas(e.clientX, e.clientY);
+      const pressure = e.pressure > 0 ? e.pressure : 1;
+      lastX = pos.x; lastY = pos.y;
+      drawDot(pos.x, pos.y, pressure);
+    } else {
+      // 2e doigt : annuler le tracé en cours, passer en mode pinch
+      isDrawing = false;
+    }
+  }, { passive: false });
+
+  c.addEventListener('pointermove', e => {
+    if (!activePointers.has(e.pointerId)) return;
+    e.preventDefault();
+    activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointers.size === 1 && isDrawing) {
+      const pos = clientToCanvas(e.clientX, e.clientY);
+      const pressure = e.pressure > 0 ? e.pressure : 1;
+      drawLine(lastX, lastY, pos.x, pos.y, pressure);
+      lastX = pos.x; lastY = pos.y;
+    } else if (activePointers.size === 2) {
+      handlePinch();
+    }
+  }, { passive: false });
+
+  const endPointer = e => {
+    e.preventDefault();
+    if (activePointers.size === 1 && isDrawing) {
+      isDrawing = false;
+      saveUndoState();
+    }
+    activePointers.delete(e.pointerId);
+    if (activePointers.size < 2) lastPinch = null;
+    if (activePointers.size === 0) isDrawing = false;
+  };
+  c.addEventListener('pointerup',     endPointer, { passive: false });
+  c.addEventListener('pointercancel', endPointer, { passive: false });
+
+  // Molette souris = zoom sur desktop
+  c.addEventListener('wheel', e => {
+    e.preventDefault();
+    const delta    = e.deltaY > 0 ? 0.9 : 1.1;
+    const newZoom  = Math.max(1, Math.min(8, viewZoom * delta));
+    const area     = document.getElementById('canvas-area');
+    const aRect    = area.getBoundingClientRect();
+    const acx      = aRect.left + aRect.width  / 2;
+    const acy      = aRect.top  + aRect.height / 2;
+    const ratio    = newZoom / viewZoom;
+    viewPanX = (e.clientX - acx) * (1 - ratio) + viewPanX * ratio;
+    viewPanY = (e.clientY - acy) * (1 - ratio) + viewPanY * ratio;
+    viewZoom = newZoom;
+    applyViewTransform();
+  }, { passive: false });
 }
+attachCanvasEvents();
 
 function drawDot(x, y, pressure) {
   const size = brushSize * canvasScale * pressure;

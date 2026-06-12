@@ -1173,18 +1173,6 @@ function drawLine(x1, y1, x2, y2, pressure) {
   ctx.restore();
 }
 
-// Attach events after canvas exists
-document.addEventListener('DOMContentLoaded', () => {});
-// We attach lazily when canvas is accessed
-function attachCanvasEvents() {
-  const c = document.getElementById('drawing-canvas');
-  c.addEventListener('pointerdown', startDraw, { passive: false });
-  c.addEventListener('pointermove', draw, { passive: false });
-  c.addEventListener('pointerup', stopDraw, { passive: false });
-  c.addEventListener('pointercancel', stopDraw, { passive: false });
-  c.addEventListener('pointerleave', stopDraw, { passive: false });
-}
-attachCanvasEvents();
 
 // ── UNDO / REDO ──
 function saveUndoState() {
